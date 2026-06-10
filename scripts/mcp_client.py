@@ -1,5 +1,9 @@
 # scripts/mcp_client.py
-import json, os, itertools, requests
+import itertools
+import json
+import os
+
+import requests
 
 URL = "https://mcp.coinmarketcap.com/mcp"
 

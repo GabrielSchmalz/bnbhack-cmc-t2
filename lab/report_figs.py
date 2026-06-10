@@ -231,7 +231,7 @@ def fig1_pooled_oos_equity(ctx: TCContext, art: dict) -> dict:
     print("[figs] benchmark block (pooled OOS @10 bps RT, PR-5):")
     print(f"[figs]   HODL       sharpe={bench['hodl']['sharpe']:.4f} "
           f"net={bench['hodl']['net']:+.4%}")
-    print(f"[figs]   flat       sharpe=0.0000 net=+0.0000%")
+    print("[figs]   flat       sharpe=0.0000 net=+0.0000%")
     print(f"[figs]   vol-target sharpe={bench['vol_target']['sharpe']:.4f} "
           f"net={bench['vol_target']['net']:+.4%} "
           f"max_dd={bench['vol_target']['max_dd']:.4%}")
@@ -249,7 +249,8 @@ def fig2_h8_concentration(ctx: TCContext, art: dict, h8_run: dict) -> None:
     x = np.arange(len(ctx.pooled_oos_idx))
 
     trades = h8_run["trades"]
-    top5 = trades.loc[trades["pnl_pct"].nlargest(5).index]
+    # positive-only selection — same rule as the gate's hooks.top_n_removal
+    top5 = deep_replay.top_positive_trades(trades, 5)
 
     fig, ax = plt.subplots(figsize=(11, 5))
     ax.plot(x, eq, color="#b22222", lw=1.4,

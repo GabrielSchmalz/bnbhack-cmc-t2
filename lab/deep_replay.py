@@ -80,6 +80,13 @@ def _f(x: float) -> float:
     return float(x)
 
 
+def top_positive_trades(trades: pd.DataFrame, n: int = 5) -> pd.DataFrame:
+    """The n best POSITIVE trades by pnl_pct — the SAME selection rule as
+    the gate's hooks.top_n_removal (which removes only positive trades)."""
+    pnl = trades["pnl_pct"]
+    return trades.loc[pnl[pnl > 0].nlargest(n).index]
+
+
 def _metrics(result, w: pd.Series) -> dict:
     return {
         "sharpe": _f(sharpe(result.bar_returns)),
@@ -131,7 +138,7 @@ def compute() -> dict:
     pos_extreme_share = occupancy.get("pos-extreme", {}).get("share", 0.0)
 
     top5_net = top_n_removal(res_g.trades, res_g.bar_returns, wg.index, 5)
-    top5 = res_g.trades["pnl_pct"].nlargest(5)
+    top5 = top_positive_trades(res_g.trades, 5)["pnl_pct"]
     removed_gain = _f((1.0 + top5).prod() - 1.0)
 
     record = {

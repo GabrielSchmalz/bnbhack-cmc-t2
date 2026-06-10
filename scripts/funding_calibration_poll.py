@@ -33,18 +33,25 @@ def dig(obj, *path):
 
 
 def main() -> None:
-    c = McpClient()
-    c.initialize()
+    # Cron-friendly: on ANY fetch failure append nothing, print one line,
+    # exit 1. Never prints the key.
+    try:
+        c = McpClient()
+        c.initialize()
 
-    deriv = json.loads(dig(c.call("get_global_crypto_derivatives_metrics", {}),
-                           "result", "content", 0, "text"))
-    glob = json.loads(dig(c.call("get_global_metrics_latest", {}),
-                          "result", "content", 0, "text"))
+        deriv = json.loads(dig(c.call("get_global_crypto_derivatives_metrics", {}),
+                               "result", "content", 0, "text"))
+        glob = json.loads(dig(c.call("get_global_metrics_latest", {}),
+                              "result", "content", 0, "text"))
 
-    prem = requests.get("https://fapi.binance.com/fapi/v1/premiumIndex",
-                        params={"symbol": "BTCUSDT"}, timeout=30).json()
-    settled = requests.get("https://fapi.binance.com/fapi/v1/fundingRate",
-                           params={"symbol": "BTCUSDT", "limit": 1}, timeout=30).json()[-1]
+        prem = requests.get("https://fapi.binance.com/fapi/v1/premiumIndex",
+                            params={"symbol": "BTCUSDT"}, timeout=30).json()
+        settled = requests.get("https://fapi.binance.com/fapi/v1/fundingRate",
+                               params={"symbol": "BTCUSDT", "limit": 1}, timeout=30).json()[-1]
+    except Exception as e:
+        print(f"funding_calibration_poll: fetch failed, nothing appended - "
+              f"{type(e).__name__}: {e}", file=sys.stderr)
+        sys.exit(1)
 
     row = {
         "ts_utc": dt.datetime.now(dt.UTC).strftime("%Y-%m-%d %H:%M:%S"),

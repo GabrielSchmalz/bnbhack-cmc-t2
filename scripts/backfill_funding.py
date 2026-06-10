@@ -217,10 +217,10 @@ def crosscheck(rest: dict[int, float]) -> None:
         "   exists to catch.",
         "",
         "2) Convention-aware comparison:",
-        f"   pre-switch  segment (rest[T] vs cg[T], decimal):",
+        "   pre-switch  segment (rest[T] vs cg[T], decimal):",
         f"     joined: {len(pre)}   max|diff|: {pre_max:.3e}   "
         f"|diff|<1e-6: {pre_n}/{len(pre)} ({pre_frac:.4%})",
-        f"   post-switch segment (rest[T+8h] vs cg[T]/100):",
+        "   post-switch segment (rest[T+8h] vs cg[T]/100):",
         f"     joined: {len(post)}   max|diff|: {post_max:.3e}   "
         f"|diff|<1e-6: {post_n}/{len(post)} ({post_frac:.4%})   "
         f"|diff|<5e-5: {post_n_loose}/{len(post)} ({post_frac_loose:.4%})",

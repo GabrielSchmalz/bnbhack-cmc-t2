@@ -151,10 +151,10 @@ Any clause referencing a missing, null, or unparseable Feature evaluates
 
 - funding missing ⇒ sign clause FALSE → `neg` branch; extremity clause FALSE →
   `mild` ⇒ deterministic label **`neg-mild`**.
-- The emission MUST then mark itself degraded: `signal_snapshot` carries the
-  null/raw failed value, the human report headline is prefixed `DEGRADED`, and
-  a disclaimer states that the label is the deterministic missing-data default,
-  not a market reading (§6).
+- The emission MUST then mark itself degraded: the top-level `degraded` key is
+  `true`, `signal_snapshot` carries the null/raw failed value, the human report
+  headline is prefixed `DEGRADED`, and a disclaimer states that the label is
+  the deterministic missing-data default, not a market reading (§6).
 
 ## 4. Per-regime expected-behavior notes (F4-train statistics — `"validated": false`)
 
@@ -214,12 +214,16 @@ variants passed the pre-registered shipping gate; nothing here is a validated
 edge. See docs/report/REPORT.md."*
 
 **(2) Fenced JSON monitor spec block** — exact schema (top-level keys:
-`regime`, `as_of_utc`, `signal_snapshot`, `expected_behavior`, `validation`,
-`disclaimers`). Worked example with the Gate-0 dump values:
+`regime`, `degraded`, `as_of_utc`, `signal_snapshot`, `expected_behavior`,
+`validation`, `disclaimers`). `degraded` is a REQUIRED boolean: `true` when
+any clause-relevant fetch failed and the §3.3 deterministic missing-data
+default was used, `false` otherwise. Worked example with the Gate-0 dump
+values:
 
 ```json
 {
   "regime": "pos-mild",
+  "degraded": false,
   "as_of_utc": "2026-06-10T18:23:00Z",
   "signal_snapshot": {
     "leverage.funding_rate.average.current": "+0.0015866%",
@@ -250,7 +254,7 @@ edge. See docs/report/REPORT.md."*
     "train_funding_range": "+3.2e-07 .. +8.379e-05",
     "note": "Modal state; train next-bar drift indistinguishable from noise. Train-period description, not a validated edge.",
     "validated": false,
-    "validated_metrics_ref": "docs/report/REPORT.md#falsification"
+    "validated_metrics_ref": "docs/report/REPORT.md#3-falsification-chapter"
   },
   "validation": {
     "status": "null-result",
@@ -275,7 +279,7 @@ regime from the §4 table, with the matching note text and `"validated": false`.
 
 | tool | role | on failure / missing field |
 |---|---|---|
-| `mcp__cmc-mcp__get_global_metrics_latest` | classification input (funding); context (F&G, last_updated) | Sign and extremity clauses both evaluate FALSE (§3.3) ⇒ deterministic label `neg-mild`. Emission is marked degraded: `signal_snapshot.status` = `"degraded: primary funding field unavailable"`, funding fields `null`, human headline prefixed `DEGRADED`, and an extra disclaimer string: "Label is the deterministic missing-data default (neg-mild), not a market reading." F&G context omitted. |
+| `mcp__cmc-mcp__get_global_metrics_latest` | classification input (funding); context (F&G, last_updated) | Sign and extremity clauses both evaluate FALSE (§3.3) ⇒ deterministic label `neg-mild`. Emission is marked degraded: top-level `degraded` = `true`, `signal_snapshot.status` = `"degraded: primary funding field unavailable"`, funding fields `null`, human headline prefixed `DEGRADED`, and an extra disclaimer string: "Label is the deterministic missing-data default (neg-mild), not a market reading." F&G context omitted. |
 | `mcp__cmc-mcp__get_crypto_quotes_latest` | context only (BTC price, 24h change) | Omit/`null` the price fields; note the omission in the human report. Classification unaffected. |
 | `mcp__cmc-mcp__get_global_crypto_derivatives_metrics` | context only (secondary funding echo, 4h BTC liquidations) | Omit/`null` those fields; note the omission. Classification unaffected. |
 

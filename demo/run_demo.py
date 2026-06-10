@@ -304,7 +304,9 @@ def main() -> int:
     degraded = f is None
     regime = classify(f, threshold)
 
-    fg_index = get(gm, "sentiment.fear_greed.current.index") if not degraded else None
+    # F&G is context from get_global_metrics_latest: display it whenever that
+    # tool succeeded, even if the funding field itself was unparseable.
+    fg_index = get(gm, "sentiment.fear_greed.current.index") if gm is not None else None
     last_updated = get(gm, "last_updated")
     btc_price = get(quotes, "[0].price")
     btc_chg = get(quotes, "[0].percent_change_24h")
@@ -395,13 +397,15 @@ def main() -> int:
                            "(neg-mild), not a market reading.")
     spec = {
         "regime": regime,
+        "degraded": degraded,
         "as_of_utc": as_of_utc,
         "signal_snapshot": snapshot,
         "expected_behavior": {
             "source": EB_SOURCE,
             **eb,
             "validated": False,
-            "validated_metrics_ref": "docs/report/REPORT.md#falsification",
+            "validated_metrics_ref":
+                "docs/report/REPORT.md#3-falsification-chapter",
         },
         "validation": {
             "status": "null-result",

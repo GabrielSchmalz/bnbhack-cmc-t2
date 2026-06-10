@@ -1,20 +1,21 @@
 {
-  "ts": "2026-06-10T20:52:38Z",
+  "ts": "2026-06-10T21:13:12Z",
   "tool_results_ok": true,
   "field_paths_ok": true,
   "regime": "pos-mild",
   "spec_block": {
     "regime": "pos-mild",
-    "as_of_utc": "2026-06-10T20:52:38Z",
+    "degraded": false,
+    "as_of_utc": "2026-06-10T21:13:12Z",
     "signal_snapshot": {
       "leverage.funding_rate.average.current": "+0.0015866%",
       "funding_rate_decimal": 1.5866e-05,
       "funding_threshold_abs": 8.385600000000002e-05,
       "global_metrics_last_updated": "10 June 2026 12:00 AM UTC+0",
-      "sentiment.fear_greed.current.index": 15,
-      "btc_price_usd": 61704.66417404334,
-      "btc_percent_change_24h": -0.51849541,
-      "derivatives.fundingRate.current_unit_unresolved": "0.00034631",
+      "sentiment.fear_greed.current.index": 14,
+      "btc_price_usd": 61464.35703396722,
+      "btc_percent_change_24h": -0.9885358,
+      "derivatives.fundingRate.current_unit_unresolved": "0.00010239",
       "btc_liquidations.total_usd_4h": {
         "total": "0",
         "long": "0",
@@ -35,7 +36,7 @@
       "train_funding_range": "+3.2e-07 .. +8.379e-05",
       "note": "Modal state; train next-bar drift indistinguishable from noise (mean -0.005%, median +0.019%, 48.8% negative). Train-period description, not a validated edge.",
       "validated": false,
-      "validated_metrics_ref": "docs/report/REPORT.md#falsification"
+      "validated_metrics_ref": "docs/report/REPORT.md#3-falsification-chapter"
     },
     "validation": {
       "status": "null-result",

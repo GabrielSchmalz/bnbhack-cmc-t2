@@ -241,7 +241,8 @@ def build_spec_block(regime: str, as_of_utc: str, snapshot: dict,
         "source": EB_SOURCE,
         **eb,
         "validated": False,
-        "validated_metrics_ref": "docs/report/REPORT.md#falsification",
+        "validated_metrics_ref":
+            "docs/report/REPORT.md#3-falsification-chapter",
     }
     disclaimers = list(DISCLAIMERS)
     if degraded_default:
@@ -249,6 +250,7 @@ def build_spec_block(regime: str, as_of_utc: str, snapshot: dict,
                            "(neg-mild), not a market reading.")
     return {
         "regime": regime,
+        "degraded": degraded_default,
         "as_of_utc": as_of_utc,
         "signal_snapshot": snapshot,
         "expected_behavior": eb_block,
@@ -266,7 +268,7 @@ def check_spec_block(spec: dict, mismatches: list[str]) -> None:
     def err(msg):
         mismatches.append(f"SPEC-SCHEMA: {msg}")
 
-    required_top = ["regime", "as_of_utc", "signal_snapshot",
+    required_top = ["regime", "degraded", "as_of_utc", "signal_snapshot",
                     "expected_behavior", "validation", "disclaimers"]
     for k in required_top:
         if k not in spec:
@@ -276,6 +278,8 @@ def check_spec_block(spec: dict, mismatches: list[str]) -> None:
 
     if spec.get("regime") not in REGIME_ENUM:
         err(f"regime {spec.get('regime')!r} not in frozen enum {REGIME_ENUM}")
+    if not isinstance(spec.get("degraded"), bool):
+        err(f"degraded {spec.get('degraded')!r} is not a boolean")
     if not isinstance(spec.get("as_of_utc"), str) or not re.match(
             r"^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}Z$", spec.get("as_of_utc", "")):
         err(f"as_of_utc {spec.get('as_of_utc')!r} not an ISO-8601 Z timestamp")
