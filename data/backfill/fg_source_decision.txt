@@ -1,0 +1,7 @@
+Fear & Greed source decision (plan Task 0.4, pre-registered rule)
+generated_utc: 2026-06-10T18:25:12+00:00
+cmc_span: 2023-06-29 -> 2026-06-09 (1077 days)
+full_stack_window_start: 2025-04-03
+fallback_triggered: no
+overlap_stats: n/a (fallback branch not triggered)
+decision: CMC-ONLY: CMC series reaches 2023-06-29 <= 2025-04-03; no fallback needed. Single source (R-SRC) across train+OOS; identical to what the shipped Skill reads live.
