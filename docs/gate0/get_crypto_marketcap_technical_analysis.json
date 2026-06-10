@@ -1,0 +1,13 @@
+{
+  "jsonrpc": "2.0",
+  "id": 14,
+  "result": {
+    "content": [
+      {
+        "type": "text",
+        "text": "{\"macd\":{\"macdLine\":\"-120.52 B\",\"signalLine\":\"-96.55 B\",\"histogram\":\"-23.97 B\"},\"rsi\":{\"rsi7\":\"29.52\",\"rsi14\":\"17.8\",\"rsi21\":\"21.1\"},\"fibonacciLevels\":{\"swingHigh\":\"2.7 T\",\"swingLow\":\"2.1 T\",\"retracementLevels\":{\"50.0%\":\"2.4 T\",\"23.6%\":\"2.55 T\",\"38.2%\":\"2.47 T\",\"78.6%\":\"2.22 T\",\"61.8%\":\"2.32 T\"},\"extensionLevels\":{\"161.8%\":\"3.07 T\",\"127.2%\":\"2.86 T\",\"200.0%\":\"3.29 T\"}},\"pivotPoint\":\"2.12 T\",\"currentMarketCap\":\"2.12 T\",\"currentVolume\":\"75.29 B\"}"
+      }
+    ],
+    "isError": false
+  }
+}

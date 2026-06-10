@@ -1,0 +1,13 @@
+{
+  "jsonrpc": "2.0",
+  "id": 3,
+  "result": {
+    "content": [
+      {
+        "type": "text",
+        "text": "[{\"id\":\"1\",\"name\":\"Bitcoin\",\"symbol\":\"BTC\",\"slug\":\"bitcoin\",\"price\":61820.477784763956000000000000,\"rank\":1,\"turnover\":0.02393081,\"last_updated_time\":\"2026-06-10T18:23:00.000Z\",\"percent_change_1h\":-0.28408653,\"percent_change_24h\":0.03458382,\"percent_change_7d\":-5.93332177,\"percent_change_30d\":-24.53579634,\"percent_change_60d\":-15.58111576,\"percent_change_90d\":-11.66876071,\"percent_change_1y\":-43.22165810,\"percent_change_3y\":139.61568245197500,\"percent_change_all\":100223427.84215314529500,\"percent_change_ytd\":-30.3290,\"market_cap\":1238847755339.11,\"volume_24h\":29646624340.63074875,\"volume_change_24h\":-21.8730,\"last_updated_time_dup\":\"2026-06-10T18:23:00.000Z\",\"fully_diluted_market_cap\":1298230033480.04,\"market_cap_by_total_supply\":1238847755339.11000000,\"date_added\":\"2010-07-13T00:00:00.000Z\",\"max_supply\":21000000.00000000,\"total_supply\":20039440.00000000,\"self_reported_circulating_supply\":0,\"circulating_supply\":20039440.00000000,\"market_cap_percent_change_1h\":-0.28310625311200,\"market_cap_percent_change_24h\":0.0363,\"market_cap_percent_change_7d\":-5.93836227745000,\"market_cap_percent_change_30d\":-23.99898588064800,\"market_cap_percent_change_90d\":-11.73442720445200,\"market_cap_percent_change_1y\":-42.75514917234100,\"market_cap_percent_change_3y\":147.53411746815400,\"market_cap_percent_change_all\":6067534.29297047803348,\"market_cap_dominance\":58.31390000}]"
+      }
+    ],
+    "isError": false
+  }
+}

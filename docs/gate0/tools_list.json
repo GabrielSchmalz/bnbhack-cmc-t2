@@ -1,0 +1,194 @@
+[
+  {
+    "name": "get_crypto_quotes_latest",
+    "description": "Returns the latest market quote for 1 or more cryptocurrencies, this will return these fields: id, name, symbol, slug, price, percentChange1h\u300124h\u30017d\u300130d\u300160d\u300190d\u3001Ytd\u30011y\u30013y\u3001all, marketCap, volume24h, fullyDilutedMarketCap, marketCapByTotalSupply, rank, dateAdded, maxSupply, totalSupply, selfReportedCirculatingSupply, circulatingSupply, marketCapPercentChange1h\u300124h\u30017d\u300130d\u300190d,turnover",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "description": "One or more comma-separated cryptocurrency id",
+          "type": "string"
+        }
+      },
+      "required": [
+        "id"
+      ],
+      "additionalProperties": false
+    }
+  },
+  {
+    "name": "trending_crypto_narratives",
+    "description": "Fetch a ranked list of the top trending cryptocurrency narratives. For each narrative, the tool provides detailed data, including: 1. Market performance data: Market capitalization, trading volume, and performance changes across multiple timeframes (e.g., 24h, 7d, 30d, 90d). 2. Associated coins: The top cryptocurrencies/tokens within each narrative and their recent price performance. When to use: Use this tool when inquiring about current hot trends in the crypto market, specific market performance of a narrative, related social discussions or news, or which tokens are part of a trending narrative.",
+    "inputSchema": {
+      "type": "object",
+      "properties": {},
+      "required": [],
+      "additionalProperties": false
+    }
+  },
+  {
+    "name": "search_crypto_info",
+    "description": "Semantic search Explanation of cryptocurrency-related concepts, including descriptions, definitions, faq, github, whitepaper, website, and basic concept explanations.",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "description": "Narrow down the query content by cryptocurrency id",
+          "type": "string"
+        },
+        "prompt": {
+          "description": "Query prompt about cryptocurrency, e.g. 'what is bitcoin?', This parameter must be in English",
+          "type": "string"
+        }
+      },
+      "required": [
+        "prompt",
+        "id"
+      ],
+      "additionalProperties": false
+    }
+  },
+  {
+    "name": "get_crypto_latest_news",
+    "description": "Get the latest news about a cryptocurrency. Returns a 'news' array with items containing 'id', 'title', 'description', 'content', 'url', 'publishedAt'",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "limit": {
+          "default": "10",
+          "description": "News number to returns, default 10, max 20",
+          "type": "integer"
+        },
+        "id": {
+          "description": "Cryptocurrency ID, e.g. Bitcoin's ID is 1",
+          "type": "string"
+        }
+      },
+      "required": [
+        "id"
+      ],
+      "additionalProperties": false
+    }
+  },
+  {
+    "name": "get_crypto_technical_analysis",
+    "description": "Returns comprehensive technical analysis data for a specific cryptocurrency, including moving averages (SMA, EMA), MACD, RSI, Fibonacci retracement and extension levels, and pivot points.",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "includeFields": {
+          "uniqueItems": true,
+          "description": "field filter parameters\uff0cused to filter the return fields",
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "id": {
+          "description": "Cryptocurrency ID, e.g. Bitcoin's ID is 1",
+          "type": "string"
+        }
+      },
+      "required": [
+        "id"
+      ],
+      "additionalProperties": false
+    }
+  },
+  {
+    "name": "get_crypto_metrics",
+    "description": "Get various metrics for a cryptocurrency. Returns data including: 'addressesByHoldingValue' (addresses categorized by USD value held), 'circulatingSupplyDistribution' (whales vs others), 'addressesByHoldingTime' (traders, cruisers, holders), and 'avgTransactionFee30d'",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "description": "Cryptocurrency ID, e.g. Bitcoin's ID is 1",
+          "type": "string"
+        }
+      },
+      "required": [
+        "id"
+      ],
+      "additionalProperties": false
+    }
+  },
+  {
+    "name": "get_global_crypto_derivatives_metrics",
+    "description": "Supplies global crypto derivatives data (open interest, funding rates, BTC liquidation, etc). Useful for assessing leverage and squeeze risk in the crypto market. Identifies derivative imbalances that could trigger price cascades",
+    "inputSchema": {
+      "type": "object",
+      "properties": {},
+      "required": [],
+      "additionalProperties": false
+    }
+  },
+  {
+    "name": "search_cryptos",
+    "description": "Search cryptocurrencies using fuzzy matching on name or symbol or slug, this will return a list of cryptocurrencies like [{id:1,name:\"Bitcoin\",symbol:\"BTC\",slug:\"bitcoin\",rank:1}]",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "query": {
+          "description": "Crypto currency name or symbol or slug to search",
+          "type": "string"
+        },
+        "limit": {
+          "default": "3",
+          "description": "number to returns,default 3, max 5, min 1",
+          "type": "integer"
+        }
+      },
+      "required": [
+        "query"
+      ],
+      "additionalProperties": false
+    }
+  },
+  {
+    "name": "get_global_metrics_latest",
+    "description": "Returns the latest global cryptocurrency market metrics, Shows crypto market cap, 24h trading volume, fear-and-greed score, altcoin season gauge (how BTC is performing relative to altcoins), BTC/ETH share, leverage stats, and ETF flows. Provides a holistic market snapshot. ",
+    "inputSchema": {
+      "type": "object",
+      "properties": {},
+      "required": [],
+      "additionalProperties": false
+    }
+  },
+  {
+    "name": "get_upcoming_macro_events",
+    "description": "Lists upcoming macro events that could move the whole crypto market. Displays key economic dates ahead and keeps traders aware of upcoming macro catalysts. Very useful for future trend analysis",
+    "inputSchema": {
+      "type": "object",
+      "properties": {},
+      "required": [],
+      "additionalProperties": false
+    }
+  },
+  {
+    "name": "get_crypto_info",
+    "description": "Returns all static metadata available for one or more cryptocurrencies. This information includes details like logo, description, official website URL, social links, and links to a cryptocurrency's technical documentation.  At least one \"id\" or \"slug\" or \"symbol\" is required for this request. ",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "description": "One or more comma-separated CoinMarketCap cryptocurrency IDs. Example: 1,2",
+          "type": "string"
+        }
+      },
+      "required": [
+        "id"
+      ],
+      "additionalProperties": false
+    }
+  },
+  {
+    "name": "get_crypto_marketcap_technical_analysis",
+    "description": "this is a market cap technical analysis tool, use it to get (SMA, EMA, MACD, RSI, Supports(fibonacci levels, pivot point), Resistances(fibonacci levels, pivot point) ) of total cryptocurrency market cap",
+    "inputSchema": {
+      "type": "object",
+      "properties": {},
+      "required": [],
+      "additionalProperties": false
+    }
+  }
+]
