@@ -1,0 +1,134 @@
+{
+  "framing": "FAILED-candidate deep-history replay \u2014 falsification context, NEVER a track record",
+  "validated": false,
+  "not_a_deep_history_proxy": "This is NOT a deep-history proxy in the CONTEXT.md sense: that term attaches to a Winner's rules, and there is no Winner (R-NULL, 0/36 variants passed the shipping gate). DIR-TC-H8 FAILED the gate (top5_pass clause) on the full-stack window; this replay exists only as falsification context in the report.",
+  "variant_id": "DIR-TC-H8-fade_pos_extreme_only-1.0",
+  "full_stack_gate_outcome": "FAILED \u2014 top5_pass clause; see artifacts/sweep_results.json (verdict.reasons) and docs/FREEZE.md \u00a74",
+  "window": [
+    "2021-03-24 00:00:00",
+    "2026-05-18 20:00:00"
+  ],
+  "n_bars": 11292,
+  "cost_bps_rt": 10.0,
+  "thresholds": {
+    "funding_hi_abs": 8.385600000000002e-05,
+    "provenance": "frozen F4-train value, docs/FREEZE.md \u00a72.2, applied verbatim \u2014 NOT re-derived on the deep-history window"
+  },
+  "action_map": {
+    "pos-mild": 0.0,
+    "pos-extreme": -1.0,
+    "neg-mild": 0.0,
+    "neg-extreme": 0.0
+  },
+  "label_occupancy": {
+    "pos-extreme": {
+      "bars": 5280,
+      "share": 0.4675876726886291
+    },
+    "pos-mild": {
+      "bars": 4310,
+      "share": 0.38168614948636204
+    },
+    "neg-mild": {
+      "bars": 1458,
+      "share": 0.12911795961742828
+    },
+    "neg-extreme": {
+      "bars": 244,
+      "share": 0.021608218207580587
+    }
+  },
+  "occupancy_note": "pos-extreme covers 46.8% of deep-history bars vs 18.8% of F4-train (docs/FREEZE.md \u00a72.3): the frozen q80 cut is train-window-relative \u2014 2021\u20132024 funding ran far hotter than 2025\u20132026, so the 'extremity' semantics do NOT transfer across eras. The replayed rule is in position 3774/11292 bars (33.4%) here vs 6.8% of pooled OOS bars on the full-stack window \u2014 a structurally different exposure profile, which is exactly why this curve can never be read as the candidate's history.",
+  "episodes": {
+    "total": 1669,
+    "by_label": {
+      "neg-extreme": 82,
+      "neg-mild": 426,
+      "pos-extreme": 429,
+      "pos-mild": 732
+    }
+  },
+  "metrics_guarded": {
+    "sharpe": 0.3644005629451164,
+    "net_return": 0.40375278522725955,
+    "cagr": 0.06798691077900387,
+    "max_dd": 0.44858995160846094,
+    "n_trades": 437,
+    "hit_rate": 0.517162471395881,
+    "turnover": 874.0,
+    "bars_in_position": 3774
+  },
+  "metrics_unguarded": {
+    "sharpe": 0.5117421883756612,
+    "net_return": 0.9040904599713466,
+    "cagr": 0.13303503714057086,
+    "max_dd": 0.5316818662723896,
+    "n_trades": 429,
+    "hit_rate": 0.5244755244755245,
+    "turnover": 858.0,
+    "bars_in_position": 5280
+  },
+  "dd_guard": {
+    "threshold": 0.2,
+    "fired": true,
+    "bars_forced_flat": 1506,
+    "note": "the PR-4 guard never fired on the full-stack OOS; on deep history it does \u2014 further evidence the two windows are different regimes for this rule"
+  },
+  "per_year": [
+    {
+      "year": 2021,
+      "net_return": -0.29566779088156037,
+      "sharpe": -0.6046857140090297,
+      "n_trades": 54,
+      "bars_in_position": 804
+    },
+    {
+      "year": 2022,
+      "net_return": 1.0981202774679284,
+      "sharpe": 2.2925212765598633,
+      "n_trades": 125,
+      "bars_in_position": 772
+    },
+    {
+      "year": 2023,
+      "net_return": -0.1989938669187049,
+      "sharpe": -0.6610965952898952,
+      "n_trades": 80,
+      "bars_in_position": 849
+    },
+    {
+      "year": 2024,
+      "net_return": 0.10614549876691903,
+      "sharpe": 0.4902863846385712,
+      "n_trades": 62,
+      "bars_in_position": 786
+    },
+    {
+      "year": 2025,
+      "net_return": 0.06629430274182568,
+      "sharpe": 0.389765060994795,
+      "n_trades": 102,
+      "bars_in_position": 531
+    },
+    {
+      "year": 2026,
+      "net_return": 0.00544313746236913,
+      "sharpe": 0.31260913170508736,
+      "n_trades": 14,
+      "bars_in_position": 32
+    }
+  ],
+  "concentration": {
+    "top5_net": -0.22551140488080512,
+    "top5_removed_gain": 0.8124899373259589,
+    "note": "the same concentration pathology the gate caught on the full-stack OOS, now at 5-year scale: removing the 5 best of 437 trades flips the net return negative, and a single year (2022) carries more than the entire net gain. The deep-history window corroborates the top-5 clause's verdict; it does not soften it."
+  },
+  "hodl_deep_context": {
+    "sharpe": 0.24448276843098668,
+    "net_return": -0.09057800694496698,
+    "max_dd": 0.7906303338272608,
+    "note": "context benchmark only (PR-5 HODL, same fill simulator)"
+  },
+  "generated_utc": "2026-06-10T20:36:31+00:00",
+  "wall_time_sec": 0.27
+}
