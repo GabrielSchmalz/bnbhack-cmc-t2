@@ -95,6 +95,14 @@ this term and its ban apply to the FROZEN build's artifacts; the widening
 cycle's gating domains are **W-panels** (ADR-002).
 _Avoid_: Tier 2, multi-year backtest (implies the Winner ran there — it can't)
 
+**Hypothesis family**:
+A widening-cycle term: a set of Variants expressing one tradable
+hypothesis (e.g. "fade positive funding extremes"), across taxonomies,
+parameter dressings, and assets. The REPORT §6.2 quarantine attaches to a
+hypothesis family, on every panel. Distinct from **Family** (the frozen
+build's two-way direction/risk partition) — qualify on contact.
+_Avoid_: family (bare, when the §6.2 quarantine sense is meant)
+
 **W-panel**:
 A widening-cycle gating panel — an (asset, bar-grid, span, Feature-set)
 tuple where every registered Feature has one consistent source across the

@@ -39,10 +39,17 @@ published OOS would also compound multiple testing on one small window.
    frozen build's artifacts only** (the H8 deep replay remains falsification
    context, never a track record). New prose must say "W-panel" for the
    widening's gating domains.
-4. The fade-pos-extreme **family lock stands**: REPORT §6.2 pre-committed
-   that this BTC hypothesis family becomes shippable only on data created
-   after 2026-06-09 20:00 UTC. No W-panel result can ship a Variant inside
-   the lock predicate (exact predicate in the pre-registration §8). The
+4. The fade-pos-extreme **hypothesis-family lock stands on every panel**:
+   REPORT §6.2 pre-committed (asset-unqualified) that this family becomes
+   shippable only on data created after 2026-06-09 20:00 UTC, and the
+   quarantine travels with the hypothesis, not the ticker — funding-extreme
+   episodes on ETH/SOL are the same market events the H8 replay mined. No
+   W-panel result can ship a Variant the lock catches (predicate, twin
+   test, and share backstop in the pre-registration **§6**). §6.2 is a
+   *contamination quarantine*, not a general new-data-only doctrine: the
+   universal rule is registration before OOS contact (ADR-001), which
+   every other registered family satisfies on these panels because none
+   was ever evaluated there — the fade family cannot, because it was. The
    lock is the published falsification protocol holding under pressure —
    it is not negotiable for a better-looking widening.
 
@@ -58,12 +65,15 @@ published OOS would also compound multiple testing on one small window.
   mechanical clauses, train-only thresholds, and disclosed denominators.
   All of it carries over, plus three strictly-added clauses.
 - **Hindsight-bias mitigation.** Era knowledge (2021 top, 2022 bear, 2024
-  bull) is mitigated structurally, not rhetorically: families enter as
-  mechanically-enumerated grids (no hand-picked parameter points), every
+  bull) is mitigated structurally, not rhetorically: direction maps are
+  hand-chosen hypotheses with mechanically-enumerated dressings (sizes,
+  time-stop, vol-band) and are **sign-mirrored wherever a directional
+  prior exists** (the one unmirrored interaction cell and the long-only
+  ladder design are disclosed in the registration's R3 plan), every
   threshold derives per-fold on train only, ~21 quarterly folds force any
   Survivor to earn its pass across bull, bear, and chop, and the
   min-active-sample clause kills single-era curves (no fold > 50% of net
-  PnL).
+  PnL, formula pinned in the registration §7).
 
 ## Consequences
 
