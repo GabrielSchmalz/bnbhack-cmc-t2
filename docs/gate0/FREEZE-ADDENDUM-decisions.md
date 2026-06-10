@@ -67,3 +67,29 @@ honesty story, not hidden.
    (settled-decimal-settlement-stamped → predicted-percent-interval-start-stamped);
    see `data/backfill/funding_crosscheck.txt`. This is exactly the mid-window relay
    hazard R-SRC exists to catch and is cited in the report's source-consistency table.
+
+## Decisions of record (freeze)
+
+### D5 — Freeze outcome (2026-06-10, critic lane; full text in `docs/FREEZE.md`)
+
+**R-NULL ships: 0/36 variants passed the shipping gate; no Winner.** All three
+adversarial lanes upheld the null (bit-for-bit reproduction; planted-edge
+calibration shows the unmodified gate passes a 5–10 bps/bar real edge; the
+DIR-TC-H8 near-miss fails the pre-registered top-5 clause substantively and is
+base-rate-expected under the global null). No reopen items.
+
+- Frozen taxonomy: **TC (funding-sign × extremity)**, enum
+  {pos-mild, pos-extreme, neg-mild, neg-extreme}; binding F4-train threshold
+  `funding_hi_abs = 8.385600000000002e-05` (full tuple + reference-table
+  caveats in FREEZE.md §2.2). Selection basis: classification stability
+  (5.2% relabel under F1→F4 threshold drift vs TA 48%/TB 28%), episode
+  structure, live-computability (single D1-sanctioned scale-free Feature) —
+  not OOS performance of any variant.
+- Skill shape (PR-10): **regime monitor** — {regime, signal_snapshot,
+  per-regime expected-behavior notes from F4-train stats, all
+  `"validated": false`}; no `active_ruleset` emitted at runtime; the near-miss
+  is published in the falsification chapter as a FAILED candidate only
+  (amendments 1–6 in FREEZE.md §3 are binding).
+- R-NAME: `skills/btc-funding-regime-monitor/`.
+- R3 triple: 36 swept / 0 passes / expected null-clause pass-rate 0.0500
+  (full-gate null pass rate 1.5% over 200 draws).
