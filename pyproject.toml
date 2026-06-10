@@ -1,0 +1,12 @@
+[project]
+name = "bnbhack-cmc-t2"
+version = "0.1.0"
+description = "BNB HACK 2026 Track 2: regime-switched derivatives-positioning CMC Skill — backtest lab, frozen-threshold classifier, SKILL.md"
+requires-python = ">=3.12"
+dependencies = ["pandas>=2.2", "numpy>=1.26", "matplotlib>=3.8", "requests>=2.32"]
+
+[dependency-groups]
+dev = ["pytest>=8.0"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]

@@ -1,0 +1,14 @@
+# Secrets — never commit
+.env
+.env.*
+!.env.example
+
+# Local state
+.omc/
+__pycache__/
+*.pyc
+.pytest_cache/
+.ruff_cache/
+.venv/
+data/cache/
+*.egg-info/
