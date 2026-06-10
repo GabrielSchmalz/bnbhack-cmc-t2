@@ -2,9 +2,9 @@
 
 Bounded context for the BNB HACK 2026 Track 2 entry: a backtest lab, a distilled
 regime classifier, and a CMC Skill submission artifact. Spec of record:
-`hermes/docs/superpowers/specs/2026-06-10-bnbhack-t2-regime-derivatives-skill-design.md`
-(decisions G1–G10). This vocabulary is NOT cryptarista's or hermes's — qualify
-on contact (see Flagged ambiguities).
+the locked design spec (internal; decisions G1–G10). This vocabulary is NOT
+shared with our sibling internal repos — qualify on contact (see Flagged
+ambiguities).
 
 ## Language
 
@@ -12,8 +12,8 @@ on contact (see Flagged ambiguities).
 The shipped classifier's output label — a composite of a positioning-stress
 axis and a direction axis, computed from verified CMC MCP fields into a small
 closed enum (3–5 labels; names frozen at parameter freeze).
-_Avoid_: band (that's the lab training label), market regime (cryptarista
-engine sense), regime_router (polymarket sizing config)
+_Avoid_: band (that's the lab training label), market regime (a sibling
+internal repo's engine sense), the "regime" of an internal sizing config
 
 **Band**:
 An rm17-derivs tercile label (region01/02/03 = balanced / squeeze_prone /
@@ -47,7 +47,8 @@ _Avoid_: lookup table, runtime table
 One of exactly two top-level partitions of variant space: the direction family
 (crowded→fade, trending→follow) or the risk-switching family (exposure/carry
 switching, direction-agnostic).
-_Avoid_: rule family (polymarket sense: directional/scalper/arb), strategy type
+_Avoid_: rule family (a sibling internal repo's sense:
+directional/scalper/arb), strategy type
 
 **Variant**:
 One complete candidate strategy — `(family, regime taxonomy, per-regime
@@ -69,8 +70,8 @@ robustness checks
 **Shipping gate**:
 The binary predicate a variant must pass to ship: OOS beats HODL AND beats
 flat after 10 bps RT AND all honesty hooks pass. Evaluated on OOS only.
-_Avoid_: gate (bare — cryptarista has four other gate senses), G4 (spec
-shorthand, not a term)
+_Avoid_: gate (bare — a sibling internal repo has four other gate senses), G4
+(spec shorthand, not a term)
 
 **Winner**:
 The single survivor that ships in the Skill — the highest train-ranked
@@ -112,9 +113,7 @@ recon them for differentiation; our entry is NOT one.
 _Avoid_: hosted skill, CMC skill (ambiguous with The Skill)
 
 **Design spec**:
-The locked design document (G1–G10) at
-`hermes/docs/superpowers/specs/2026-06-10-bnbhack-t2-regime-derivatives-skill-design.md`
-— lives outside this repo.
+The locked design spec (internal; decisions G1–G10) — lives outside this repo.
 _Avoid_: the spec (bare — collides with strategy spec block), plan
 
 **Strategy spec block**:
@@ -126,8 +125,8 @@ _Avoid_: output spec, trade spec, the spec (bare)
 **Feature**:
 One CMC-computable classifier input (funding z-score, OI change, F&G, price
 TA, …) — frozen to Gate-0-verified fields.
-_Avoid_: signal (five conflicting senses across cryptarista — banned in this
-repo), indicator, factor
+_Avoid_: signal (five conflicting senses across a sibling internal repo —
+banned in this repo), indicator, factor
 
 **Signal snapshot**:
 The set of feature values fetched live at invocation time, echoed verbatim in
@@ -137,9 +136,10 @@ _Avoid_: market snapshot, signals (plural, bare)
 
 **Operator**:
 The human (Gabriel): owns decisions, registration, submission. NOTE the
-cross-repo flip — in hermes docs "operator" means the agent; here it means the
-human (see Flagged ambiguities).
-_Avoid_: executor (cryptarista exchange adapters + our fill simulator), user
+cross-repo flip — in a sibling internal repo's docs "operator" means the agent;
+here it means the human (see Flagged ambiguities).
+_Avoid_: executor (a sibling internal repo's exchange adapters + our fill
+simulator), user
 
 **Consuming agent**:
 Any MCP-capable agent (Claude, Cursor, Trust Wallet Agent Kit) that invokes
@@ -155,7 +155,8 @@ _Avoid_: customer, end user
 Unit 1 — the local backtest apparatus over read-only ClickHouse: harness,
 sweep, validation. Throwaway relative to the submission; its OUTPUT (the
 Winner's frozen parameters + report) is what matters.
-_Avoid_: research scaffold (cryptarista context with a different evidence bar)
+_Avoid_: research scaffold (an internal research context with a different
+evidence bar)
 
 **Execution model**:
 The fixed G8 trade mechanics shared by every variant: signal at close →
@@ -225,7 +226,7 @@ _Avoid_: regime instance, sample (bare)
   fixed across variants, never swept. Benchmarks pay the same costs and
   funding as variants.
 - The **Lab** deliberately uses the contest evidence bar (shipping gate), NOT
-  cryptarista's research-scaffold bar (Bonferroni/FDR) — locked in G3.
+  an internal research-scaffold bar (Bonferroni/FDR) — locked in G3.
   Phase-2 nulls under the stricter bar are cited openly in the report, not
   hidden.
 
@@ -254,22 +255,23 @@ _Avoid_: regime instance, sample (bare)
 
 ## Flagged ambiguities
 
-- **"Operator" flips across repos.** In hermes, operator = Hermes-the-agent
-  and the person is "human". In THIS repo, operator = the human (Gabriel) —
-  there is no agent-operator here. The design spec physically lives in hermes
-  docs but uses the bnbhack sense. When writing hermes-side docs about this
-  project, say "human"; here, "operator" is correct.
+- **"Operator" flips across repos.** In the sibling internal repo that hosts
+  the design spec, operator = that repo's agent and the person is "human". In
+  THIS repo, operator = the human (Gabriel) — there is no agent-operator here.
+  The design spec physically lives in that repo's docs but uses the bnbhack
+  sense. When writing that repo's docs about this project, say "human"; here,
+  "operator" is correct.
 - **"Executor" is banned in this repo.** The design spec header says
-  "Executor: Claude Fable 5" (the building agent); cryptarista owns
-  `ClobExecutor`/`FuturesExecutor`; our backtest harness will contain a fill
-  simulator. Say **builder agent** for Fable 5, **fill simulator** for the
-  harness component.
+  "Executor: Claude Fable 5" (the building agent); a sibling internal repo's
+  exchange adapters own the executor class names; our backtest harness will
+  contain a fill simulator. Say **builder agent** for Fable 5, **fill
+  simulator** for the harness component.
 
 - Spec §5's `{crowded-long, crowded-short, trending, ranging}` are
   **placeholder names**, not the frozen taxonomy. The final enum is decided at
   parameter freeze from what the data supports. Bands alone cannot yield
   directional labels (absolute value kills the long/short sign).
-- "regime" exists in three cryptarista senses (engine `regime/classifier.py`
-  price-only labels, `regime_matrix_labels` regions, polymarket `regime_router`
-  sizing config). In this repo, bare "regime" ALWAYS means the shipped
-  distilled label.
+- "regime" exists in three sibling-internal-repo senses (an engine's
+  price-only labels, `regime_matrix_labels` regions, an internal sizing
+  config). In this repo, bare "regime" ALWAYS means the shipped distilled
+  label.

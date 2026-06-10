@@ -142,7 +142,7 @@ No evidence of that. Specifically:
 4. Thresholds provably train-only (§2) — the anti-leakage direction also can't be
    *destroying* edges via contaminated thresholds.
 5. The direction near-misses **passed** beats_flat/beats_hodl/null/ladder; the failing
-   clauses (top5 for H8; null+top5+ladder for H10) measure signal robustness, not
+   clauses (top5 for H8; null+top5+ladder for H10) measure edge robustness, not
    accounting.
 6. The one structural property that genuinely *raises* the bar for sparse short
    variants: the episode-shuffle null permutes episodes over the **whole index**, so

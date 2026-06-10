@@ -181,9 +181,9 @@ authored as an LLM Skill"), honestly:**
   anyone via `uv run python -m lab.sweep` from committed CSVs. It is not merely
   backtestable; it WAS backtested, under a pre-registered gate, and the result
   is disclosed.
-- **Strategy spec**: the spec exists in full fidelity; what changed is its
-  label — FAILED, with the precise clause and reason — instead of an implied
-  endorsement.
+- **Strategy spec**: the strategy spec block exists in full fidelity; what
+  changed is its label — FAILED, with the precise clause and reason — instead
+  of an implied endorsement.
 - **Authored as an LLM Skill**: SKILL.md drives Gate-0-verified CMC MCP tools
   to compute the same frozen classifier live, emits the regime + snapshot +
   disclaimed notes, and carries the validation provenance. The deliverable's

@@ -24,7 +24,8 @@ shipping gate validated none. The one near-miss
 (`DIR-TC-H8-fade_pos_extreme_only`, pooled-OOS Sharpe 2.38) is published in
 full — as a **FAILED candidate** in the report's falsification chapter: its 5
 best trades carry over 114% of the entire OOS gain and the remaining 25 trades
-net −1.03%, which is precisely the concentration failure the pre-registered
+net −1.03% (size 0.5) / −2.13% (size 1.0), which is precisely the
+concentration failure the pre-registered
 top-5-removal clause exists to catch. A shipping gate you obey when it says
 *no* is worth more than an OOS curve picked from 36.
 
@@ -111,7 +112,7 @@ rules → next-bar-open fill, 8h funding accrual, DD guard, 10 bps RT base costs
 | Shipping-gate power (planted-edge calibration, unmodified pipeline) | passes a true regime-conditional edge **≥ 10 bps/bar robustly**; 5 bps/bar marginally |
 | HODL pooled-OOS benchmark @ 10 bps | Sharpe **−2.10**, net **−45.9%** (the OOS spans a bear market) |
 | Honest-N (pooled-OOS regime episodes, shipped taxonomy TC) | **225** — taxonomy-level; the failed candidate's active sample is only 30 trades / 92 in-position bars / 3 of 4 folds |
-| Near-miss | `DIR-TC-H8-fade_pos_extreme_only` — OOS Sharpe 2.38, but FAILS the pre-registered top-5-removal clause: top 5 trades = 114.8–116.2% of OOS gain, remaining 25 trades net −1.03% |
+| Near-miss | `DIR-TC-H8-fade_pos_extreme_only` — OOS Sharpe 2.38, but FAILS the pre-registered top-5-removal clause: top 5 trades = 114.8–116.2% of OOS gain, remaining 25 trades net −1.03% (size 0.5) / −2.13% (size 1.0) |
 
 Frozen Skill internals: taxonomy **TC** (funding sign × extremity), single
 binding threshold `funding_hi_abs = 8.3856e-05` (q80 of |funding_rate_8h|,
@@ -138,6 +139,8 @@ Full numbers, figures, and the adversarial lanes that tried to break the null:
   plan the lanes executed
 - `docs/gate0/` — Gate 0: the day-1 field dump that froze the classifier's
   inputs to live-verified CMC MCP fields, plus the addendum decisions D1–D5
+- `docs/DATA_PROVENANCE.md` — committed-dataset provenance: original
+  sources/venues, spans, regeneration commands, redistribution note
 
 ## Security
 

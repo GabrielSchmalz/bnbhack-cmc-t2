@@ -38,5 +38,5 @@
 [sweep] TC RISK-TC-ladder-0.5_0_1_0.5: rank_key=0.97 oos_sharpe=-1.49 null_p95=-1.02 gate=fail
 [sweep] TC RISK-TC-ladder-1_0_0.5_0: rank_key=0.51 oos_sharpe=-1.74 null_p95=-1.16 gate=fail
 [sweep] TC done (E=42, honest_N=225) in 73.1s
-[sweep] done in 283.7s -> /home/arista/src/bnbhack-cmc-t2/artifacts/sweep_results.json + /home/arista/src/bnbhack-cmc-t2/artifacts/sweep_summary.md
+[sweep] done in 283.7s -> ./artifacts/sweep_results.json + ./artifacts/sweep_summary.md
 [sweep] gate passes: 0/36; top train-ranked: DIR-TC-H10-short_crowded_long-0.5

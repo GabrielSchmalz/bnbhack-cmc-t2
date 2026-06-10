@@ -18,7 +18,7 @@ These were verified by the builder agent before planning; tasks below cite them.
 
 | Fact | Value |
 |---|---|
-| CMC MCP key | in `/home/arista/src/bnbhack-cmc-t2/.env` (`CMC_MCP_API_KEY`, gitignored, chmod 600); initialize handshake OK on `https://mcp.coinmarketcap.com/mcp` |
+| CMC MCP key | in the repo's `.env` (`CMC_MCP_API_KEY`, gitignored, chmod 600); initialize handshake OK on `https://mcp.coinmarketcap.com/mcp` |
 | Same key on Pro REST | **works** — `GET pro-api.coinmarketcap.com/v3/fear-and-greed/historical` (header `X-CMC_PRO_API_KEY`) returned data |
 | ClickHouse | `http://localhost:8123`, unauthenticated read OK. **Lab must always send `readonly=1`** |
 | `binance_klines` BTCUSDT 4h | 2020-01-01 → 2026-06-09 (live); 1h live; 1m/5m/15m frozen ~2026-05-29; 1d frozen 2026-05-28 |
