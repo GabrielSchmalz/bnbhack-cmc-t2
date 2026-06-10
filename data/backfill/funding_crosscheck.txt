@@ -1,0 +1,46 @@
+Funding cross-check (R-SRC evidence, plan Task 0.3 step 3)
+Binance REST fapi/v1/fundingRate vs ClickHouse
+default.cg_funding_history (exchange='Binance', symbol='BTCUSDT'),
+overlap window 2025-01-01 .. 2026-05-18, readonly=1.
+Stamps rounded to the 8h UTC grid before joining (both relays
+carry ms-level jitter on the 00/08/16 stamps).
+generated_utc: 2026-06-10 18:28:32
+
+FINDING — the CG relay switches storage convention mid-stream at
+2025-04-08 00:00 UTC (located empirically, monthly match-rate scan):
+  pre-switch : settled rate, DECIMAL, settlement-stamped
+  post-switch: predicted-rate OHLC close, PERCENT, interval-START
+               stamped (close_rate at T settles at T+8h)
+
+1) Naive pre-registered comparison (same-stamp, decimal, tol 1e-6):
+   joined rows:               1507
+   max |rest - cg|:           1.504e-02
+   rows |diff| < 1e-6:        292 / 1507 (19.3762%)  -> FAILS the 95% criterion
+   Cause: the mid-stream convention switch above, not a data
+   disagreement. This is the mid-window source hazard R-SRC
+   exists to catch.
+
+2) Convention-aware comparison:
+   pre-switch  segment (rest[T] vs cg[T], decimal):
+     joined: 291   max|diff|: 0.000e+00   |diff|<1e-6: 291/291 (100.0000%)
+   post-switch segment (rest[T+8h] vs cg[T]/100):
+     joined: 1216   max|diff|: 7.768e-05   |diff|<1e-6: 978/1216 (80.4276%)   |diff|<5e-5: 1208/1216 (99.3421%)
+   overall max|diff| (convention-aware): 7.768e-05 (= 0.78 bp on an 8h rate)
+   cg rows in window:  1507
+   join coverage:      1507 / 1507 (100.0000%)
+   Post-switch residuals up to ~8e-5 are sampling noise: the relay
+   stores the last SAMPLED predicted rate, not the settled value.
+
+worst 5 post-switch stamps by |diff| (cg stamp shown; rest is T+8h):
+  2026-01-30 16:00:00  rest=0.00009693  cg/100=0.00001925  |diff|=7.768e-05
+  2026-02-19 00:00:00  rest=0.00002686  cg/100=-0.00004803  |diff|=7.489e-05
+  2026-02-28 00:00:00  rest=-0.00003727  cg/100=0.00003333  |diff|=7.060e-05
+  2026-01-28 08:00:00  rest=0.00003830  cg/100=0.00010000  |diff|=6.170e-05
+  2026-01-24 08:00:00  rest=0.00003901  cg/100=0.00010000  |diff|=6.099e-05
+
+VERDICT: both relays describe the same underlying funding series
+once units and stamp semantics are reconciled (pre-switch exact;
+post-switch within 0.78 bp). The pre-registered 1e-6/95% criterion
+holds on the pre-switch segment only. The CG table's mid-stream
+convention switch disqualifies it as a lab source; the lab uses
+Binance REST end-to-end (PR-2, R-SRC).
