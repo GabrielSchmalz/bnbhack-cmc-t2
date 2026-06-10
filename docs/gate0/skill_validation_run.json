@@ -1,0 +1,53 @@
+{
+  "ts": "2026-06-10T20:52:38Z",
+  "tool_results_ok": true,
+  "field_paths_ok": true,
+  "regime": "pos-mild",
+  "spec_block": {
+    "regime": "pos-mild",
+    "as_of_utc": "2026-06-10T20:52:38Z",
+    "signal_snapshot": {
+      "leverage.funding_rate.average.current": "+0.0015866%",
+      "funding_rate_decimal": 1.5866e-05,
+      "funding_threshold_abs": 8.385600000000002e-05,
+      "global_metrics_last_updated": "10 June 2026 12:00 AM UTC+0",
+      "sentiment.fear_greed.current.index": 15,
+      "btc_price_usd": 61704.66417404334,
+      "btc_percent_change_24h": -0.51849541,
+      "derivatives.fundingRate.current_unit_unresolved": "0.00034631",
+      "btc_liquidations.total_usd_4h": {
+        "total": "0",
+        "long": "0",
+        "short": "0"
+      },
+      "status": "ok"
+    },
+    "expected_behavior": {
+      "source": "F4-train descriptive statistics (2025-04-03..2026-04-01, 2178 bars; next-bar open-to-open convention)",
+      "bars": 1356,
+      "share_pct": 62.3,
+      "episodes": 184,
+      "median_episode_len_bars": 4,
+      "next_bar_mean_return_pct": -0.005,
+      "next_bar_median_return_pct": 0.019,
+      "pct_negative": 48.8,
+      "annualized_vol": 0.41,
+      "train_funding_range": "+3.2e-07 .. +8.379e-05",
+      "note": "Modal state; train next-bar drift indistinguishable from noise (mean -0.005%, median +0.019%, 48.8% negative). Train-period description, not a validated edge.",
+      "validated": false,
+      "validated_metrics_ref": "docs/report/REPORT.md#falsification"
+    },
+    "validation": {
+      "status": "null-result",
+      "gate": "0/36 variants passed",
+      "ref": "docs/report/REPORT.md"
+    },
+    "disclaimers": [
+      "Walk-forward provenance: pre-registered purged/embargoed walk-forward, 2025-04-03..2026-06-09, 4 folds. Taxonomy-level honest_N = 225 pooled-OOS regime episodes - a taxonomy-level count, not a strategy sample. The single near-miss candidate (DIR-TC-H8, FAILED) had an active sample of only 30 OOS trades / 92 nonzero-position OOS bars / 3 of 4 folds.",
+      "Funding basis: live value is the CMC global cross-venue average (leverage.funding_rate.average.current, % string, decimal = value/100); the frozen threshold derives from Binance BTCUSDT 8h funding history. Sign and extremity-band comparisons only - never raw-magnitude arithmetic across the two bases.",
+      "No strategy cleared our pre-registered shipping gate (0/36 variants; expected null-clause pass-rate 0.0500). Expected-behavior notes are train-period descriptions with validated: false.",
+      "Not financial advice."
+    ]
+  },
+  "mismatches": []
+}
