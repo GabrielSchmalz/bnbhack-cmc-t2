@@ -90,8 +90,19 @@ _Avoid_: Tier 1 (collides with Public API billing tiers), primary data
 
 **Deep-history window**:
 2021→2026 with the reduced field set (funding, DVOL, CVD, price) — robustness
-replay only, never a selection or gating domain.
+replay only, never a selection or gating domain. SCOPE NOTE (2026-06-10):
+this term and its ban apply to the FROZEN build's artifacts; the widening
+cycle's gating domains are **W-panels** (ADR-002).
 _Avoid_: Tier 2, multi-year backtest (implies the Winner ran there — it can't)
+
+**W-panel**:
+A widening-cycle gating panel — an (asset, bar-grid, span, Feature-set)
+tuple where every registered Feature has one consistent source across the
+full span (R-SRC) and is point-in-time live-computable from Gate-0-verified
+CMC fields. W-panels ARE selection/gating domains under ADR-001 — see
+`docs/adr/002-deep-panels-as-gating-domains.md` and the widening
+pre-registration (registered instances P-BTC / P-ETH / P-SOL).
+_Avoid_: deep-history window (frozen-build term), Tier 2
 
 **Deep-history proxy**:
 The Winner's rules restricted to deep-history fields — a DIFFERENT strategy
