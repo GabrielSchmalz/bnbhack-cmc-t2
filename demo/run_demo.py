@@ -113,7 +113,7 @@ FIG_CAPTIONS = {
     "fig3_null_distribution.png": "episode-shuffle null distribution vs observed Sharpe",
     "fig4_gate_power.png": "gate power: planted-edge calibration",
     "fig5_regime_ribbon.png": "TC regime ribbon over the full-stack window",
-    "fig6_deep_replay.png": "deep-history robustness replay (proxy, never merged)",
+    "fig6_deep_replay.png": "failed-candidate deep-history replay (falsification context, not a track record)",
 }
 
 
@@ -271,7 +271,11 @@ def print_figures() -> None:
         return
     for fig in figs:
         caption = FIG_CAPTIONS.get(fig.name, "report figure")
-        print(f"  {fig}  - {caption}")
+        try:
+            shown = fig.relative_to(REPO)
+        except ValueError:
+            shown = fig
+        print(f"  {shown}  - {caption}")
 
 
 def main() -> int:
