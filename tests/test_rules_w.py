@@ -295,3 +295,129 @@ def test_vol_band_empty():
                          pd.Series([], dtype=bool))
     assert len(out) == 0
     assert out.dtype == float
+
+
+# ----------------- lane W-A differential pins (registered k = 6, additive)
+#
+# Lane W-A (docs/report/adversarial/w_lane1_reproduction.md §1) resolved the
+# §3 cap-bar re-entry corner by black-box differential testing of five
+# text-consistent time-stop machines against the artifact
+# (~/.cache/wlane1/ts_hypo.py). The artifact matches ONLY the immediate
+# cap-bar re-entry machine (M5, implemented here); the four rejected
+# readings are M1 (stop first, re-entry only at a LATER transition),
+# M2 (run counter resets on any mid-run label transition), M2b (counter
+# resets on a sign flip), M3 (hold k+1 bars). The lane asked for the
+# determination to be test-pinned; these tests encode the discriminating
+# scenarios at the registered rung k = 6 on synthetic labels.
+
+
+def _wa_machine(w, lagged, action_map, k, mode):
+    """Port of ~/.cache/wlane1/ts_hypo.py::machine to the post-lag frame.
+
+    Reference implementation of the five candidate §3 readings, kept
+    independent of lab/rules_w.py internals. `mode` in {M1, M2, M2b, M3,
+    M5}; M5 is the implemented (artifact-matching) reading.
+    """
+    wv = w.astype(float).to_numpy()
+    labs = lagged.loc[w.index].to_numpy()
+
+    def same(a, b):
+        a_na, b_na = pd.isna(a), pd.isna(b)
+        if a_na or b_na:
+            return bool(a_na and b_na)
+        return bool(a == b)
+
+    out = np.zeros(len(wv))
+    run_start, stopped, held = -1, False, 0
+    for t in range(len(wv)):
+        at = wv[t]
+        trans = t > 0 and not same(labs[t], labs[t - 1])
+        if stopped:
+            if trans and at != 0.0:
+                stopped = False
+                run_start = t
+                held = 0
+            else:
+                continue
+        if at == 0.0:
+            run_start = -1
+            held = 0
+            continue
+        if run_start < 0:
+            run_start = t
+            held = 0
+        if mode == "M2" and trans and run_start != t:
+            held = 0                  # counter resets on any transition
+        if mode == "M2b" and run_start != t and t > 0 and wv[t - 1] != 0 \
+                and np.sign(at) != np.sign(wv[t - 1]):
+            held = 0                  # counter resets on sign flip
+        limit = k + 1 if mode == "M3" else k
+        if held >= limit:
+            if mode == "M5" and trans:
+                # cap bar coincides with a transition into a nonzero-action
+                # label: capped run ends at the k-th bar's close, a NEW run
+                # re-enters immediately at this bar
+                out[t] = at
+                run_start = t
+                held = 1
+            else:
+                out[t] = 0.0
+                stopped = True
+                run_start = -1
+                held = 0
+        else:
+            out[t] = at
+            held += 1
+    return pd.Series(out, index=w.index)
+
+
+def test_cap_bar_transition_immediate_reentry_at_registered_k6():
+    # Determination (1) at the registered rung: the lagged label transitions
+    # A -> B exactly on the bar after the k-th run bar (k = 6). Implemented
+    # reading: re-entry is immediate AT that bar (exit and re-entry fills
+    # coincide, no forced flat bar) and the new run carries a fresh k-bar
+    # budget (stops again 6 bars later).
+    w, lagged = _post_lag(["A"] * 6 + ["B"] * 9)
+    out = apply_time_stop(w, lagged, ACTION_MAP, k=6)
+    expected = [0.0] + [1.0] * 6 + [-1.0] * 6 + [0.0, 0.0]
+    assert out.tolist() == expected
+    assert out.tolist() == _wa_machine(w, lagged, ACTION_MAP, 6,
+                                       "M5").tolist()
+    # The rejected stricter reading (M1: stop first, re-entry only at a
+    # LATER transition) consumes the cap-bar transition while stopped and
+    # never re-enters on this series — it forces flat from bar 7 onward.
+    m1 = _wa_machine(w, lagged, ACTION_MAP, 6, "M1")
+    assert m1.tolist() == [0.0] + [1.0] * 6 + [0.0] * 8
+    assert [t for t in range(len(w)) if out.iloc[t] != m1.iloc[t]] == \
+        [7, 8, 9, 10, 11, 12]
+
+
+def test_k6_differential_rejects_m1_m2_m2b_m3_and_matches_m5():
+    # One 23-bar sequence discriminating the implemented machine from every
+    # rejected candidate (lane W-A §1: nz 1503/1583/1515/1608 vs artifact
+    # 1541 on the real panel; here pinned on synthetic labels): a sign-flip
+    # mid-run transition (bar 4), same-label persistence past the cap (bars
+    # 7-9), a zero-action transition while stopped (bar 10), a qualifying
+    # re-entry transition (bar 11), and a cap-bar transition (bar 17).
+    raw = (["A"] * 3 + ["B"] * 6 + ["Z"] + ["A"] * 6 + ["B"] * 7)
+    w, lagged = _post_lag(raw)
+    assert w.tolist() == ([0.0] + [1.0] * 3 + [-1.0] * 6 + [0.0]
+                          + [1.0] * 6 + [-1.0] * 6)
+    out = apply_time_stop(w, lagged, ACTION_MAP, k=6)
+    expected = ([0.0] + [1.0] * 3 + [-1.0] * 3 + [0.0] * 4
+                + [1.0] * 6 + [-1.0] * 6)
+    assert out.tolist() == expected
+    # implemented == M5, bar for bar
+    assert out.tolist() == _wa_machine(w, lagged, ACTION_MAP, 6,
+                                       "M5").tolist()
+    # each rejected machine differs at exactly its discriminating bars
+    rejected = {
+        "M1": [17, 18, 19, 20, 21, 22],   # no cap-bar re-entry at bar 17
+        "M2": [7, 8, 9],                  # bar-4 transition resets counter
+        "M2b": [7, 8, 9],                 # bar-4 sign flip resets counter
+        "M3": [7, 18, 19, 20, 21, 22],    # holds k+1 bars, shifted stops
+    }
+    for mode, diff_bars in rejected.items():
+        ref = _wa_machine(w, lagged, ACTION_MAP, 6, mode)
+        got = [t for t in range(len(w)) if out.iloc[t] != ref.iloc[t]]
+        assert got == diff_bars, mode

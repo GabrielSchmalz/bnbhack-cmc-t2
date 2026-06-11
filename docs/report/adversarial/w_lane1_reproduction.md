@@ -291,3 +291,6 @@ not a technicality. No grounds to overturn in either direction;
   family-locked, 0 ship-eligible.** This lane found no defect that
   manufactures the passes, and no defect in the lock that unfairly blocks
   them.
+
+Addendum (2026-06-11): both determinations are now test-pinned, additively — the §1 cap-bar immediate re-entry in `tests/test_rules_w.py` (k = 6 differential, M1/M2/M2b/M3 rejected)
+and the §6.1 sequential guard/time-stop composition in `tests/test_sweep_w.py` (guard flat = w-override only, no run-counter reset; production seam, D1 ts6 map). No production code changed.

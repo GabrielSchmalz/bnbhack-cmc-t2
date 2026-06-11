@@ -35,13 +35,17 @@ import pytest
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 
 import lab.sweep_w as sweep_w  # noqa: E402
+from lab.dd_guard import apply_dd_guard  # noqa: E402
 from lab.gate_w import MIN_OOS_TRADES  # noqa: E402
 from lab.hooks_w import PANEL_INDEX_W, TAXONOMY_INDEX_W  # noqa: E402
 from lab.sweep_w import (  # noqa: E402
+    GATE_COST_BPS,
     _assert_train_side,
+    _strategy_w,
     run_w_sweep,
     structural_feasibility_readout,
 )
+from lab.variants_w import enumerate_all_w  # noqa: E402
 
 N_TOY = 300
 TOY_START = "2025-03-01 00:00"
@@ -460,6 +464,138 @@ def test_cli_confirmed_runs_sweep(monkeypatch, tmp_path):
     sweep_w.main(["--draws", "5", "--out-dir", str(tmp_path)])
     assert seen["draws"] == 5
     assert seen["out_dir"] == str(tmp_path)
+
+
+# ----------------- guard/time-stop composition (lane W-A determination 2)
+#
+# Lane W-A (docs/report/adversarial/w_lane1_reproduction.md §6.1,
+# ~/.cache/wlane1/guard_compose.py) determined by differential testing
+# that the artifact matches the SEQUENTIAL composition exactly: the §3
+# time-stop runs guard-blind over the post-lag w (inside _strategy_w),
+# and the PR-4 DD guard is applied AFTER as a pure w-override — the §3
+# "a DD-guard flat supersedes and terminates the run" sentence binds as
+# a w-override only; a guard-forced flat does NOT reset the time-stop
+# run counter. The rejected COMPOSED reading (guard flat terminates the
+# run; §3 transition re-entry after guard release) differs. Pinned here
+# at the production seam (_strategy_w + apply_dd_guard, the exact
+# _eval_variant_w call sequence) with the real registered ts6 passer
+# family map (D1) at the registered k = 6.
+
+_TS6_ID = "P-BTC-DIR-TD-D1-fade_extremes_graded_sym-1.0-ts6"
+
+
+def _composed_reference(labels, action_map, k, opens_r, fund,
+                        threshold=0.20,
+                        per_side=(GATE_COST_BPS / 2.0) / 1e4):
+    """Port of ~/.cache/wlane1/guard_compose.py::composed — the REJECTED
+    guard-aware reading: a guard flat terminates the §3 run (resets the
+    counter) and post-guard §3 re-entry applies after release."""
+    labs = labels.to_numpy()
+    n = len(labs)
+    lagged = np.empty(n, dtype=object)
+    lagged[0] = None
+    lagged[1:] = labs[:-1]
+    a = np.array([0.0 if lab is None else float(action_map.get(lab, 0.0))
+                  for lab in lagged])
+    g = np.zeros(n)
+    equity, peak, prev = 1.0, 1.0, 0.0
+    breached, breach_label = False, None
+    run_start, stopped = -1, False
+    for t in range(n):
+        if breached and labs[t] != breach_label:
+            breached = False
+            peak = equity
+        at = a[t]
+        trans = t > 0 and lagged[t] != lagged[t - 1]
+        if breached:
+            wt = 0.0
+            run_start = -1            # guard flat terminates the run
+            stopped = False
+        elif stopped:
+            if trans and at != 0.0:
+                stopped = False
+                run_start = t
+                wt = at
+            else:
+                wt = 0.0
+        elif at == 0.0:
+            run_start = -1
+            wt = 0.0
+        else:
+            if run_start < 0:
+                run_start = t         # fresh run (incl. after guard flat)
+            if t - run_start >= k:
+                if trans:
+                    run_start = t
+                    wt = at
+                else:
+                    stopped = True
+                    run_start = -1
+                    wt = 0.0
+            else:
+                wt = at
+        g[t] = wt
+        dw = wt - prev
+        equity *= ((1.0 - abs(dw) * per_side)
+                   * (1.0 - wt * fund[t])
+                   * (1.0 + wt * opens_r[t]))
+        peak = max(peak, equity)
+        if not breached and (peak - equity) / peak > threshold:
+            breached, breach_label = True, labs[t]
+        prev = wt
+    return pd.Series(g, index=labels.index)
+
+
+def test_guard_time_stop_composition_is_sequential_w_override():
+    variant = next(v for v in enumerate_all_w() if v.id == _TS6_ID)
+    assert variant.time_stop == 6 and not variant.vol_band
+
+    # 16 synthetic bars: neg-x (action +1.0 under D1 x 1.0) for 9 bars,
+    # then pos-x (action -1.0). A 25% crash on bar 1 -> 2 breaches the
+    # PR-4 guard at bar 1 (breach label neg-x); the guard releases at bar
+    # 9, the first unlagged pos-x bar. Prices are flat afterwards.
+    n = 16
+    idx = pd.date_range("2025-04-03 00:00", periods=n, freq="4h", tz="UTC")
+    labels = pd.Series(["neg-x"] * 9 + ["pos-x"] * 7, index=idx,
+                       dtype=object)
+    opens = np.full(n, 75.0)
+    opens[0] = opens[1] = 100.0
+    closes = np.append(opens[1:], opens[-1])
+    bars = pd.DataFrame({"open": opens, "high": np.maximum(opens, closes),
+                         "low": np.minimum(opens, closes), "close": closes,
+                         "volume": 1.0}, index=idx)
+    funding = pd.Series(0.0, index=idx)
+    hot = pd.Series(False, index=idx)
+
+    # Production seam, exactly as _eval_variant_w composes it: time-stop
+    # inside _strategy_w (guard-blind), PR-4 guard applied after.
+    w = _strategy_w(variant, labels, hot)
+    assert w.tolist() == [0.0] + [1.0] * 6 + [0.0] * 3 + [-1.0] * 6
+    wg = apply_dd_guard(w, bars, funding, GATE_COST_BPS, labels)
+    assert wg.tolist() == [0.0, 1.0] + [0.0] * 8 + [-1.0] * 6
+    # guard is a pure w-override: it only ever forces bars to 0
+    assert ((wg == 0.0) | (wg == w)).all()
+
+    # The rejected composed reading differs at exactly the two
+    # discriminating bars:
+    r = np.empty(n)
+    r[:-1] = opens[1:] / opens[:-1] - 1.0
+    r[-1] = closes[-1] / opens[-1] - 1.0
+    comp = _composed_reference(labels, variant.action_dict(), 6, r,
+                               funding.to_numpy())
+    assert comp.tolist() == ([0.0, 1.0] + [0.0] * 7 + [1.0]
+                             + [-1.0] * 5 + [0.0])
+    diff = [t for t in range(n) if wg.iloc[t] != comp.iloc[t]]
+    assert diff == [9, 15]
+    # bar 9 (guard release): sequential stays FLAT — the time-stop clock
+    # kept counting through the guard-flat window (bars 2-6 consumed the
+    # run budget; the stop held; release alone is not a §3 re-entry).
+    # The composed reading re-enters because its guard reset the counter.
+    assert wg.iloc[9] == 0.0 and comp.iloc[9] == 1.0
+    # bar 15: sequential's §3 re-entry at bar 10 (lagged neg-x -> pos-x
+    # transition) carries a fresh 6-bar budget through bar 15; composed's
+    # run began at the release bar 9 and caps at bar 15.
+    assert wg.iloc[15] == -1.0 and comp.iloc[15] == 0.0
 
 
 def test_cli_feasibility_skips_tripwire(monkeypatch, tmp_path):
