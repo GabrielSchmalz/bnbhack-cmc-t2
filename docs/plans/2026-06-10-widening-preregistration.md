@@ -61,9 +61,13 @@ end.
 **Embargo (pinned).** E per (panel, taxonomy) = max(42 bars, ceil(median
 regime-episode length)), where the median is computed **once,
 pre-OOS-contact, on the panel's FIRST fold's train slice labeled with that
-fold's train-derived cuts** (train-only by construction). Every E is
-printed in the sweep artifact; the 42-bar floor is expected to bind, and
-any (panel, taxonomy) where it does not is disclosed in R3.
+fold's train-derived cuts** (train-only by construction), **over non-`na`
+labeled episodes only** (`na` episodes are missing-feature placeholders,
+not regime episodes — consistent with honest-N's regime-episode unit and
+the null's `na`-freeze; if a slice has no non-`na` episodes, the floor
+binds — §13 amendment 27). Every E is printed in the sweep artifact; the
+42-bar floor is expected to bind, and any (panel, taxonomy) where it does
+not is disclosed in R3.
 
 ## 2. Data sources of record (R-SRC: one source per Feature, full span)
 
@@ -83,7 +87,11 @@ day-D stamp** (a 00:00 stamp → the D 04:00 bar, mirroring the D4.4 F&G
 rule); staleness > 48h → NaN → `oi-na`. Stamp semantics (00:00 snapshot
 vs day-close) are determined pre-OOS by cross-checking the export against
 overlapping bybit daily snapshots, and the determination is committed
-with the loader tests. `rsi14_1d` / `fg` / `close_vs_sma200_1d` reuse the
+with the loader tests. *(Determined 2026-06-11: the table stores daily OI
+candles; stamp = candle start, `open_oi` = the D 00:00 snapshot — corr
+peak at offset 0; `close_oi` peaks at +1 and is excluded as leaky. Export
+uses `open_oi`; availability rule unchanged.
+`docs/gate0/OI-CG-STAMP-SEMANTICS.md`, §13 amendment 26.)* `rsi14_1d` / `fg` / `close_vs_sma200_1d` reuse the
 frozen causal join conventions on all three panels.
 
 **D2 supersession note:** the freeze addendum's D2 rejected SMA200
@@ -486,7 +494,12 @@ the cited artifacts):
 9. **2026-06-10 live snapshots** (Gate-0 dump, funding_calibration.csv):
    point values after the frozen window end were observed pre-registration
    (extreme fear, near-zero predicted funding). The forward registration's
-   OOS therefore starts 2026-06-11 00:00 UTC, after every observed stamp.
+   OOS starts 2026-06-11 00:00 UTC. *(Update, §13 amendment 28: the live
+   calibration cron keeps appending paired funding point-snapshots 3×/day,
+   including stamps after that OOS start — these are monitor-calibration
+   samples, not bar series, and not evaluation contact; forward evaluation
+   discloses the cron's full sample log. The W-sweep is unaffected — its
+   OOS ends 2026-06-09 20:00.)*
 10. **CSV tails to 2026-06-10** committed but never consumed by any sweep;
     W-panels end 2026-06-09 20:00, inside all sources' verified spans.
 11. **Frozen-window-overlap era knowledge** (REPORT §3.2 trade table,
@@ -606,3 +619,43 @@ approve-with-amendments).** Amendments:
     extended to all three assets (24 forward Variants).
 24. (J-W9d) "Hypothesis family" added to CONTEXT.md as a defined term
     distinct from the frozen "Family".
+
+**2026-06-11 — Phase-1 build findings folded in (still pre-OOS-contact;
+no OOS row of any W-panel has been evaluated).** Amendments:
+
+25. (build lane, SOL funding) Binance ran SOLUSDT funding on a ~2h
+    interval during the FTX crash week: 75 genuine off-schedule
+    settlements 2022-11-09 20:00 → 2022-11-18 06:00 UTC (incl. −2% cap
+    prints). These are EXCLUDED from `funding_rate_8h`: the registered
+    execution model (§3) accrues funding only at 00/08/16 UTC stamps, and
+    the 00/08/16 series is verified hole-free through the episode.
+    Millisecond-jitter snap tolerance is 60s (max observed 47ms). BTC and
+    ETH histories verified to contain zero off-schedule settlements.
+    Consequence disclosed: ~9 days of SOL intra-window funding accrual is
+    omitted; direction of bias is conservative for short-carry variants
+    in that week (they would have EARNED the omitted negative prints).
+    Disclosed in `docs/DATA_PROVENANCE.md`.
+26. (registered determination outcome, CG OI) `cg_oi_history` stores
+    daily OI candles, not single values; the §2 cross-check determined
+    stamp = candle start and `open_oi` = the D 00:00 snapshot (corr
+    +0.370 at offset 0 vs the bybit daily era; `close_oi` peaks at offset
+    +1 and is excluded as a ~24h leak). Export uses `open_oi`; the §2
+    availability and staleness rules apply unchanged.
+27. (embargo formula repair, T-F) The §1 embargo median is computed over
+    **non-`na` episodes** of the first fold's train slice; the 42-bar
+    floor binds when none exist. Without this, T-F's first-fold train —
+    100% `fg-na` (F&G history starts 2023-06-29) — forms ONE 2,190-bar
+    episode, E = 2,190, and every T-F OOS slice is structurally empty:
+    a formula artifact that would silently void all 30 T-F variants,
+    discovered by the panels lane's train-side tests. `na` episodes are
+    missing-feature placeholders, not regime episodes (they are frozen in
+    the null and excluded from honest-N), so the repaired formula is the
+    registered intent stated precisely. Amended before any OOS
+    evaluation; `panels_w.compute_embargo` updated to match.
+28. (§10 item 9 update) The live calibration cron continues appending
+    paired funding point-snapshots 3×/day to
+    `data/backfill/funding_calibration.csv`, including stamps after the
+    forward registration's OOS start (first: 2026-06-11 00:07 UTC).
+    Point snapshots for the monitor's D1 basis table are not bar-series
+    evaluation contact; recorded here so the forward evaluation
+    (≥ 2027-07) can disclose the full log.
