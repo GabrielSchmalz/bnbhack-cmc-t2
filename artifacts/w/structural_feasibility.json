@@ -1,0 +1,1516 @@
+{
+  "clause7_trade_floor": 60,
+  "panels": {
+    "P-BTC": {
+      "TD": {
+        "embargo_bars": 42
+      },
+      "TE": {
+        "embargo_bars": 42
+      },
+      "TF": {
+        "embargo_bars": 42
+      },
+      "TG": {
+        "embargo_bars": 42
+      },
+      "TH": {
+        "embargo_bars": 42
+      }
+    },
+    "P-ETH": {
+      "TD": {
+        "embargo_bars": 42
+      },
+      "TF": {
+        "embargo_bars": 42
+      },
+      "TG": {
+        "embargo_bars": 42
+      },
+      "TH": {
+        "embargo_bars": 42
+      }
+    },
+    "P-SOL": {
+      "TD": {
+        "embargo_bars": 42
+      },
+      "TF": {
+        "embargo_bars": 42
+      },
+      "TG": {
+        "embargo_bars": 42
+      },
+      "TH": {
+        "embargo_bars": 42
+      }
+    }
+  },
+  "variants": [
+    {
+      "id": "P-BTC-DIR-TD-D1-fade_extremes_graded_sym-1.0",
+      "panel": "P-BTC",
+      "taxonomy": "TD",
+      "annex": false,
+      "projected_oos_trades": 403.7895604270752,
+      "flagged": false
+    },
+    {
+      "id": "P-BTC-DIR-TD-D1-fade_extremes_graded_sym-1.0-ts6",
+      "panel": "P-BTC",
+      "taxonomy": "TD",
+      "annex": false,
+      "projected_oos_trades": 518.720338301976,
+      "flagged": false
+    },
+    {
+      "id": "P-BTC-DIR-TD-D1-fade_extremes_graded_sym-0.5",
+      "panel": "P-BTC",
+      "taxonomy": "TD",
+      "annex": false,
+      "projected_oos_trades": 403.7895604270752,
+      "flagged": false
+    },
+    {
+      "id": "P-BTC-DIR-TD-D1-fade_extremes_graded_sym-0.5-ts6",
+      "panel": "P-BTC",
+      "taxonomy": "TD",
+      "annex": false,
+      "projected_oos_trades": 518.720338301976,
+      "flagged": false
+    },
+    {
+      "id": "P-BTC-DIR-TD-D2-fade_x_only_sym-1.0",
+      "panel": "P-BTC",
+      "taxonomy": "TD",
+      "annex": false,
+      "projected_oos_trades": 138.2478036138754,
+      "flagged": false
+    },
+    {
+      "id": "P-BTC-DIR-TD-D2-fade_x_only_sym-1.0-ts6",
+      "panel": "P-BTC",
+      "taxonomy": "TD",
+      "annex": false,
+      "projected_oos_trades": 138.2478036138754,
+      "flagged": false
+    },
+    {
+      "id": "P-BTC-DIR-TD-D2-fade_x_only_sym-0.5",
+      "panel": "P-BTC",
+      "taxonomy": "TD",
+      "annex": false,
+      "projected_oos_trades": 138.2478036138754,
+      "flagged": false
+    },
+    {
+      "id": "P-BTC-DIR-TD-D2-fade_x_only_sym-0.5-ts6",
+      "panel": "P-BTC",
+      "taxonomy": "TD",
+      "annex": false,
+      "projected_oos_trades": 138.2478036138754,
+      "flagged": false
+    },
+    {
+      "id": "P-BTC-DIR-TD-D3-follow_extremes_graded_sym-1.0",
+      "panel": "P-BTC",
+      "taxonomy": "TD",
+      "annex": false,
+      "projected_oos_trades": 403.7895604270752,
+      "flagged": false
+    },
+    {
+      "id": "P-BTC-DIR-TD-D3-follow_extremes_graded_sym-1.0-ts6",
+      "panel": "P-BTC",
+      "taxonomy": "TD",
+      "annex": false,
+      "projected_oos_trades": 518.720338301976,
+      "flagged": false
+    },
+    {
+      "id": "P-BTC-DIR-TD-D3-follow_extremes_graded_sym-0.5",
+      "panel": "P-BTC",
+      "taxonomy": "TD",
+      "annex": false,
+      "projected_oos_trades": 403.7895604270752,
+      "flagged": false
+    },
+    {
+      "id": "P-BTC-DIR-TD-D3-follow_extremes_graded_sym-0.5-ts6",
+      "panel": "P-BTC",
+      "taxonomy": "TD",
+      "annex": false,
+      "projected_oos_trades": 518.720338301976,
+      "flagged": false
+    },
+    {
+      "id": "P-BTC-DIR-TD-D4-follow_x_only_sym-1.0",
+      "panel": "P-BTC",
+      "taxonomy": "TD",
+      "annex": false,
+      "projected_oos_trades": 138.2478036138754,
+      "flagged": false
+    },
+    {
+      "id": "P-BTC-DIR-TD-D4-follow_x_only_sym-1.0-ts6",
+      "panel": "P-BTC",
+      "taxonomy": "TD",
+      "annex": false,
+      "projected_oos_trades": 138.2478036138754,
+      "flagged": false
+    },
+    {
+      "id": "P-BTC-DIR-TD-D4-follow_x_only_sym-0.5",
+      "panel": "P-BTC",
+      "taxonomy": "TD",
+      "annex": false,
+      "projected_oos_trades": 138.2478036138754,
+      "flagged": false
+    },
+    {
+      "id": "P-BTC-DIR-TD-D4-follow_x_only_sym-0.5-ts6",
+      "panel": "P-BTC",
+      "taxonomy": "TD",
+      "annex": false,
+      "projected_oos_trades": 138.2478036138754,
+      "flagged": false
+    },
+    {
+      "id": "P-BTC-RISK-TD-ladder-1_0.5_0_1_0.5_0",
+      "panel": "P-BTC",
+      "taxonomy": "TD",
+      "annex": false,
+      "projected_oos_trades": 139.5583205830956,
+      "flagged": false
+    },
+    {
+      "id": "P-BTC-RISK-TD-ladder-1_0.5_0_1_0.5_0-vb",
+      "panel": "P-BTC",
+      "taxonomy": "TD",
+      "annex": false,
+      "projected_oos_trades": 139.5583205830956,
+      "flagged": false
+    },
+    {
+      "id": "P-BTC-RISK-TD-ladder-1_0.5_0.25_1_0.5_0.25",
+      "panel": "P-BTC",
+      "taxonomy": "TD",
+      "annex": false,
+      "projected_oos_trades": 1.7845188718682174,
+      "flagged": true
+    },
+    {
+      "id": "P-BTC-RISK-TD-ladder-1_0.5_0.25_1_0.5_0.25-vb",
+      "panel": "P-BTC",
+      "taxonomy": "TD",
+      "annex": false,
+      "projected_oos_trades": 1.7845188718682174,
+      "flagged": true
+    },
+    {
+      "id": "P-BTC-RISK-TD-ladder-1_1_0_1_1_0",
+      "panel": "P-BTC",
+      "taxonomy": "TD",
+      "annex": false,
+      "projected_oos_trades": 139.5583205830956,
+      "flagged": false
+    },
+    {
+      "id": "P-BTC-RISK-TD-ladder-1_1_0_1_1_0-vb",
+      "panel": "P-BTC",
+      "taxonomy": "TD",
+      "annex": false,
+      "projected_oos_trades": 139.5583205830956,
+      "flagged": false
+    },
+    {
+      "id": "P-BTC-RISK-TD-ladder-1_0.5_0_1_1_0.5",
+      "panel": "P-BTC",
+      "taxonomy": "TD",
+      "annex": false,
+      "projected_oos_trades": 131.74650370253235,
+      "flagged": false
+    },
+    {
+      "id": "P-BTC-RISK-TD-ladder-1_0.5_0_1_1_0.5-vb",
+      "panel": "P-BTC",
+      "taxonomy": "TD",
+      "annex": false,
+      "projected_oos_trades": 131.74650370253235,
+      "flagged": false
+    },
+    {
+      "id": "P-BTC-DIR-TD-A1-fade_pos_x_only-1.0",
+      "panel": "P-BTC",
+      "taxonomy": "TD",
+      "annex": true,
+      "projected_oos_trades": 130.01947969719387,
+      "flagged": false
+    },
+    {
+      "id": "P-BTC-DIR-TD-A1-fade_pos_x_only-1.0-ts6",
+      "panel": "P-BTC",
+      "taxonomy": "TD",
+      "annex": true,
+      "projected_oos_trades": 130.01947969719387,
+      "flagged": false
+    },
+    {
+      "id": "P-BTC-DIR-TD-A1-fade_pos_x_only-0.5",
+      "panel": "P-BTC",
+      "taxonomy": "TD",
+      "annex": true,
+      "projected_oos_trades": 130.01947969719387,
+      "flagged": false
+    },
+    {
+      "id": "P-BTC-DIR-TD-A1-fade_pos_x_only-0.5-ts6",
+      "panel": "P-BTC",
+      "taxonomy": "TD",
+      "annex": true,
+      "projected_oos_trades": 130.01947969719387,
+      "flagged": false
+    },
+    {
+      "id": "P-BTC-DIR-TD-A2-fade_pos_graded-1.0",
+      "panel": "P-BTC",
+      "taxonomy": "TD",
+      "annex": true,
+      "projected_oos_trades": 309.1581191803716,
+      "flagged": false
+    },
+    {
+      "id": "P-BTC-DIR-TD-A2-fade_pos_graded-1.0-ts6",
+      "panel": "P-BTC",
+      "taxonomy": "TD",
+      "annex": true,
+      "projected_oos_trades": 422.4798486150427,
+      "flagged": false
+    },
+    {
+      "id": "P-BTC-DIR-TD-A2-fade_pos_graded-0.5",
+      "panel": "P-BTC",
+      "taxonomy": "TD",
+      "annex": true,
+      "projected_oos_trades": 309.1581191803716,
+      "flagged": false
+    },
+    {
+      "id": "P-BTC-DIR-TD-A2-fade_pos_graded-0.5-ts6",
+      "panel": "P-BTC",
+      "taxonomy": "TD",
+      "annex": true,
+      "projected_oos_trades": 422.4798486150427,
+      "flagged": false
+    },
+    {
+      "id": "P-BTC-DIR-TE-E1-fade_build_sym-1.0",
+      "panel": "P-BTC",
+      "taxonomy": "TE",
+      "annex": false,
+      "projected_oos_trades": 770.6279403821186,
+      "flagged": false
+    },
+    {
+      "id": "P-BTC-DIR-TE-E1-fade_build_sym-1.0-ts6",
+      "panel": "P-BTC",
+      "taxonomy": "TE",
+      "annex": false,
+      "projected_oos_trades": 770.6279403821186,
+      "flagged": false
+    },
+    {
+      "id": "P-BTC-DIR-TE-E1-fade_build_sym-0.5",
+      "panel": "P-BTC",
+      "taxonomy": "TE",
+      "annex": false,
+      "projected_oos_trades": 770.6279403821186,
+      "flagged": false
+    },
+    {
+      "id": "P-BTC-DIR-TE-E1-fade_build_sym-0.5-ts6",
+      "panel": "P-BTC",
+      "taxonomy": "TE",
+      "annex": false,
+      "projected_oos_trades": 770.6279403821186,
+      "flagged": false
+    },
+    {
+      "id": "P-BTC-DIR-TE-E2-follow_unwind_sym-1.0",
+      "panel": "P-BTC",
+      "taxonomy": "TE",
+      "annex": false,
+      "projected_oos_trades": 775.7787836875508,
+      "flagged": false
+    },
+    {
+      "id": "P-BTC-DIR-TE-E2-follow_unwind_sym-1.0-ts6",
+      "panel": "P-BTC",
+      "taxonomy": "TE",
+      "annex": false,
+      "projected_oos_trades": 775.7787836875508,
+      "flagged": false
+    },
+    {
+      "id": "P-BTC-DIR-TE-E2-follow_unwind_sym-0.5",
+      "panel": "P-BTC",
+      "taxonomy": "TE",
+      "annex": false,
+      "projected_oos_trades": 775.7787836875508,
+      "flagged": false
+    },
+    {
+      "id": "P-BTC-DIR-TE-E2-follow_unwind_sym-0.5-ts6",
+      "panel": "P-BTC",
+      "taxonomy": "TE",
+      "annex": false,
+      "projected_oos_trades": 775.7787836875508,
+      "flagged": false
+    },
+    {
+      "id": "P-BTC-DIR-TE-E3-fade_pos_long_neg-1.0",
+      "panel": "P-BTC",
+      "taxonomy": "TE",
+      "annex": false,
+      "projected_oos_trades": 620.6060278861618,
+      "flagged": false
+    },
+    {
+      "id": "P-BTC-DIR-TE-E3-fade_pos_long_neg-1.0-ts6",
+      "panel": "P-BTC",
+      "taxonomy": "TE",
+      "annex": false,
+      "projected_oos_trades": 1000.0394427036855,
+      "flagged": false
+    },
+    {
+      "id": "P-BTC-DIR-TE-E3-fade_pos_long_neg-0.5",
+      "panel": "P-BTC",
+      "taxonomy": "TE",
+      "annex": false,
+      "projected_oos_trades": 620.6060278861618,
+      "flagged": false
+    },
+    {
+      "id": "P-BTC-DIR-TE-E3-fade_pos_long_neg-0.5-ts6",
+      "panel": "P-BTC",
+      "taxonomy": "TE",
+      "annex": false,
+      "projected_oos_trades": 1000.0394427036855,
+      "flagged": false
+    },
+    {
+      "id": "P-BTC-DIR-TE-E4-follow_build_sym-1.0",
+      "panel": "P-BTC",
+      "taxonomy": "TE",
+      "annex": false,
+      "projected_oos_trades": 770.6279403821186,
+      "flagged": false
+    },
+    {
+      "id": "P-BTC-DIR-TE-E4-follow_build_sym-1.0-ts6",
+      "panel": "P-BTC",
+      "taxonomy": "TE",
+      "annex": false,
+      "projected_oos_trades": 770.6279403821186,
+      "flagged": false
+    },
+    {
+      "id": "P-BTC-DIR-TE-E4-follow_build_sym-0.5",
+      "panel": "P-BTC",
+      "taxonomy": "TE",
+      "annex": false,
+      "projected_oos_trades": 770.6279403821186,
+      "flagged": false
+    },
+    {
+      "id": "P-BTC-DIR-TE-E4-follow_build_sym-0.5-ts6",
+      "panel": "P-BTC",
+      "taxonomy": "TE",
+      "annex": false,
+      "projected_oos_trades": 770.6279403821186,
+      "flagged": false
+    },
+    {
+      "id": "P-BTC-DIR-TE-E5-fade_unwind_sym-1.0",
+      "panel": "P-BTC",
+      "taxonomy": "TE",
+      "annex": false,
+      "projected_oos_trades": 775.7787836875508,
+      "flagged": false
+    },
+    {
+      "id": "P-BTC-DIR-TE-E5-fade_unwind_sym-1.0-ts6",
+      "panel": "P-BTC",
+      "taxonomy": "TE",
+      "annex": false,
+      "projected_oos_trades": 775.7787836875508,
+      "flagged": false
+    },
+    {
+      "id": "P-BTC-DIR-TE-E5-fade_unwind_sym-0.5",
+      "panel": "P-BTC",
+      "taxonomy": "TE",
+      "annex": false,
+      "projected_oos_trades": 775.7787836875508,
+      "flagged": false
+    },
+    {
+      "id": "P-BTC-DIR-TE-E5-fade_unwind_sym-0.5-ts6",
+      "panel": "P-BTC",
+      "taxonomy": "TE",
+      "annex": false,
+      "projected_oos_trades": 775.7787836875508,
+      "flagged": false
+    },
+    {
+      "id": "P-BTC-RISK-TE-ladder-1_0.5_1_0.5",
+      "panel": "P-BTC",
+      "taxonomy": "TE",
+      "annex": false,
+      "projected_oos_trades": 1.7845188718682174,
+      "flagged": true
+    },
+    {
+      "id": "P-BTC-RISK-TE-ladder-1_0_1_1",
+      "panel": "P-BTC",
+      "taxonomy": "TE",
+      "annex": false,
+      "projected_oos_trades": 558.1496161778014,
+      "flagged": false
+    },
+    {
+      "id": "P-BTC-DIR-TF-F1-capitulation_euphoria-1.0",
+      "panel": "P-BTC",
+      "taxonomy": "TF",
+      "annex": false,
+      "projected_oos_trades": 31.887455032942874,
+      "flagged": true
+    },
+    {
+      "id": "P-BTC-DIR-TF-F1-capitulation_euphoria-0.5",
+      "panel": "P-BTC",
+      "taxonomy": "TF",
+      "annex": false,
+      "projected_oos_trades": 31.887455032942874,
+      "flagged": true
+    },
+    {
+      "id": "P-BTC-DIR-TF-F2-contrarian_fg-1.0",
+      "panel": "P-BTC",
+      "taxonomy": "TF",
+      "annex": false,
+      "projected_oos_trades": 12.363033889683763,
+      "flagged": true
+    },
+    {
+      "id": "P-BTC-DIR-TF-F2-contrarian_fg-0.5",
+      "panel": "P-BTC",
+      "taxonomy": "TF",
+      "annex": false,
+      "projected_oos_trades": 12.363033889683763,
+      "flagged": true
+    },
+    {
+      "id": "P-BTC-DIR-TF-F3-follow_fg-1.0",
+      "panel": "P-BTC",
+      "taxonomy": "TF",
+      "annex": false,
+      "projected_oos_trades": 12.363033889683763,
+      "flagged": true
+    },
+    {
+      "id": "P-BTC-DIR-TF-F3-follow_fg-0.5",
+      "panel": "P-BTC",
+      "taxonomy": "TF",
+      "annex": false,
+      "projected_oos_trades": 12.363033889683763,
+      "flagged": true
+    },
+    {
+      "id": "P-BTC-DIR-TF-F4-euphoria_follow-1.0",
+      "panel": "P-BTC",
+      "taxonomy": "TF",
+      "annex": false,
+      "projected_oos_trades": 31.887455032942874,
+      "flagged": true
+    },
+    {
+      "id": "P-BTC-DIR-TF-F4-euphoria_follow-0.5",
+      "panel": "P-BTC",
+      "taxonomy": "TF",
+      "annex": false,
+      "projected_oos_trades": 31.887455032942874,
+      "flagged": true
+    },
+    {
+      "id": "P-BTC-RISK-TF-ladder-1_0.5_1_0.5",
+      "panel": "P-BTC",
+      "taxonomy": "TF",
+      "annex": false,
+      "projected_oos_trades": 0.5405120747919624,
+      "flagged": true
+    },
+    {
+      "id": "P-BTC-RISK-TF-ladder-0.5_1_0.5_1",
+      "panel": "P-BTC",
+      "taxonomy": "TF",
+      "annex": false,
+      "projected_oos_trades": 0.5405120747919624,
+      "flagged": true
+    },
+    {
+      "id": "P-BTC-DIR-TG-G1-follow_trend-1.0",
+      "panel": "P-BTC",
+      "taxonomy": "TG",
+      "annex": false,
+      "projected_oos_trades": 35.53085834890706,
+      "flagged": true
+    },
+    {
+      "id": "P-BTC-DIR-TG-G1-follow_trend-0.5",
+      "panel": "P-BTC",
+      "taxonomy": "TG",
+      "annex": false,
+      "projected_oos_trades": 35.53085834890706,
+      "flagged": true
+    },
+    {
+      "id": "P-BTC-DIR-TG-G2-trend_crowding_filtered-1.0",
+      "panel": "P-BTC",
+      "taxonomy": "TG",
+      "annex": false,
+      "projected_oos_trades": 277.62749158236005,
+      "flagged": false
+    },
+    {
+      "id": "P-BTC-DIR-TG-G2-trend_crowding_filtered-0.5",
+      "panel": "P-BTC",
+      "taxonomy": "TG",
+      "annex": false,
+      "projected_oos_trades": 277.62749158236005,
+      "flagged": false
+    },
+    {
+      "id": "P-BTC-DIR-TG-G3-fade_trend-1.0",
+      "panel": "P-BTC",
+      "taxonomy": "TG",
+      "annex": false,
+      "projected_oos_trades": 35.53085834890706,
+      "flagged": true
+    },
+    {
+      "id": "P-BTC-DIR-TG-G3-fade_trend-0.5",
+      "panel": "P-BTC",
+      "taxonomy": "TG",
+      "annex": false,
+      "projected_oos_trades": 35.53085834890706,
+      "flagged": true
+    },
+    {
+      "id": "P-BTC-RISK-TG-ladder-1_1_0_0",
+      "panel": "P-BTC",
+      "taxonomy": "TG",
+      "annex": false,
+      "projected_oos_trades": 18.13455893102352,
+      "flagged": true
+    },
+    {
+      "id": "P-BTC-RISK-TG-ladder-1_1_0.5_0",
+      "panel": "P-BTC",
+      "taxonomy": "TG",
+      "annex": false,
+      "projected_oos_trades": 202.54527686912857,
+      "flagged": false
+    },
+    {
+      "id": "P-BTC-RISK-TG-ladder-0.5_1_0_0",
+      "panel": "P-BTC",
+      "taxonomy": "TG",
+      "annex": false,
+      "projected_oos_trades": 18.13455893102352,
+      "flagged": true
+    },
+    {
+      "id": "P-BTC-DIR-TH-H1-fade_ob_pos_buy_os_neg-1.0",
+      "panel": "P-BTC",
+      "taxonomy": "TH",
+      "annex": false,
+      "projected_oos_trades": 85.51832674257392,
+      "flagged": false
+    },
+    {
+      "id": "P-BTC-DIR-TH-H1-fade_ob_pos_buy_os_neg-0.5",
+      "panel": "P-BTC",
+      "taxonomy": "TH",
+      "annex": false,
+      "projected_oos_trades": 85.51832674257392,
+      "flagged": false
+    },
+    {
+      "id": "P-BTC-DIR-TH-H2-contrarian_rsi-1.0",
+      "panel": "P-BTC",
+      "taxonomy": "TH",
+      "annex": false,
+      "projected_oos_trades": 62.746446087845634,
+      "flagged": false
+    },
+    {
+      "id": "P-BTC-DIR-TH-H2-contrarian_rsi-0.5",
+      "panel": "P-BTC",
+      "taxonomy": "TH",
+      "annex": false,
+      "projected_oos_trades": 62.746446087845634,
+      "flagged": false
+    },
+    {
+      "id": "P-BTC-DIR-TH-H3-momentum_rsi-1.0",
+      "panel": "P-BTC",
+      "taxonomy": "TH",
+      "annex": false,
+      "projected_oos_trades": 62.746446087845634,
+      "flagged": false
+    },
+    {
+      "id": "P-BTC-DIR-TH-H3-momentum_rsi-0.5",
+      "panel": "P-BTC",
+      "taxonomy": "TH",
+      "annex": false,
+      "projected_oos_trades": 62.746446087845634,
+      "flagged": false
+    },
+    {
+      "id": "P-BTC-RISK-TH-ladder-1_1_0.5_1_1_0.5",
+      "panel": "P-BTC",
+      "taxonomy": "TH",
+      "annex": false,
+      "projected_oos_trades": 1.7845188718682174,
+      "flagged": true
+    },
+    {
+      "id": "P-BTC-RISK-TH-ladder-1_1_0_1_1_0",
+      "panel": "P-BTC",
+      "taxonomy": "TH",
+      "annex": false,
+      "projected_oos_trades": 50.290822191392415,
+      "flagged": true
+    },
+    {
+      "id": "P-ETH-DIR-TD-D1-fade_extremes_graded_sym-1.0",
+      "panel": "P-ETH",
+      "taxonomy": "TD",
+      "annex": false,
+      "projected_oos_trades": 393.5562738860338,
+      "flagged": false
+    },
+    {
+      "id": "P-ETH-DIR-TD-D1-fade_extremes_graded_sym-1.0-ts6",
+      "panel": "P-ETH",
+      "taxonomy": "TD",
+      "annex": false,
+      "projected_oos_trades": 519.4287433606689,
+      "flagged": false
+    },
+    {
+      "id": "P-ETH-DIR-TD-D1-fade_extremes_graded_sym-0.5",
+      "panel": "P-ETH",
+      "taxonomy": "TD",
+      "annex": false,
+      "projected_oos_trades": 393.5562738860338,
+      "flagged": false
+    },
+    {
+      "id": "P-ETH-DIR-TD-D1-fade_extremes_graded_sym-0.5-ts6",
+      "panel": "P-ETH",
+      "taxonomy": "TD",
+      "annex": false,
+      "projected_oos_trades": 519.4287433606689,
+      "flagged": false
+    },
+    {
+      "id": "P-ETH-DIR-TD-D2-fade_x_only_sym-1.0",
+      "panel": "P-ETH",
+      "taxonomy": "TD",
+      "annex": false,
+      "projected_oos_trades": 161.01865766793682,
+      "flagged": false
+    },
+    {
+      "id": "P-ETH-DIR-TD-D2-fade_x_only_sym-1.0-ts6",
+      "panel": "P-ETH",
+      "taxonomy": "TD",
+      "annex": false,
+      "projected_oos_trades": 161.01865766793682,
+      "flagged": false
+    },
+    {
+      "id": "P-ETH-DIR-TD-D2-fade_x_only_sym-0.5",
+      "panel": "P-ETH",
+      "taxonomy": "TD",
+      "annex": false,
+      "projected_oos_trades": 161.01865766793682,
+      "flagged": false
+    },
+    {
+      "id": "P-ETH-DIR-TD-D2-fade_x_only_sym-0.5-ts6",
+      "panel": "P-ETH",
+      "taxonomy": "TD",
+      "annex": false,
+      "projected_oos_trades": 161.01865766793682,
+      "flagged": false
+    },
+    {
+      "id": "P-ETH-DIR-TD-D3-follow_extremes_graded_sym-1.0",
+      "panel": "P-ETH",
+      "taxonomy": "TD",
+      "annex": false,
+      "projected_oos_trades": 393.5562738860338,
+      "flagged": false
+    },
+    {
+      "id": "P-ETH-DIR-TD-D3-follow_extremes_graded_sym-1.0-ts6",
+      "panel": "P-ETH",
+      "taxonomy": "TD",
+      "annex": false,
+      "projected_oos_trades": 519.4287433606689,
+      "flagged": false
+    },
+    {
+      "id": "P-ETH-DIR-TD-D3-follow_extremes_graded_sym-0.5",
+      "panel": "P-ETH",
+      "taxonomy": "TD",
+      "annex": false,
+      "projected_oos_trades": 393.5562738860338,
+      "flagged": false
+    },
+    {
+      "id": "P-ETH-DIR-TD-D3-follow_extremes_graded_sym-0.5-ts6",
+      "panel": "P-ETH",
+      "taxonomy": "TD",
+      "annex": false,
+      "projected_oos_trades": 519.4287433606689,
+      "flagged": false
+    },
+    {
+      "id": "P-ETH-DIR-TD-D4-follow_x_only_sym-1.0",
+      "panel": "P-ETH",
+      "taxonomy": "TD",
+      "annex": false,
+      "projected_oos_trades": 161.01865766793682,
+      "flagged": false
+    },
+    {
+      "id": "P-ETH-DIR-TD-D4-follow_x_only_sym-1.0-ts6",
+      "panel": "P-ETH",
+      "taxonomy": "TD",
+      "annex": false,
+      "projected_oos_trades": 161.01865766793682,
+      "flagged": false
+    },
+    {
+      "id": "P-ETH-DIR-TD-D4-follow_x_only_sym-0.5",
+      "panel": "P-ETH",
+      "taxonomy": "TD",
+      "annex": false,
+      "projected_oos_trades": 161.01865766793682,
+      "flagged": false
+    },
+    {
+      "id": "P-ETH-DIR-TD-D4-follow_x_only_sym-0.5-ts6",
+      "panel": "P-ETH",
+      "taxonomy": "TD",
+      "annex": false,
+      "projected_oos_trades": 161.01865766793682,
+      "flagged": false
+    },
+    {
+      "id": "P-ETH-RISK-TD-ladder-1_0.5_0_1_0.5_0",
+      "panel": "P-ETH",
+      "taxonomy": "TD",
+      "annex": false,
+      "projected_oos_trades": 162.13350012124891,
+      "flagged": false
+    },
+    {
+      "id": "P-ETH-RISK-TD-ladder-1_0.5_0_1_0.5_0-vb",
+      "panel": "P-ETH",
+      "taxonomy": "TD",
+      "annex": false,
+      "projected_oos_trades": 162.13350012124891,
+      "flagged": false
+    },
+    {
+      "id": "P-ETH-RISK-TD-ladder-1_0.5_0.25_1_0.5_0.25",
+      "panel": "P-ETH",
+      "taxonomy": "TD",
+      "annex": false,
+      "projected_oos_trades": 1.7845188718682174,
+      "flagged": true
+    },
+    {
+      "id": "P-ETH-RISK-TD-ladder-1_0.5_0.25_1_0.5_0.25-vb",
+      "panel": "P-ETH",
+      "taxonomy": "TD",
+      "annex": false,
+      "projected_oos_trades": 1.7845188718682174,
+      "flagged": true
+    },
+    {
+      "id": "P-ETH-RISK-TD-ladder-1_1_0_1_1_0",
+      "panel": "P-ETH",
+      "taxonomy": "TD",
+      "annex": false,
+      "projected_oos_trades": 162.13350012124891,
+      "flagged": false
+    },
+    {
+      "id": "P-ETH-RISK-TD-ladder-1_1_0_1_1_0-vb",
+      "panel": "P-ETH",
+      "taxonomy": "TD",
+      "annex": false,
+      "projected_oos_trades": 162.13350012124891,
+      "flagged": false
+    },
+    {
+      "id": "P-ETH-RISK-TD-ladder-1_0.5_0_1_1_0.5",
+      "panel": "P-ETH",
+      "taxonomy": "TD",
+      "annex": false,
+      "projected_oos_trades": 157.4781347307107,
+      "flagged": false
+    },
+    {
+      "id": "P-ETH-RISK-TD-ladder-1_0.5_0_1_1_0.5-vb",
+      "panel": "P-ETH",
+      "taxonomy": "TD",
+      "annex": false,
+      "projected_oos_trades": 157.4781347307107,
+      "flagged": false
+    },
+    {
+      "id": "P-ETH-DIR-TF-F1-capitulation_euphoria-1.0",
+      "panel": "P-ETH",
+      "taxonomy": "TF",
+      "annex": false,
+      "projected_oos_trades": 32.33277981401621,
+      "flagged": true
+    },
+    {
+      "id": "P-ETH-DIR-TF-F1-capitulation_euphoria-0.5",
+      "panel": "P-ETH",
+      "taxonomy": "TF",
+      "annex": false,
+      "projected_oos_trades": 32.33277981401621,
+      "flagged": true
+    },
+    {
+      "id": "P-ETH-DIR-TF-F2-contrarian_fg-1.0",
+      "panel": "P-ETH",
+      "taxonomy": "TF",
+      "annex": false,
+      "projected_oos_trades": 12.363033889683763,
+      "flagged": true
+    },
+    {
+      "id": "P-ETH-DIR-TF-F2-contrarian_fg-0.5",
+      "panel": "P-ETH",
+      "taxonomy": "TF",
+      "annex": false,
+      "projected_oos_trades": 12.363033889683763,
+      "flagged": true
+    },
+    {
+      "id": "P-ETH-DIR-TF-F3-follow_fg-1.0",
+      "panel": "P-ETH",
+      "taxonomy": "TF",
+      "annex": false,
+      "projected_oos_trades": 12.363033889683763,
+      "flagged": true
+    },
+    {
+      "id": "P-ETH-DIR-TF-F3-follow_fg-0.5",
+      "panel": "P-ETH",
+      "taxonomy": "TF",
+      "annex": false,
+      "projected_oos_trades": 12.363033889683763,
+      "flagged": true
+    },
+    {
+      "id": "P-ETH-DIR-TF-F4-euphoria_follow-1.0",
+      "panel": "P-ETH",
+      "taxonomy": "TF",
+      "annex": false,
+      "projected_oos_trades": 32.33277981401621,
+      "flagged": true
+    },
+    {
+      "id": "P-ETH-DIR-TF-F4-euphoria_follow-0.5",
+      "panel": "P-ETH",
+      "taxonomy": "TF",
+      "annex": false,
+      "projected_oos_trades": 32.33277981401621,
+      "flagged": true
+    },
+    {
+      "id": "P-ETH-RISK-TF-ladder-1_0.5_1_0.5",
+      "panel": "P-ETH",
+      "taxonomy": "TF",
+      "annex": false,
+      "projected_oos_trades": 0.5405120747919624,
+      "flagged": true
+    },
+    {
+      "id": "P-ETH-RISK-TF-ladder-0.5_1_0.5_1",
+      "panel": "P-ETH",
+      "taxonomy": "TF",
+      "annex": false,
+      "projected_oos_trades": 0.5405120747919624,
+      "flagged": true
+    },
+    {
+      "id": "P-ETH-DIR-TG-G1-follow_trend-1.0",
+      "panel": "P-ETH",
+      "taxonomy": "TG",
+      "annex": false,
+      "projected_oos_trades": 19.479916664256628,
+      "flagged": true
+    },
+    {
+      "id": "P-ETH-DIR-TG-G1-follow_trend-0.5",
+      "panel": "P-ETH",
+      "taxonomy": "TG",
+      "annex": false,
+      "projected_oos_trades": 19.479916664256628,
+      "flagged": true
+    },
+    {
+      "id": "P-ETH-DIR-TG-G2-trend_crowding_filtered-1.0",
+      "panel": "P-ETH",
+      "taxonomy": "TG",
+      "annex": false,
+      "projected_oos_trades": 270.21922420717164,
+      "flagged": false
+    },
+    {
+      "id": "P-ETH-DIR-TG-G2-trend_crowding_filtered-0.5",
+      "panel": "P-ETH",
+      "taxonomy": "TG",
+      "annex": false,
+      "projected_oos_trades": 270.21922420717164,
+      "flagged": false
+    },
+    {
+      "id": "P-ETH-DIR-TG-G3-fade_trend-1.0",
+      "panel": "P-ETH",
+      "taxonomy": "TG",
+      "annex": false,
+      "projected_oos_trades": 19.479916664256628,
+      "flagged": true
+    },
+    {
+      "id": "P-ETH-DIR-TG-G3-fade_trend-0.5",
+      "panel": "P-ETH",
+      "taxonomy": "TG",
+      "annex": false,
+      "projected_oos_trades": 19.479916664256628,
+      "flagged": true
+    },
+    {
+      "id": "P-ETH-RISK-TG-ladder-1_1_0_0",
+      "panel": "P-ETH",
+      "taxonomy": "TG",
+      "annex": false,
+      "projected_oos_trades": 10.29666669871997,
+      "flagged": true
+    },
+    {
+      "id": "P-ETH-RISK-TG-ladder-1_1_0.5_0",
+      "panel": "P-ETH",
+      "taxonomy": "TG",
+      "annex": false,
+      "projected_oos_trades": 186.34363537100293,
+      "flagged": false
+    },
+    {
+      "id": "P-ETH-RISK-TG-ladder-0.5_1_0_0",
+      "panel": "P-ETH",
+      "taxonomy": "TG",
+      "annex": false,
+      "projected_oos_trades": 10.29666669871997,
+      "flagged": true
+    },
+    {
+      "id": "P-ETH-DIR-TH-H1-fade_ob_pos_buy_os_neg-1.0",
+      "panel": "P-ETH",
+      "taxonomy": "TH",
+      "annex": false,
+      "projected_oos_trades": 60.56786375350609,
+      "flagged": false
+    },
+    {
+      "id": "P-ETH-DIR-TH-H1-fade_ob_pos_buy_os_neg-0.5",
+      "panel": "P-ETH",
+      "taxonomy": "TH",
+      "annex": false,
+      "projected_oos_trades": 60.56786375350609,
+      "flagged": false
+    },
+    {
+      "id": "P-ETH-DIR-TH-H2-contrarian_rsi-1.0",
+      "panel": "P-ETH",
+      "taxonomy": "TH",
+      "annex": false,
+      "projected_oos_trades": 53.973922188742584,
+      "flagged": true
+    },
+    {
+      "id": "P-ETH-DIR-TH-H2-contrarian_rsi-0.5",
+      "panel": "P-ETH",
+      "taxonomy": "TH",
+      "annex": false,
+      "projected_oos_trades": 53.973922188742584,
+      "flagged": true
+    },
+    {
+      "id": "P-ETH-DIR-TH-H3-momentum_rsi-1.0",
+      "panel": "P-ETH",
+      "taxonomy": "TH",
+      "annex": false,
+      "projected_oos_trades": 53.973922188742584,
+      "flagged": true
+    },
+    {
+      "id": "P-ETH-DIR-TH-H3-momentum_rsi-0.5",
+      "panel": "P-ETH",
+      "taxonomy": "TH",
+      "annex": false,
+      "projected_oos_trades": 53.973922188742584,
+      "flagged": true
+    },
+    {
+      "id": "P-ETH-RISK-TH-ladder-1_1_0.5_1_1_0.5",
+      "panel": "P-ETH",
+      "taxonomy": "TH",
+      "annex": false,
+      "projected_oos_trades": 1.7845188718682174,
+      "flagged": true
+    },
+    {
+      "id": "P-ETH-RISK-TH-ladder-1_1_0_1_1_0",
+      "panel": "P-ETH",
+      "taxonomy": "TH",
+      "annex": false,
+      "projected_oos_trades": 45.760420079163104,
+      "flagged": true
+    },
+    {
+      "id": "P-SOL-DIR-TD-D1-fade_extremes_graded_sym-1.0",
+      "panel": "P-SOL",
+      "taxonomy": "TD",
+      "annex": false,
+      "projected_oos_trades": 479.98874765344135,
+      "flagged": false
+    },
+    {
+      "id": "P-SOL-DIR-TD-D1-fade_extremes_graded_sym-1.0-ts6",
+      "panel": "P-SOL",
+      "taxonomy": "TD",
+      "annex": false,
+      "projected_oos_trades": 577.5691424185452,
+      "flagged": false
+    },
+    {
+      "id": "P-SOL-DIR-TD-D1-fade_extremes_graded_sym-0.5",
+      "panel": "P-SOL",
+      "taxonomy": "TD",
+      "annex": false,
+      "projected_oos_trades": 479.98874765344135,
+      "flagged": false
+    },
+    {
+      "id": "P-SOL-DIR-TD-D1-fade_extremes_graded_sym-0.5-ts6",
+      "panel": "P-SOL",
+      "taxonomy": "TD",
+      "annex": false,
+      "projected_oos_trades": 577.5691424185452,
+      "flagged": false
+    },
+    {
+      "id": "P-SOL-DIR-TD-D2-fade_x_only_sym-1.0",
+      "panel": "P-SOL",
+      "taxonomy": "TD",
+      "annex": false,
+      "projected_oos_trades": 165.43659150249098,
+      "flagged": false
+    },
+    {
+      "id": "P-SOL-DIR-TD-D2-fade_x_only_sym-1.0-ts6",
+      "panel": "P-SOL",
+      "taxonomy": "TD",
+      "annex": false,
+      "projected_oos_trades": 165.43659150249098,
+      "flagged": false
+    },
+    {
+      "id": "P-SOL-DIR-TD-D2-fade_x_only_sym-0.5",
+      "panel": "P-SOL",
+      "taxonomy": "TD",
+      "annex": false,
+      "projected_oos_trades": 165.43659150249098,
+      "flagged": false
+    },
+    {
+      "id": "P-SOL-DIR-TD-D2-fade_x_only_sym-0.5-ts6",
+      "panel": "P-SOL",
+      "taxonomy": "TD",
+      "annex": false,
+      "projected_oos_trades": 165.43659150249098,
+      "flagged": false
+    },
+    {
+      "id": "P-SOL-DIR-TD-D3-follow_extremes_graded_sym-1.0",
+      "panel": "P-SOL",
+      "taxonomy": "TD",
+      "annex": false,
+      "projected_oos_trades": 479.98874765344135,
+      "flagged": false
+    },
+    {
+      "id": "P-SOL-DIR-TD-D3-follow_extremes_graded_sym-1.0-ts6",
+      "panel": "P-SOL",
+      "taxonomy": "TD",
+      "annex": false,
+      "projected_oos_trades": 577.5691424185452,
+      "flagged": false
+    },
+    {
+      "id": "P-SOL-DIR-TD-D3-follow_extremes_graded_sym-0.5",
+      "panel": "P-SOL",
+      "taxonomy": "TD",
+      "annex": false,
+      "projected_oos_trades": 479.98874765344135,
+      "flagged": false
+    },
+    {
+      "id": "P-SOL-DIR-TD-D3-follow_extremes_graded_sym-0.5-ts6",
+      "panel": "P-SOL",
+      "taxonomy": "TD",
+      "annex": false,
+      "projected_oos_trades": 577.5691424185452,
+      "flagged": false
+    },
+    {
+      "id": "P-SOL-DIR-TD-D4-follow_x_only_sym-1.0",
+      "panel": "P-SOL",
+      "taxonomy": "TD",
+      "annex": false,
+      "projected_oos_trades": 165.43659150249098,
+      "flagged": false
+    },
+    {
+      "id": "P-SOL-DIR-TD-D4-follow_x_only_sym-1.0-ts6",
+      "panel": "P-SOL",
+      "taxonomy": "TD",
+      "annex": false,
+      "projected_oos_trades": 165.43659150249098,
+      "flagged": false
+    },
+    {
+      "id": "P-SOL-DIR-TD-D4-follow_x_only_sym-0.5",
+      "panel": "P-SOL",
+      "taxonomy": "TD",
+      "annex": false,
+      "projected_oos_trades": 165.43659150249098,
+      "flagged": false
+    },
+    {
+      "id": "P-SOL-DIR-TD-D4-follow_x_only_sym-0.5-ts6",
+      "panel": "P-SOL",
+      "taxonomy": "TD",
+      "annex": false,
+      "projected_oos_trades": 165.43659150249098,
+      "flagged": false
+    },
+    {
+      "id": "P-SOL-RISK-TD-ladder-1_0.5_0_1_0.5_0",
+      "panel": "P-SOL",
+      "taxonomy": "TD",
+      "annex": false,
+      "projected_oos_trades": 165.34218978239068,
+      "flagged": false
+    },
+    {
+      "id": "P-SOL-RISK-TD-ladder-1_0.5_0_1_0.5_0-vb",
+      "panel": "P-SOL",
+      "taxonomy": "TD",
+      "annex": false,
+      "projected_oos_trades": 165.34218978239068,
+      "flagged": false
+    },
+    {
+      "id": "P-SOL-RISK-TD-ladder-1_0.5_0.25_1_0.5_0.25",
+      "panel": "P-SOL",
+      "taxonomy": "TD",
+      "annex": false,
+      "projected_oos_trades": 1.7047298040857184,
+      "flagged": true
+    },
+    {
+      "id": "P-SOL-RISK-TD-ladder-1_0.5_0.25_1_0.5_0.25-vb",
+      "panel": "P-SOL",
+      "taxonomy": "TD",
+      "annex": false,
+      "projected_oos_trades": 1.7047298040857184,
+      "flagged": true
+    },
+    {
+      "id": "P-SOL-RISK-TD-ladder-1_1_0_1_1_0",
+      "panel": "P-SOL",
+      "taxonomy": "TD",
+      "annex": false,
+      "projected_oos_trades": 165.34218978239068,
+      "flagged": false
+    },
+    {
+      "id": "P-SOL-RISK-TD-ladder-1_1_0_1_1_0-vb",
+      "panel": "P-SOL",
+      "taxonomy": "TD",
+      "annex": false,
+      "projected_oos_trades": 165.34218978239068,
+      "flagged": false
+    },
+    {
+      "id": "P-SOL-RISK-TD-ladder-1_0.5_0_1_1_0.5",
+      "panel": "P-SOL",
+      "taxonomy": "TD",
+      "annex": false,
+      "projected_oos_trades": 104.0666385912119,
+      "flagged": false
+    },
+    {
+      "id": "P-SOL-RISK-TD-ladder-1_0.5_0_1_1_0.5-vb",
+      "panel": "P-SOL",
+      "taxonomy": "TD",
+      "annex": false,
+      "projected_oos_trades": 104.0666385912119,
+      "flagged": false
+    },
+    {
+      "id": "P-SOL-DIR-TF-F1-capitulation_euphoria-1.0",
+      "panel": "P-SOL",
+      "taxonomy": "TF",
+      "annex": false,
+      "projected_oos_trades": 39.30728789440729,
+      "flagged": true
+    },
+    {
+      "id": "P-SOL-DIR-TF-F1-capitulation_euphoria-0.5",
+      "panel": "P-SOL",
+      "taxonomy": "TF",
+      "annex": false,
+      "projected_oos_trades": 39.30728789440729,
+      "flagged": true
+    },
+    {
+      "id": "P-SOL-DIR-TF-F2-contrarian_fg-1.0",
+      "panel": "P-SOL",
+      "taxonomy": "TF",
+      "annex": false,
+      "projected_oos_trades": 13.804558183961829,
+      "flagged": true
+    },
+    {
+      "id": "P-SOL-DIR-TF-F2-contrarian_fg-0.5",
+      "panel": "P-SOL",
+      "taxonomy": "TF",
+      "annex": false,
+      "projected_oos_trades": 13.804558183961829,
+      "flagged": true
+    },
+    {
+      "id": "P-SOL-DIR-TF-F3-follow_fg-1.0",
+      "panel": "P-SOL",
+      "taxonomy": "TF",
+      "annex": false,
+      "projected_oos_trades": 13.804558183961829,
+      "flagged": true
+    },
+    {
+      "id": "P-SOL-DIR-TF-F3-follow_fg-0.5",
+      "panel": "P-SOL",
+      "taxonomy": "TF",
+      "annex": false,
+      "projected_oos_trades": 13.804558183961829,
+      "flagged": true
+    },
+    {
+      "id": "P-SOL-DIR-TF-F4-euphoria_follow-1.0",
+      "panel": "P-SOL",
+      "taxonomy": "TF",
+      "annex": false,
+      "projected_oos_trades": 39.30728789440729,
+      "flagged": true
+    },
+    {
+      "id": "P-SOL-DIR-TF-F4-euphoria_follow-0.5",
+      "panel": "P-SOL",
+      "taxonomy": "TF",
+      "annex": false,
+      "projected_oos_trades": 39.30728789440729,
+      "flagged": true
+    },
+    {
+      "id": "P-SOL-RISK-TF-ladder-1_0.5_1_0.5",
+      "panel": "P-SOL",
+      "taxonomy": "TF",
+      "annex": false,
+      "projected_oos_trades": 0.6091774781186248,
+      "flagged": true
+    },
+    {
+      "id": "P-SOL-RISK-TF-ladder-0.5_1_0.5_1",
+      "panel": "P-SOL",
+      "taxonomy": "TF",
+      "annex": false,
+      "projected_oos_trades": 0.6091774781186248,
+      "flagged": true
+    },
+    {
+      "id": "P-SOL-DIR-TG-G1-follow_trend-1.0",
+      "panel": "P-SOL",
+      "taxonomy": "TG",
+      "annex": false,
+      "projected_oos_trades": 23.04206307126511,
+      "flagged": true
+    },
+    {
+      "id": "P-SOL-DIR-TG-G1-follow_trend-0.5",
+      "panel": "P-SOL",
+      "taxonomy": "TG",
+      "annex": false,
+      "projected_oos_trades": 23.04206307126511,
+      "flagged": true
+    },
+    {
+      "id": "P-SOL-DIR-TG-G2-trend_crowding_filtered-1.0",
+      "panel": "P-SOL",
+      "taxonomy": "TG",
+      "annex": false,
+      "projected_oos_trades": 277.2376372776249,
+      "flagged": false
+    },
+    {
+      "id": "P-SOL-DIR-TG-G2-trend_crowding_filtered-0.5",
+      "panel": "P-SOL",
+      "taxonomy": "TG",
+      "annex": false,
+      "projected_oos_trades": 277.2376372776249,
+      "flagged": false
+    },
+    {
+      "id": "P-SOL-DIR-TG-G3-fade_trend-1.0",
+      "panel": "P-SOL",
+      "taxonomy": "TG",
+      "annex": false,
+      "projected_oos_trades": 23.04206307126511,
+      "flagged": true
+    },
+    {
+      "id": "P-SOL-DIR-TG-G3-fade_trend-0.5",
+      "panel": "P-SOL",
+      "taxonomy": "TG",
+      "annex": false,
+      "projected_oos_trades": 23.04206307126511,
+      "flagged": true
+    },
+    {
+      "id": "P-SOL-RISK-TG-ladder-1_1_0_0",
+      "panel": "P-SOL",
+      "taxonomy": "TG",
+      "annex": false,
+      "projected_oos_trades": 11.90665830203499,
+      "flagged": true
+    },
+    {
+      "id": "P-SOL-RISK-TG-ladder-1_1_0.5_0",
+      "panel": "P-SOL",
+      "taxonomy": "TG",
+      "annex": false,
+      "projected_oos_trades": 206.96488397589255,
+      "flagged": false
+    },
+    {
+      "id": "P-SOL-RISK-TG-ladder-0.5_1_0_0",
+      "panel": "P-SOL",
+      "taxonomy": "TG",
+      "annex": false,
+      "projected_oos_trades": 11.90665830203499,
+      "flagged": true
+    },
+    {
+      "id": "P-SOL-DIR-TH-H1-fade_ob_pos_buy_os_neg-1.0",
+      "panel": "P-SOL",
+      "taxonomy": "TH",
+      "annex": false,
+      "projected_oos_trades": 72.23382978947915,
+      "flagged": false
+    },
+    {
+      "id": "P-SOL-DIR-TH-H1-fade_ob_pos_buy_os_neg-0.5",
+      "panel": "P-SOL",
+      "taxonomy": "TH",
+      "annex": false,
+      "projected_oos_trades": 72.23382978947915,
+      "flagged": false
+    },
+    {
+      "id": "P-SOL-DIR-TH-H2-contrarian_rsi-1.0",
+      "panel": "P-SOL",
+      "taxonomy": "TH",
+      "annex": false,
+      "projected_oos_trades": 61.81398490260443,
+      "flagged": false
+    },
+    {
+      "id": "P-SOL-DIR-TH-H2-contrarian_rsi-0.5",
+      "panel": "P-SOL",
+      "taxonomy": "TH",
+      "annex": false,
+      "projected_oos_trades": 61.81398490260443,
+      "flagged": false
+    },
+    {
+      "id": "P-SOL-DIR-TH-H3-momentum_rsi-1.0",
+      "panel": "P-SOL",
+      "taxonomy": "TH",
+      "annex": false,
+      "projected_oos_trades": 61.81398490260443,
+      "flagged": false
+    },
+    {
+      "id": "P-SOL-DIR-TH-H3-momentum_rsi-0.5",
+      "panel": "P-SOL",
+      "taxonomy": "TH",
+      "annex": false,
+      "projected_oos_trades": 61.81398490260443,
+      "flagged": false
+    },
+    {
+      "id": "P-SOL-RISK-TH-ladder-1_1_0.5_1_1_0.5",
+      "panel": "P-SOL",
+      "taxonomy": "TH",
+      "annex": false,
+      "projected_oos_trades": 1.7047298040857184,
+      "flagged": true
+    },
+    {
+      "id": "P-SOL-RISK-TH-ladder-1_1_0_1_1_0",
+      "panel": "P-SOL",
+      "taxonomy": "TH",
+      "annex": false,
+      "projected_oos_trades": 44.691174635433796,
+      "flagged": true
+    }
+  ]
+}

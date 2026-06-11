@@ -33,28 +33,36 @@ fold's OOS runs to the panel end. Boundary lists are registered
 constants — P-BTC/P-ETH 2021-04-01 .. 2026-04-01 (21 folds, F01..F21),
 P-SOL 2021-10-01 .. 2026-04-01 (19 folds) — with test-pinned counts.
 
-Embargo (§1, pinned): E per (panel, taxonomy) = max(42, ceil(median
-regime-episode length in bars)), the median computed on the panel's FIRST
-fold's train slice labeled with that fold's train-derived cuts
-(lab.classifiers_w). compute_embargo is the formula ONLY — the
+Embargo (§1, pinned; §13 amendment 27): E per (panel, taxonomy) =
+max(42, ceil(median NON-``na`` regime-episode length in bars)), the
+median computed on the panel's FIRST fold's train slice labeled with that
+fold's train-derived cuts (lab.classifiers_w). ``na`` episodes (the
+taxonomy's NA_LABEL_W label) are missing-feature placeholders, not regime
+episodes — they are excluded from the median, consistent with honest-N's
+regime-episode unit and the null's ``na``-freeze; if the slice holds no
+non-``na`` episodes the 42-bar floor binds (pre-repair, T-F's 100%-fg-na
+first-fold train formed ONE 2,190-bar episode and E = 2,190 structurally
+voided every T-F OOS slice). compute_embargo is the formula ONLY — the
 once-pre-OOS-contact computation run per (panel, taxonomy), and the
-artifact print of every E, live in the sweep driver. The 42-bar floor is
-expected to bind; any (panel, taxonomy) where it does not (e.g. a
-coverage-floored axis collapsing the train slice to one ``na`` episode)
+artifact print of every E, live in the sweep driver (lab/sweep_w.py). The
+42-bar floor is expected to bind; any (panel, taxonomy) where it does not
 is an R3 disclosure, not a special case here.
 """
 
 from __future__ import annotations
 
+import math
+
+import numpy as np
 import pandas as pd
 
-from lab.classifiers_w import derive_thresholds_w, label_w
+from lab.classifier import episodes
+from lab.classifiers_w import NA_LABEL_W, derive_thresholds_w, label_w
 from lab.dataset import DATA_DIR, build_panel
 from lab.features import add_features
 from lab.features_w import add_features_w
 from lab.oi_cg import join_to_bars, load_oi_cg_daily, oi_chg_24h_daily
-from lab.walkforward import Fold, _at
-from lab.walkforward import embargo_bars as _embargo_from_labels
+from lab.walkforward import EMBARGO_FLOOR_BARS, Fold, _at
 
 # Canonical asset order == §7 RNG panel_index map (P-BTC=0, P-ETH=1, P-SOL=2).
 ASSETS_W = ("BTC", "ETH", "SOL")
@@ -198,19 +206,33 @@ def w_folds(panel_index: pd.DatetimeIndex,
 
 def compute_embargo(panel: pd.DataFrame, taxonomy: str,
                     boundaries: list[pd.Timestamp]) -> int:
-    """§1 pinned embargo formula: E = max(42, ceil(median episode bars)).
+    """§1 pinned embargo formula (§13 amendment 27):
+    E = max(42, ceil(median NON-na episode bars)).
 
     The median regime-episode length is computed on the FIRST fold's train
     slice — every panel row strictly before boundaries[0] (pass the
     panel's registered W_BOUNDARIES list) — labeled by lab.classifiers_w
     with that slice's own train-derived cuts (train-only by construction,
-    R1). Floor/ceil mechanics reuse the frozen lab.walkforward.embargo_bars
-    verbatim. Function only: the sweep driver runs this once per
-    (panel, taxonomy) pre-OOS-contact and prints every E in the artifact.
+    R1), over non-``na`` episodes ONLY: episodes carrying the taxonomy's
+    NA_LABEL_W label are missing-feature placeholders, not regime
+    episodes, and are dropped before the median (amendment 27). If no
+    non-``na`` episode exists (e.g. a coverage-floored axis collapsing the
+    slice to one ``na`` episode), the 42-bar floor binds. Floor/ceil
+    mechanics mirror the frozen lab.walkforward.embargo_bars (max(42,
+    math.ceil(np.median(n_bars)))). Function only: the sweep driver runs
+    this once per (panel, taxonomy) pre-OOS-contact and prints every E in
+    the artifact.
     """
     first_boundary = _at(pd.Timestamp(boundaries[0]), panel.index)
     b_pos = panel.index.searchsorted(first_boundary, side="left")
     train = panel.iloc[:b_pos]
     cuts = derive_thresholds_w(train, taxonomy)
     labels = label_w(train, taxonomy, cuts)
-    return _embargo_from_labels(labels)
+    eps = episodes(labels)
+    na_label = NA_LABEL_W[taxonomy]
+    if not eps.empty and na_label is not None:
+        eps = eps[eps["label"] != na_label]
+    if eps.empty:
+        return EMBARGO_FLOOR_BARS
+    median = float(np.median(eps["n_bars"].to_numpy()))
+    return max(EMBARGO_FLOOR_BARS, math.ceil(median))

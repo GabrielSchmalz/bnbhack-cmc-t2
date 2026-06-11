@@ -14,10 +14,11 @@ Pinned behavior (docs/plans/2026-06-10-widening-preregistration.md):
       (21) and 2021-10-01..2026-04-01 (19) — fold counts test-pinned;
       expanding train strictly before each boundary; OOS = [boundary + E
       bars .. next boundary) on the grid, final OOS to panel end;
-      E = max(42, ceil(median episode bars)) on the FIRST fold's train
-      slice labeled with that fold's train-derived cuts; warmup rows
-      before the span start feed feature construction only, then the
-      panel is trimmed to the span.
+      E = max(42, ceil(median NON-na episode bars)) on the FIRST fold's
+      train slice labeled with that fold's train-derived cuts — na
+      episodes excluded per §13 amendment 27, the floor binding when no
+      non-na episode exists; warmup rows before the span start feed
+      feature construction only, then the panel is trimmed to the span.
   §2  bars/funding/fg per asset through the frozen build_panel +
       add_features code paths (D4.4/D4.5 conventions reused, never
       duplicated); oi_chg_24h_daily via the registered lab.oi_cg loader,
@@ -214,16 +215,41 @@ def test_embargo_uses_only_first_fold_train_slice():
     assert compute_embargo(panel, "TD", [boundary]) == 42
 
 
-def test_embargo_tf_floored_axis_is_one_na_episode():
-    # T-F train slice with zero fg coverage: the §2 coverage floor labels
-    # EVERY train bar fg-na -> a single 300-bar episode -> E = 300 (the
-    # registered formula applied verbatim; non-binding floors are an R3
-    # disclosure, not a special case here).
+def test_embargo_tf_all_na_train_slice_floor_binds():
+    # §13 amendment 27: na episodes are EXCLUDED from the embargo median —
+    # they are missing-feature placeholders, not regime episodes (frozen
+    # in the null, excluded from honest-N). A T-F train slice with zero fg
+    # coverage labels EVERY bar fg-na (one 300-bar episode here; on the
+    # real panel ONE 2,190-bar episode -> E = 2,190, structurally voiding
+    # every T-F OOS slice — the formula artifact the amendment repairs).
+    # With no non-na episodes the 42-bar floor binds.
     idx = pd.date_range("2024-01-01", periods=300, freq="4h")
     panel = pd.DataFrame(
         {"funding_rate_8h": 1e-4, "fg": np.nan}, index=idx)
     boundary = idx[-1] + FOUR_H
-    assert compute_embargo(panel, "TF", [boundary]) == 300
+    assert compute_embargo(panel, "TF", [boundary]) == 42
+
+
+def test_embargo_non_na_median_binds_above_floor():
+    # Amendment 27 keeps the non-na median binding when it exceeds the
+    # floor. T-G slice: five 108-bar labeled episodes separated/flanked by
+    # six 3-bar sma-na episodes. Non-na median = 108 -> E = 108; the
+    # all-episode median would be 3 (the 42-bar floor would bind), so this
+    # pins that na EXCLUSION, not the floor, drives E. Coverage: 558 bars
+    # = 93 UTC days, every day holds >= 3 non-NaN sma observations, so the
+    # §2 coverage floor (90 days) does not trip.
+    sma: list[float] = []
+    sign = 1.0
+    for _ in range(5):
+        sma.extend([np.nan] * 3)
+        sma.extend([sign] * 108)
+        sign = -sign
+    sma.extend([np.nan] * 3)
+    idx = pd.date_range("2024-01-01", periods=len(sma), freq="4h")
+    panel = pd.DataFrame(
+        {"funding_rate_8h": 1e-4, "close_vs_sma200_1d": sma}, index=idx)
+    boundary = idx[-1] + FOUR_H
+    assert compute_embargo(panel, "TG", [boundary]) == 108
 
 
 def test_embargo_empty_train_slice_returns_floor():
