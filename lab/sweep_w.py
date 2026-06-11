@@ -247,7 +247,7 @@ def _verdict_w(pooled10, hodl_r10, null_sharpes, ladder, trades, w,
 
 
 def _null_sharpes_w(variant, fold_ctx: list[dict],
-                    shuffles: dict[str, list[pd.Series]],
+                    shuffles: dict[str, "Sequence[pd.Series]"],
                     bars: pd.DataFrame, funding: pd.Series,
                     draws: int) -> np.ndarray:
     """Pooled null Sharpes over the common draws (frozen pooled null).
@@ -389,7 +389,7 @@ def _crash_day_counts(oos_trades: pd.DataFrame) -> dict:
 
 
 def _eval_variant_w(variant, fold_ctx: list[dict],
-                    shuffles: dict[str, list[pd.Series]],
+                    shuffles: dict[str, "Sequence[pd.Series]"],
                     bars: pd.DataFrame, funding: pd.Series,
                     funding_feat: pd.Series, hodl_r10: pd.Series,
                     pooled_oos_idx: pd.Index,
@@ -505,7 +505,7 @@ def _eval_variant_w(variant, fold_ctx: list[dict],
 
 
 def _cell_calibration(variant, fold_ctx: list[dict],
-                      shuffles: dict[str, list[pd.Series]],
+                      shuffles: dict[str, "Sequence[pd.Series]"],
                       bars: pd.DataFrame, funding: pd.Series,
                       hodl_r10: pd.Series, pooled_oos_idx: pd.Index,
                       fold_oos_idx: dict[str, pd.Index],

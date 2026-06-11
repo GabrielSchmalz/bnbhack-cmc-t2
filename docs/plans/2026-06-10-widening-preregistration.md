@@ -680,3 +680,18 @@ no OOS row of any W-panel has been evaluated).** Amendments:
     parallelize Variant evaluation with a fork pool (frozen-sweep
     precedent) — pure scheduling over pre-generated common draws, output
     byte-identical, pinned by an on/off determinism test.
+
+**2026-06-11 — post-contact implementation note (29(g) class; crash-driven,
+not result-driven).** The first production launches of the W-sweep were
+killed before writing any artifact (twice by session-cgroup teardown, twice
+by the kernel OOM killer — the eager materialization of a cell's 21×1000
+common-draw label Series measured ~15 GB). No OOS result was ever produced
+or observed by anyone. Fix: `episode_shuffles_w` now returns a lazy
+sequence (episodes/masks/permutation orders precomputed with the identical
+registered rng call sequence; each draw materialized on demand, uncached)
+— storage-level only, same draws by construction. Proof: toy-panel
+artifact sha256 identical pre/post refactor and at workers∈{1,4}
+(`39117735bfee2783ce8dbd5e972e4e5c012dacdbcbf6ec411805fa9e6a7c0ed4`);
+memory 732 MB → 13.8 MB per fold. This is the same sanctioned class as
+29(g): no registered constant, clause, seed, draw value, or evaluation
+order changed.

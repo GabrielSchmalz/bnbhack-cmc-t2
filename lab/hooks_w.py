@@ -31,9 +31,18 @@ straight in. It is re-exported here as shuffle_null_pooled_w (the same
 function object, never reimplemented; §7: clause mechanics byte-identical
 to lab/hooks.py). Frozen-artifact byte-compatibility applies only to the
 frozen 36-variant path, which keeps lab/hooks.py untouched.
+
+Memory note: episode_shuffles_w returns a lazy _EpisodeShufflesW Sequence.
+At construction it stores only the n permutation orders (n × episode-count
+ints) and the shared episode/mask/base arrays. __getitem__(i) materializes
+draw i as a fresh pd.Series on demand without caching, so at most one
+Series is live at a time during consumer loops. fork-safe: pure numpy
+state, no open file handles.
 """
 
 from __future__ import annotations
+
+from collections.abc import Sequence
 
 import numpy as np
 import pandas as pd
@@ -51,10 +60,60 @@ TAXONOMY_INDEX_W = {"T-D": 0, "T-E": 1, "T-F": 2, "T-G": 3, "T-H": 4}
 shuffle_null_pooled_w = shuffle_null_pooled
 
 
+class _EpisodeShufflesW(Sequence):
+    """Lazy read-only Sequence of na-freezing episode-shuffled pd.Series.
+
+    Stores n permutation orders (tiny int arrays) at construction and
+    materializes each draw as a fresh pd.Series in __getitem__ without
+    caching. fork-safe: pure numpy state.
+    """
+
+    __slots__ = (
+        "_index", "_base", "_na_mask", "_non_na",
+        "_ep_labels", "_ep_lengths", "_orders",
+    )
+
+    def __init__(
+        self,
+        index: pd.Index,
+        base: np.ndarray,
+        na_mask: np.ndarray,
+        non_na: np.ndarray,
+        ep_labels: np.ndarray,
+        ep_lengths: np.ndarray,
+        orders: list[np.ndarray],
+    ) -> None:
+        self._index = index
+        self._base = base
+        self._na_mask = na_mask
+        self._non_na = non_na
+        self._ep_labels = ep_labels
+        self._ep_lengths = ep_lengths
+        self._orders = orders
+
+    def __len__(self) -> int:
+        return len(self._orders)
+
+    def __getitem__(self, i):  # type: ignore[override]
+        if isinstance(i, slice):
+            return [self[j] for j in range(*i.indices(len(self)))]
+        if i < 0:
+            i += len(self)
+        if not (0 <= i < len(self)):
+            raise IndexError(i)
+        order = self._orders[i]
+        values = self._base.copy()
+        if len(self._non_na):
+            values[~self._na_mask] = np.concatenate(
+                [np.repeat(self._ep_labels[j], self._ep_lengths[j])
+                 for j in self._non_na[order]])
+        return pd.Series(values, index=self._index)
+
+
 def episode_shuffles_w(labels: pd.Series, na_labels: set[str], n: int,
                        panel_index: int, taxonomy_index: int,
-                       fold_ordinal: int) -> list[pd.Series]:
-    """Pre-generate n na-freezing episode-order-permuted label series (§7).
+                       fold_ordinal: int) -> _EpisodeShufflesW:
+    """Return a lazy n-draw na-freezing episode-order-permuted Sequence (§7).
 
     na bar positions are invariant across draws and keep their original
     labels; the non-na episodes' ORDER is permuted (one rng.permutation
@@ -62,7 +121,12 @@ def episode_shuffles_w(labels: pd.Series, na_labels: set[str], n: int,
     positions in sequence, lengths preserved. Degenerate cases follow from
     the same mechanics: all-na -> every draw equals the original series;
     zero na episodes -> the plain frozen episode shuffle under this seed
-    map. Each draw is a Series on labels.index.
+    map. Each draw is a Series on labels.index, materialized on demand.
+
+    The permutation orders are drawn sequentially from the registered rng
+    at construction time (identical seed stream to the former list-based
+    implementation), so the prefix property holds and draw values are
+    byte-identical to the previous implementation.
     """
     eps = episodes(labels)
     ep_labels = eps["label"].to_numpy(dtype=object)
@@ -75,13 +139,14 @@ def episode_shuffles_w(labels: pd.Series, na_labels: set[str], n: int,
 
     rng = np.random.default_rng(
         [NULL_SEED_W, panel_index, taxonomy_index, fold_ordinal])
-    out: list[pd.Series] = []
-    for _ in range(n):
-        order = rng.permutation(len(non_na))
-        values = base.copy()
-        if len(non_na):
-            values[~na_mask] = np.concatenate(
-                [np.repeat(ep_labels[j], ep_lengths[j])
-                 for j in non_na[order]])
-        out.append(pd.Series(values, index=labels.index))
-    return out
+    orders = [rng.permutation(len(non_na)) for _ in range(n)]
+
+    return _EpisodeShufflesW(
+        index=labels.index,
+        base=base,
+        na_mask=na_mask,
+        non_na=non_na,
+        ep_labels=ep_labels,
+        ep_lengths=ep_lengths,
+        orders=orders,
+    )
