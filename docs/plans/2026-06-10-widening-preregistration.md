@@ -659,3 +659,24 @@ no OOS row of any W-panel has been evaluated).** Amendments:
     Point snapshots for the monitor's D1 basis table are not bar-series
     evaluation contact; recorded here so the forward evaluation
     (≥ 2027-07) can disclose the full log.
+29. (execution-detail determinations, sweep driver — recorded before OOS
+    contact, all documented in `lab/sweep_w.py`'s docstring and
+    test-pinned): (a) null draws apply the Variant's FULL registered rule
+    surface (action map + time-stop + vol-band) unguarded — §3 defines
+    the dressings as variant parameters, so the like-for-like null
+    shuffles the same strategy, mirroring the frozen design's
+    strategy_fn semantics; (b) the §8 era-split clause status re-evaluates
+    the 8 clauses on era-restricted evidence against the FULL pooled-OOS
+    null quantiles (era-restricted null distributions are not
+    recomputed; noted in the artifact); (c) crash-day coincidence counts
+    use interval overlap ([entry_ts, exit_ts] intersects the UTC day);
+    (d) the per-cell calibration slot is the cell's top train-ranked
+    GATED Variant (annex excluded — it is never in the survivor pool);
+    (e) the §5 structural-feasibility projection = per-fold train trade
+    rate × OOS bar count at the 10 bps rung, unguarded; (f) the §6
+    layer-2 twin verdict compares the twin's guarded-base Sharpe to the
+    q95 of the Variant's common null draws (the sweep-level unguarded
+    substitution does not extend to a w-series twin); (g) the driver may
+    parallelize Variant evaluation with a fork pool (frozen-sweep
+    precedent) — pure scheduling over pre-generated common draws, output
+    byte-identical, pinned by an on/off determinism test.
