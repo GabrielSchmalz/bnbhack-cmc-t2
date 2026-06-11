@@ -1,0 +1,13 @@
+{
+  "jsonrpc": "2.0",
+  "id": 2,
+  "result": {
+    "content": [
+      {
+        "type": "text",
+        "text": "{\"moving_averages\":{\"simple_moving_average_7_day\":\"1,677.88\",\"simple_moving_average_30_day\":\"2,010.42\",\"simple_moving_average_200_day\":\"2,438.62\",\"exponential_moving_average_7_day\":\"1,704.45\",\"exponential_moving_average_30_day\":\"1,951.47\",\"exponential_moving_average_200_day\":\"2,428.05\"},\"macd\":{\"macdLine\":\"-145.63\",\"signalLine\":\"-119.2\",\"histogram\":\"-26.42\"},\"rsi\":{\"rsi7\":\"26.34\",\"rsi14\":\"25.74\",\"rsi21\":\"28.85\"},\"fibonacciLevels\":{\"swingHigh\":\"2,374.3\",\"swingLow\":\"1,506.51\",\"retracementLevels\":{\"50.0%\":\"1,940.4\",\"23.6%\":\"2,169.5\",\"38.2%\":\"2,042.8\",\"78.6%\":\"1,692.21\",\"61.8%\":\"1,838\"},\"extensionLevels\":{\"161.8%\":\"2,910.6\",\"127.2%\":\"2,610.34\",\"200.0%\":\"3,242.1\"}},\"pivotPoint\":\"1649.02\"}"
+      }
+    ],
+    "isError": false
+  }
+}

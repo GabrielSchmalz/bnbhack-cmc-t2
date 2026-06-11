@@ -1,0 +1,13 @@
+{
+  "jsonrpc": "2.0",
+  "id": 5,
+  "result": {
+    "content": [
+      {
+        "type": "text",
+        "text": "[{\"id\":\"5426\",\"name\":\"Solana\",\"symbol\":\"SOL\",\"slug\":\"solana\",\"price\":62.656251759482320000000000,\"rank\":7,\"turnover\":0.07543583,\"last_updated_time\":\"2026-06-10T23:10:00.000Z\",\"percent_change_1h\":0.17144114,\"percent_change_24h\":-3.49052946,\"percent_change_7d\":-12.53088410,\"percent_change_30d\":-35.64738058,\"percent_change_60d\":-26.03225541,\"percent_change_90d\":-27.78457659,\"percent_change_1y\":-61.88582198,\"percent_change_3y\":300.27045880822900,\"percent_change_all\":7369.22483799053900,\"percent_change_ytd\":-50.5714,\"market_cap\":36309753359.73,\"volume_24h\":2739056255.36914778,\"volume_change_24h\":-2.2617,\"last_updated_time_dup\":\"2026-06-10T23:10:00.000Z\",\"fully_diluted_market_cap\":39359099519.55,\"market_cap_by_total_supply\":39359099519.55000000,\"date_added\":\"2020-04-10T00:00:00.000Z\",\"total_supply\":628175136.78670180,\"self_reported_circulating_supply\":525236893.30,\"circulating_supply\":579507269.26830983,\"market_cap_percent_change_1h\":0.14760155459000,\"market_cap_percent_change_24h\":-3.4709,\"market_cap_percent_change_7d\":-12.36983038846200,\"market_cap_percent_change_30d\":-34.76778905240100,\"market_cap_percent_change_90d\":-25.73955143341300,\"market_cap_percent_change_1y\":-57.92262187596400,\"market_cap_percent_change_3y\":482.34974318710100,\"market_cap_percent_change_all\":0,\"market_cap_dominance\":1.72240000}]"
+      }
+    ],
+    "isError": false
+  }
+}

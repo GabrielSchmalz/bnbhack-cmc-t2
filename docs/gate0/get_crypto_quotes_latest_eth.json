@@ -1,0 +1,13 @@
+{
+  "jsonrpc": "2.0",
+  "id": 4,
+  "result": {
+    "content": [
+      {
+        "type": "text",
+        "text": "[{\"id\":\"1027\",\"name\":\"Ethereum\",\"symbol\":\"ETH\",\"slug\":\"ethereum\",\"price\":1612.245812312145500000000000,\"rank\":2,\"turnover\":0.06448725,\"last_updated_time\":\"2026-06-10T23:10:00.000Z\",\"percent_change_1h\":0.15907502,\"percent_change_24h\":-1.59620255,\"percent_change_7d\":-11.18319566,\"percent_change_30d\":-31.02347684,\"percent_change_60d\":-29.25749862,\"percent_change_90d\":-22.44098285,\"percent_change_1y\":-42.23993707,\"percent_change_3y\":-8.02870562012100,\"percent_change_all\":56837.23847525705100,\"percent_change_ytd\":-46.2655,\"market_cap\":194572888915.79,\"volume_24h\":12547470071.42583275,\"volume_change_24h\":-17.6466,\"last_updated_time_dup\":\"2026-06-10T23:10:00.000Z\",\"fully_diluted_market_cap\":194572888915.79,\"market_cap_by_total_supply\":194572888915.79000000,\"date_added\":\"2015-08-07T00:00:00.000Z\",\"total_supply\":120684381.64323818,\"self_reported_circulating_supply\":0,\"circulating_supply\":120684381.64323818,\"market_cap_percent_change_1h\":0.08449649951100,\"market_cap_percent_change_24h\":-1.5962,\"market_cap_percent_change_7d\":-11.18366039656000,\"market_cap_percent_change_30d\":-32.27553358990300,\"market_cap_percent_change_90d\":-20.76359269539100,\"market_cap_percent_change_1y\":-42.25824314506200,\"market_cap_percent_change_3y\":-7.67946124201000,\"market_cap_percent_change_all\":0,\"market_cap_dominance\":9.23050000}]"
+      }
+    ],
+    "isError": false
+  }
+}
