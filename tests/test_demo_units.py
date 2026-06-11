@@ -205,5 +205,10 @@ class TestCheckSpecBlock:
         assert any("not in frozen enum" in m for m in _check(spec))
 
     def test_anchor_ref_is_the_real_github_slug(self):
+        # Pin updated 2026-06-11 (FREEZE-W §3: ref now spans both
+        # falsification layers — floor §3 and the W-sweep §7 chapter).
+        from demo.validate_skill import VALIDATED_METRICS_REF
         ref = _build()["expected_behavior"]["validated_metrics_ref"]
-        assert ref == "docs/report/REPORT.md#3-falsification-chapter"
+        assert ref == VALIDATED_METRICS_REF
+        assert ref.startswith("docs/report/REPORT.md#3-falsification-chapter")
+        assert "W-sweep" in ref

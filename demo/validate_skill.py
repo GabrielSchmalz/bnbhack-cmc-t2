@@ -1,21 +1,26 @@
-# demo/validate_skill.py — plan Task 3.3: live validation of the Skill contract.
+# demo/validate_skill.py — live validation of the Skill contract (W upgrade:
+# the FREEZE-W §3 seven-tool surface; floor classifier untouched).
 #
 # Executes the SKILL.md workflow LITERALLY against the live CMC MCP server:
-#   1. initialize + tools/list — assert every `allowed-tools` entry resolves;
+#   1. initialize + tools/list — assert every `allowed-tools` entry (>= 7)
+#      resolves;
 #   2. call each tool the §2 workflow names, with the documented arguments;
 #   3. assert every payload field path the rules reference EXISTS in the live
-#      payloads (walks the documented paths, checks documented shapes);
+#      payloads (walks the documented paths, checks documented shapes; for the
+#      tabular context tools, checks the documented header columns exist);
 #   4. run the frozen TC classification on the live values;
 #   5. build the monitor spec block and validate it structurally
-#      (hand-rolled schema check — required keys, types, "validated": false);
-#   6. write docs/gate0/skill_validation_run.json.
+#      (hand-rolled schema check — required keys, types, "validated": false;
+#      schema unchanged from the floor freeze, FREEZE-W §3 amendment 6);
+#   6. write docs/gate0/skill_validation_run_w.json.
 #
 # Exit nonzero on ANY mismatch. A field that drifted from the Gate-0 dump is a
 # DRIFT mismatch: this script STOPS and reports — it never patches the Skill
 # (freeze rule G7: any threshold/enum/schema change triggers full re-validation).
 #
-# Frozen constants below are verbatim from docs/FREEZE.md §2.2/§2.3 and
-# skills/btc-funding-regime-monitor/SKILL.md §3/§4. Never print the API key.
+# Frozen constants below are verbatim from docs/FREEZE.md §2.2/§2.3,
+# docs/FREEZE-W.md §1/§3, and skills/btc-funding-regime-monitor/SKILL.md
+# §3/§4. Never print the API key.
 
 from __future__ import annotations
 
@@ -31,8 +36,9 @@ REPO = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(REPO))
 
 SKILL_MD = REPO / "skills" / "btc-funding-regime-monitor" / "SKILL.md"
-OUT_PATH = REPO / "docs" / "gate0" / "skill_validation_run.json"
+OUT_PATH = REPO / "docs" / "gate0" / "skill_validation_run_w.json"
 TOOL_PREFIX = "mcp__cmc-mcp__"
+MIN_ALLOWED_TOOLS = 7  # FREEZE-W §3 / registration §11: >= 7 verified tools
 
 # ---------------------------------------------------------------------------
 # Frozen constants (docs/FREEZE.md §2.2 — F4-train, verbatim full precision)
@@ -104,8 +110,25 @@ DISCLAIMERS = [
     ("No strategy cleared our pre-registered shipping gate (0/36 variants; "
      "expected null-clause pass-rate 0.0500). Expected-behavior notes are "
      "train-period descriptions with validated: false."),
+    # W layer (docs/FREEZE-W.md §1/§2/§3 amendment 2 — verbatim numbers)
+    ("Widened validation layer (W-freeze 2026-06-11, docs/FREEZE-W.md): 183 "
+     "registered Variants evaluated across 3 assets (~5-6-year multi-regime "
+     "OOS) under an 8-clause pre-registered gate; 4 passes = 1 effective "
+     "hypothesis, quarantined by the pre-registered hypothesis-family locks "
+     "(ship_eligible_count = 0, no Winner); 31 of 32 effective hypotheses "
+     "cleared nothing on any panel. Locked candidates are published as "
+     "falsification evidence only, validated: false. Forward registration "
+     "active: 24 Variants, OOS 2026-06-11 onward, earliest evaluation "
+     "2027-07-01."),
     "Not financial advice.",
 ]
+
+# Two-layer validation block values (floor FREEZE §6 + FREEZE-W §4 numbers)
+VALIDATION_GATE = ("floor: 0/36 variants passed; W-sweep: 4 of 183 evaluated "
+                   "= 1 effective hypothesis, family-locked; "
+                   "ship_eligible_count = 0; no Winner")
+VALIDATED_METRICS_REF = ("docs/report/REPORT.md#3-falsification-chapter and "
+                         "§7 (W-sweep falsification chapter)")
 
 # Documented field paths the SKILL.md §2 rules reference, per tool, with the
 # shape each one had in the Gate-0 dump (docs/gate0/<tool>.json).
@@ -114,25 +137,61 @@ DOCUMENTED_PATHS = {
     "get_global_metrics_latest": [
         ("leverage.funding_rate.average.current", "pct_string"),
         ("sentiment.fear_greed.current.index", "int"),
+        ("dominance.btc.current", "pct_string"),
+        ("rotation.altcoin_season.current.index", "int"),
         ("last_updated", "str"),
     ],
     "get_crypto_quotes_latest": [
         ("[0].price", "number"),
         ("[0].percent_change_24h", "number"),
+        ("[0].percent_change_7d", "number"),
         ("[0].last_updated_time", "str"),
     ],
     "get_global_crypto_derivatives_metrics": [
+        ("totalOpenInterest.current", "str"),
+        ("totalOpenInterest.percentage_change_24h", "pct_string"),
         ("fundingRate.current", "str"),
         ("btc_liquidations.total_usd_4h.total", "str"),
         ("btc_liquidations.total_usd_4h.long", "str"),
         ("btc_liquidations.total_usd_4h.short", "str"),
     ],
+    "get_crypto_technical_analysis": [
+        ("rsi.rsi14", "str"),
+        ("moving_averages.simple_moving_average_200_day", "str"),
+    ],
+    "trending_crypto_narratives": [
+        ("categoryList.headers", "list"),
+        ("categoryList.rows", "list"),
+    ],
+    "get_upcoming_macro_events": [
+        ("upcomingEventNews.headers", "list"),
+        ("upcomingEventNews.rows", "list"),
+    ],
+    "get_crypto_latest_news": [
+        ("headers", "list"),
+        ("rows", "list"),
+    ],
+}
+
+# Tabular context tools: the SKILL.md §2 display columns must exist in the
+# live header row (rows are arrays aligned to headers).
+DOCUMENTED_TABLE_COLUMNS = {
+    "trending_crypto_narratives":
+        ("categoryList.headers", ["trendingRank", "categoryName"]),
+    "get_upcoming_macro_events":
+        ("upcomingEventNews.headers", ["title", "eventDate"]),
+    "get_crypto_latest_news":
+        ("headers", ["title", "publishedAt"]),
 }
 
 TOOL_ARGS = {
     "get_global_metrics_latest": {},
     "get_crypto_quotes_latest": {"id": "1"},
     "get_global_crypto_derivatives_metrics": {},
+    "get_crypto_technical_analysis": {"id": "1"},
+    "trending_crypto_narratives": {},
+    "get_upcoming_macro_events": {},
+    "get_crypto_latest_news": {"id": "1", "limit": 5},
 }
 
 
@@ -192,6 +251,8 @@ def shape_ok(value, shape: str) -> bool:
         return isinstance(value, (int, float)) and not isinstance(value, bool)
     if shape == "str":
         return isinstance(value, str)
+    if shape == "list":
+        return isinstance(value, list)
     return False
 
 
@@ -241,8 +302,7 @@ def build_spec_block(regime: str, as_of_utc: str, snapshot: dict,
         "source": EB_SOURCE,
         **eb,
         "validated": False,
-        "validated_metrics_ref":
-            "docs/report/REPORT.md#3-falsification-chapter",
+        "validated_metrics_ref": VALIDATED_METRICS_REF,
     }
     disclaimers = list(DISCLAIMERS)
     if degraded_default:
@@ -256,7 +316,7 @@ def build_spec_block(regime: str, as_of_utc: str, snapshot: dict,
         "expected_behavior": eb_block,
         "validation": {
             "status": "null-result",
-            "gate": "0/36 variants passed",
+            "gate": VALIDATION_GATE,
             "ref": "docs/report/REPORT.md",
         },
         "disclaimers": disclaimers,
@@ -329,20 +389,23 @@ def check_spec_block(spec: dict, mismatches: list[str]) -> None:
     else:
         if val.get("status") != "null-result":
             err(f"validation.status {val.get('status')!r} != 'null-result'")
-        if val.get("gate") != "0/36 variants passed":
-            err(f"validation.gate {val.get('gate')!r} != '0/36 variants passed'")
+        if val.get("gate") != VALIDATION_GATE:
+            err(f"validation.gate {val.get('gate')!r} != the two-layer "
+                f"FREEZE/FREEZE-W string")
         if not isinstance(val.get("ref"), str):
             err("validation.ref is not a string")
 
     dis = spec.get("disclaimers")
-    if not (isinstance(dis, list) and len(dis) >= 4
+    if not (isinstance(dis, list) and len(dis) >= 5
             and all(isinstance(d, str) for d in dis)):
-        err("disclaimers is not a list of >= 4 strings")
+        err("disclaimers is not a list of >= 5 strings")
     else:
         if not any("Funding basis" in d for d in dis):
             err("mandatory D1 funding-basis disclaimer missing (SKILL.md §3.2)")
         if not any("0/36 variants" in d for d in dis):
-            err("mandatory null-result disclaimer missing")
+            err("mandatory floor null-result disclaimer missing")
+        if not any("ship_eligible_count = 0" in d for d in dis):
+            err("mandatory W-layer disclaimer missing (FREEZE-W §3)")
 
 
 def main() -> int:
@@ -357,9 +420,16 @@ def main() -> int:
 
     # -- (1) initialize + tools/list -------------------------------------
     allowed = parse_allowed_tools(SKILL_MD)
-    if len(allowed) != 3:
-        mismatches.append(f"SKILL: expected 3 allowed-tools entries, "
-                          f"parsed {len(allowed)}: {allowed}")
+    if len(allowed) < MIN_ALLOWED_TOOLS:
+        mismatches.append(f"SKILL: expected >= {MIN_ALLOWED_TOOLS} "
+                          f"allowed-tools entries (FREEZE-W §3), parsed "
+                          f"{len(allowed)}: {allowed}")
+    documented = {TOOL_PREFIX + bare for bare in TOOL_ARGS}
+    if set(allowed) != documented:
+        mismatches.append(f"SKILL: allowed-tools and the §2 documented "
+                          f"workflow disagree - allowed-only "
+                          f"{sorted(set(allowed) - documented)}, "
+                          f"workflow-only {sorted(documented - set(allowed))}")
     payloads: dict[str, object] = {}
     client = None
     if not mismatches or allowed:
@@ -435,6 +505,36 @@ def main() -> int:
                 live_values[f"{bare}:{path}"] = value
                 print(f"[3] field path ok: {bare}:{path} = {str(value)[:60]}")
 
+    # -- (3b) tabular context tools: documented display columns exist -----
+    for bare, (hdr_path, columns) in DOCUMENTED_TABLE_COLUMNS.items():
+        headers = live_values.get(f"{bare}:{hdr_path}")
+        if headers is None:
+            continue  # already reported above (tool failed or path missing)
+        for col in columns:
+            if col not in headers:
+                field_paths_ok = False
+                mismatches.append(
+                    f"DRIFT: {bare}:{hdr_path} lacks documented column "
+                    f"'{col}' (present in Gate-0 dump docs/gate0/{bare}.json)"
+                    f" - STOP: re-open freeze with the critic, do not patch "
+                    f"the Skill")
+            else:
+                print(f"[3] table column ok: {bare}:{hdr_path}[{col}]")
+        rows_path = hdr_path.rsplit(".", 1)[0] + ".rows" if "." in hdr_path \
+            else "rows"
+        rows = live_values.get(f"{bare}:{rows_path}")
+        if isinstance(rows, list) and rows and isinstance(headers, list):
+            bad = [i for i, r in enumerate(rows)
+                   if not (isinstance(r, list) and len(r) == len(headers))]
+            if bad:
+                field_paths_ok = False
+                mismatches.append(
+                    f"DRIFT: {bare}:{rows_path} rows {bad[:3]} not aligned "
+                    f"to the {len(headers)}-column header row")
+            else:
+                print(f"[3] table rows ok: {bare}:{rows_path} "
+                      f"({len(rows)} rows x {len(headers)} cols)")
+
     # -- (4) frozen classification on the live values ---------------------
     raw_funding = live_values.get(
         "get_global_metrics_latest:leverage.funding_rate.average.current")
@@ -493,6 +593,9 @@ def main() -> int:
     # -- (6) write the validation run record ------------------------------
     record = {
         "ts": as_of_utc,
+        "skill_surface": ("FREEZE-W §3 seven-tool upgrade; floor TC "
+                          "classifier/threshold/enum/schema untouched"),
+        "allowed_tools": allowed,
         "tool_results_ok": tool_results_ok,
         "field_paths_ok": field_paths_ok,
         "regime": regime,

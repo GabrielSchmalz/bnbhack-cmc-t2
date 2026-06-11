@@ -1,15 +1,24 @@
-# demo/run_demo.py — plan Task 4.2: the judge-facing one-command demo.
+# demo/run_demo.py — the judge-facing one-command demo (W upgrade: the
+# FREEZE-W §3 seven-tool surface; floor classifier untouched).
 #
 #   uv run --no-sync python demo/run_demo.py
 #
-# Does four things, live:
-#   (a) fetches the Gate-0-verified CMC MCP fields and prints a human-readable
-#       BTC funding-regime report (frozen TC taxonomy);
+# Does five things, live:
+#   (a) fetches the seven verified CMC MCP tools and prints a human-readable
+#       BTC funding-regime report (frozen TC taxonomy — classification from
+#       the single funding field, exactly as on the floor);
 #   (b) prints the fenced JSON monitor spec block exactly as SKILL.md §5
-#       specifies (no active_ruleset / entry / exit / sizing — ever);
-#   (c) prints the headline null result + gate stats from
-#       artifacts/sweep_summary.md (0/36 variants passed; that IS the result);
-#   (d) locates the report figures (equity curves etc.) and prints their paths.
+#       specifies — schema unchanged from the floor freeze (FREEZE-W §3
+#       amendment 6); no active_ruleset / entry / exit / sizing — ever;
+#   (c) prints the clearly-separated MARKET CONTEXT display section (labeled
+#       context only, never branched on: quotes, TA, derivatives OI/liqs,
+#       dominance/altseason, narratives, macro events, headlines);
+#   (d) prints the two-layer validation headline — floor null
+#       (artifacts/sweep_summary.md, 0/36) AND the W-sweep outcome
+#       (artifacts/w/sweep_results_w.json globals.r3: 4 of 183 = 1 effective
+#       hypothesis, family-locked, 0 ship-eligible, no Winner) — plus the
+#       explicitly-PENDING W gate-power slot (FREEZE-W §3 amendment 5);
+#   (e) locates the report figures (equity curves etc.) and prints their paths.
 #
 # The frozen threshold is parsed from SKILL.md (the contract of record); the
 # inline fallback constant is verbatim from docs/FREEZE.md §2.2 (F4-train q80
@@ -32,6 +41,7 @@ sys.path.insert(0, str(REPO))
 
 SKILL_MD = REPO / "skills" / "btc-funding-regime-monitor" / "SKILL.md"
 SWEEP_SUMMARY = REPO / "artifacts" / "sweep_summary.md"
+SWEEP_W_JSON = REPO / "artifacts" / "w" / "sweep_results_w.json"
 FIGS_DIR = REPO / "docs" / "report" / "figs"
 
 # Fallback frozen constant — provenance: docs/FREEZE.md §2.2 (F4-train,
@@ -104,8 +114,25 @@ DISCLAIMERS = [
     ("No strategy cleared our pre-registered shipping gate (0/36 variants; "
      "expected null-clause pass-rate 0.0500). Expected-behavior notes are "
      "train-period descriptions with validated: false."),
+    # W layer (docs/FREEZE-W.md §1/§2/§3 amendment 2 — verbatim numbers)
+    ("Widened validation layer (W-freeze 2026-06-11, docs/FREEZE-W.md): 183 "
+     "registered Variants evaluated across 3 assets (~5-6-year multi-regime "
+     "OOS) under an 8-clause pre-registered gate; 4 passes = 1 effective "
+     "hypothesis, quarantined by the pre-registered hypothesis-family locks "
+     "(ship_eligible_count = 0, no Winner); 31 of 32 effective hypotheses "
+     "cleared nothing on any panel. Locked candidates are published as "
+     "falsification evidence only, validated: false. Forward registration "
+     "active: 24 Variants, OOS 2026-06-11 onward, earliest evaluation "
+     "2027-07-01."),
     "Not financial advice.",
 ]
+
+# Two-layer validation block values (floor FREEZE §6 + FREEZE-W §4 numbers)
+VALIDATION_GATE = ("floor: 0/36 variants passed; W-sweep: 4 of 183 evaluated "
+                   "= 1 effective hypothesis, family-locked; "
+                   "ship_eligible_count = 0; no Winner")
+VALIDATED_METRICS_REF = ("docs/report/REPORT.md#3-falsification-chapter and "
+                         "§7 (W-sweep falsification chapter)")
 
 FIG_CAPTIONS = {
     "fig1_pooled_oos_equity.png": "pooled-OOS equity curves (variants vs HODL/flat)",
@@ -188,11 +215,23 @@ def classify(f, threshold: float) -> str:
     return ("pos" if sign_pos else "neg") + "-" + ("extreme" if extreme else "mild")
 
 
+# The SKILL.md §2 workflow: seven verified tools (FREEZE-W §3 / registration
+# §11). Steps 1-3 feed classification + spec block; steps 4-7 feed ONLY the
+# market-context display and are never branched on.
+TOOL_CALLS = [
+    ("get_global_metrics_latest", {}),
+    ("get_crypto_quotes_latest", {"id": "1"}),
+    ("get_global_crypto_derivatives_metrics", {}),
+    ("get_crypto_technical_analysis", {"id": "1"}),
+    ("trending_crypto_narratives", {}),
+    ("get_upcoming_macro_events", {}),
+    ("get_crypto_latest_news", {"id": "1", "limit": 5}),
+]
+
+
 def fetch_payloads():
-    """Call the three allowed tools; per-tool graceful degradation (§6)."""
-    payloads = {"get_global_metrics_latest": None,
-                "get_crypto_quotes_latest": None,
-                "get_global_crypto_derivatives_metrics": None}
+    """Call the seven allowed tools; per-tool graceful degradation (§6)."""
+    payloads = {name: None for name, _ in TOOL_CALLS}
     failures = []
     try:
         from scripts.mcp_client import McpClient
@@ -202,12 +241,10 @@ def fetch_payloads():
             raise ValueError(f"initialize returned {str(init)[:120]}")
     except Exception as e:
         failures.append(f"MCP handshake failed ({type(e).__name__}); all "
-                        f"three tools unavailable")
+                        f"seven tools unavailable")
         return payloads, failures
 
-    for name, args in [("get_global_metrics_latest", {}),
-                       ("get_crypto_quotes_latest", {"id": "1"}),
-                       ("get_global_crypto_derivatives_metrics", {})]:
+    for name, args in TOOL_CALLS:
         try:
             msg = client.call(name, args)
             result = msg["result"]
@@ -220,9 +257,30 @@ def fetch_payloads():
     return payloads, failures
 
 
+def table_rows(payload, table_path: str, columns: list[str], limit: int):
+    """Extract up to `limit` rows' named columns from a headers/rows table
+    payload (narratives / macro events / news). Returns list of dicts, or
+    None if the shape is absent (graceful failure)."""
+    base = get(payload, table_path) if table_path else payload
+    if not isinstance(base, dict):
+        return None
+    headers, rows = base.get("headers"), base.get("rows")
+    if not (isinstance(headers, list) and isinstance(rows, list)):
+        return None
+    try:
+        idx = [headers.index(c) for c in columns]
+    except ValueError:
+        return None
+    out = []
+    for row in rows[:limit]:
+        if isinstance(row, list) and len(row) == len(headers):
+            out.append({c: row[i] for c, i in zip(columns, idx)})
+    return out
+
+
 def print_sweep_headline() -> None:
     print("=" * 72)
-    print("VALIDATION HEADLINE - the result of record is a rigorous NULL")
+    print("VALIDATION LAYER 1 (floor) - a rigorous NULL (0/36)")
     print("=" * 72)
     if not SWEEP_SUMMARY.exists():
         print(f"  (artifacts/sweep_summary.md not found at {SWEEP_SUMMARY}; "
@@ -255,6 +313,73 @@ def print_sweep_headline() -> None:
     print("  Near-miss DIR-TC-H8: FAILED the pre-registered top-5-removal")
     print("  clause (its 5 best trades carried >100% of the OOS gain); see")
     print("  the falsification chapter, docs/report/REPORT.md.")
+
+
+def print_w_headline() -> None:
+    """Layer 2: the W-sweep outcome, read from the committed artifact's R3
+    block (artifacts/w/sweep_results_w.json globals.r3) plus FREEZE-W-frozen
+    context. Per FREEZE-W §3 amendment 3 (lane W-C I1), the artifact's
+    observed_null_p95_rate / observed_null_p99_rate are draw-bookkeeping
+    identities and are NEVER printed as observed clause rates."""
+    print("=" * 72)
+    print("VALIDATION LAYER 2 (W-sweep) - widened search, family-locked, "
+          "NO WINNER")
+    print("=" * 72)
+    if not SWEEP_W_JSON.exists():
+        print(f"  (artifacts/w/sweep_results_w.json not found at "
+              f"{SWEEP_W_JSON}; see docs/FREEZE-W.md for the frozen numbers)")
+        return
+    try:
+        r3 = json.loads(SWEEP_W_JSON.read_text())["globals"]["r3"]
+        reg, swept = r3["registered"], r3["swept"]
+    except (ValueError, KeyError) as e:
+        print(f"  (could not parse the R3 block: {type(e).__name__}; see "
+              f"docs/FREEZE-W.md for the frozen numbers)")
+        return
+    print(f"  Registered denominator: {reg['n_gated']} gated Variants "
+          f"(~{reg['effective_hypotheses']} effective hypotheses) + "
+          f"{reg['n_annex']} locked-annex, across 3 assets, ~5-6-year")
+    print(f"  multi-regime OOS, 8-clause gate; "
+          f"{reg['n_forward_recorded_not_evaluated']} forward Variants "
+          f"recorded, never evaluated.")
+    print(f"  Outcome (artifact R3): {swept['n_variants']} evaluated -> "
+          f"{swept['gate_pass_count']} gate passes = 1 effective hypothesis;")
+    print(f"  family_locked_count = {swept['family_locked_count']}, "
+          f"ship_eligible_count = {swept['ship_eligible_count']} -> "
+          f"NO Winner.")
+    print(f"  Expected clause-6 null passers across the gated set: "
+          f"{reg['expected_clause6_null_passers']} (rate "
+          f"{reg['expected_clause6_rate']}); observed clause-level")
+    print("  exceedances are disclosed in REPORT.md §7 (clause-3 23/175 = "
+          "13.1%, clause-6")
+    print("  8/175 nominal = 3 effective - FREEZE-W §3 amendment 3; the "
+          "artifact's")
+    print("  observed_null_p9x_rate fields are bookkeeping identities, not "
+          "observed rates).")
+    print(f"  Structural-feasibility flags (train-side, pre-OOS): "
+          f"{swept['structurally_flagged_count']} of 175 -> effective")
+    print("  denominator 110; 31 of 32 effective hypotheses cleared nothing "
+          "on any panel.")
+    print("  The one effective passer (P-BTC, T-D D1 symmetric funding fade) "
+          "was quarantined")
+    print("  by the pre-registered locks: its extremity-neutralized twin "
+          "goes net-negative")
+    print("  (layer 2) and 88.3-92.4% of its PnL sits on the locked "
+          "short-leg (layer 3).")
+    print('  The story, verbatim: "the gate found something it refuses to '
+          'ship until its')
+    print('  own published protocol is satisfiable."')
+    print("  Forward registration (active): 24 Variants, OOS 2026-06-11 "
+          "00:00 UTC onward,")
+    print("  quarterly folds, 8-clause gate; earliest evaluation 2027-07-01 "
+          "- this cycle")
+    print("  reports the registration itself, not a result.")
+    print("  W gate power statement: PENDING - the per-panel planted-edge "
+          "calibration")
+    print("  (bnbhack-wcal, 9 cells) has no readout yet; per FREEZE-W §3 "
+          "amendment 5 this")
+    print("  slot ships only after the readout (a placeholder number is "
+          "forbidden).")
 
 
 def print_figures() -> None:
@@ -291,7 +416,8 @@ def main() -> int:
           f"F4-train, frozen 2026-06-10, docs/FREEZE.md §2.2)")
     print(f"  regime enum: {', '.join(REGIME_ENUM)}")
 
-    print("\nCalling the live CMC MCP server (3 Gate-0-verified tools) ...")
+    print("\nCalling the live CMC MCP server (7 verified tools - SKILL.md §2;"
+          "\nonly get_global_metrics_latest is load-bearing) ...")
     payloads, failures = fetch_payloads()
     for name in payloads:
         status = "ok" if payloads[name] is not None else "UNAVAILABLE"
@@ -302,6 +428,10 @@ def main() -> int:
     gm = payloads["get_global_metrics_latest"]
     quotes = payloads["get_crypto_quotes_latest"]
     deriv = payloads["get_global_crypto_derivatives_metrics"]
+    ta = payloads["get_crypto_technical_analysis"]
+    narratives = payloads["trending_crypto_narratives"]
+    macro = payloads["get_upcoming_macro_events"]
+    news = payloads["get_crypto_latest_news"]
 
     raw_funding = get(gm, "leverage.funding_rate.average.current")
     f = parse_funding_pct_string(raw_funding)
@@ -312,12 +442,32 @@ def main() -> int:
     # tool succeeded, even if the funding field itself was unparseable.
     fg_index = get(gm, "sentiment.fear_greed.current.index") if gm is not None else None
     last_updated = get(gm, "last_updated")
+    btc_dominance = get(gm, "dominance.btc.current")
+    altseason_idx = get(gm, "rotation.altcoin_season.current.index")
     btc_price = get(quotes, "[0].price")
     btc_chg = get(quotes, "[0].percent_change_24h")
+    btc_chg_7d = get(quotes, "[0].percent_change_7d")
     sec_funding = get(deriv, "fundingRate.current")
+    oi_current = get(deriv, "totalOpenInterest.current")
+    oi_chg_24h = get(deriv, "totalOpenInterest.percentage_change_24h")
     liq = get(deriv, "btc_liquidations.total_usd_4h")
     liq_block = ({"total": liq.get("total"), "long": liq.get("long"),
                   "short": liq.get("short")} if isinstance(liq, dict) else None)
+    rsi14 = get(ta, "rsi.rsi14")
+    sma200 = get(ta, "moving_averages.simple_moving_average_200_day")
+    # Derived DISPLAY line only (never a clause): price side vs SMA200.
+    sma200_side = None
+    if isinstance(sma200, str) and btc_price is not None:
+        try:
+            sma200_side = ("above" if float(btc_price) >
+                           float(sma200.replace(",", "")) else "below")
+        except ValueError:
+            sma200_side = None
+    narrative_rows = table_rows(narratives, "categoryList",
+                                ["trendingRank", "categoryName"], 3)
+    macro_rows = table_rows(macro, "upcomingEventNews",
+                            ["title", "eventDate"], 3)
+    news_rows = table_rows(news, "", ["title", "publishedAt"], 3)
 
     # ----- (a) human-readable regime report (SKILL.md §5.1) --------------
     print()
@@ -346,22 +496,6 @@ def main() -> int:
         print(f"  Extremity clause: |{f:.6g}| {cmp_op} {threshold:.6g}"
               f"  ->  {band}")
     print()
-    print("  Context (display only, never branched on):")
-    print(f"    BTC price (USD):            "
-          f"{btc_price if btc_price is not None else 'unavailable (tool degraded)'}")
-    print(f"    BTC 24h change (% points):  "
-          f"{btc_chg if btc_chg is not None else 'unavailable (tool degraded)'}")
-    print(f"    Fear & Greed index:         "
-          f"{fg_index if fg_index is not None else 'unavailable (tool degraded)'}")
-    print(f"    BTC liquidations (4h):      "
-          f"{liq_block if liq_block is not None else 'unavailable (tool degraded)'}")
-    print(f"    Secondary funding field:    "
-          f"{sec_funding if sec_funding is not None else 'unavailable (tool degraded)'}"
-          f"  [unit unresolved (OPEN-1) - never used in a comparison]")
-    print(f"    global_metrics last_updated: "
-          f"{last_updated if last_updated is not None else 'unavailable'}"
-          f"  [daily stamp - no intraday freshness claim]")
-    print()
     eb = EXPECTED_BEHAVIOR[regime]
     print(f"  Expected behavior for {regime} (F4-train statistics, "
           f'"validated": false):')
@@ -377,9 +511,12 @@ def main() -> int:
     print("  the frozen threshold derives from Binance BTCUSDT 8h history.")
     print("  Sign + extremity-band comparison only (D1).")
     print()
-    print("  Validation: null result - 0/36 variants passed the pre-registered")
-    print("  shipping gate; nothing here is a validated edge. See "
-          "docs/report/REPORT.md.")
+    print("  Validation: two layers, nothing shippable - floor 0/36 variants")
+    print("  passed the pre-registered shipping gate; W-sweep 183 Variants")
+    print("  evaluated on 3 assets under an 8-clause gate, 4 passes = 1")
+    print("  effective hypothesis, family-locked, 0 ship-eligible, no Winner.")
+    print("  Nothing here is a validated edge. See docs/report/REPORT.md")
+    print("  §3 and §7.")
 
     # ----- (b) fenced JSON monitor spec block (SKILL.md §5.2) ------------
     snapshot = {
@@ -408,32 +545,89 @@ def main() -> int:
             "source": EB_SOURCE,
             **eb,
             "validated": False,
-            "validated_metrics_ref":
-                "docs/report/REPORT.md#3-falsification-chapter",
+            "validated_metrics_ref": VALIDATED_METRICS_REF,
         },
         "validation": {
             "status": "null-result",
-            "gate": "0/36 variants passed",
+            "gate": VALIDATION_GATE,
             "ref": "docs/report/REPORT.md",
         },
         "disclaimers": disclaimers,
     }
     print()
-    print("Monitor spec block (machine-readable):")
+    print("Monitor spec block (machine-readable - schema unchanged from the")
+    print("floor freeze; the new context tools never appear in this block):")
     print("```json")
     print(json.dumps(spec, indent=2))
     print("```")
     print()
 
-    # ----- (c) headline null-result + gate stats --------------------------
-    print_sweep_headline()
+    # ----- (c) market-context display (SKILL.md §5.3) --------------------
+    def show(v, suffix: str = ""):
+        return (f"{v}{suffix}" if v is not None
+                else "unavailable (tool degraded)")
+
+    print("=" * 72)
+    print("MARKET CONTEXT (display only - never branched on; nothing below")
+    print("feeds the classifier, the spec block, or any clause)")
+    print("=" * 72)
+    print("  Price / momentum (get_crypto_quotes_latest):")
+    print(f"    BTC price (USD):            {show(btc_price)}")
+    print(f"    BTC 24h change (% points):  {show(btc_chg)}")
+    print(f"    BTC 7d change (% points):   {show(btc_chg_7d)}")
+    print("  Daily technicals (get_crypto_technical_analysis, daily-only):")
+    print(f"    RSI-14 (1d):                {show(rsi14)}")
+    print(f"    SMA-200 (1d, USD):          {show(sma200)}"
+          + (f"  [price {sma200_side} SMA200 - display line, not a clause]"
+             if sma200_side else ""))
+    print("  Derivatives (get_global_crypto_derivatives_metrics):")
+    print(f"    Global open interest:       {show(oi_current)}"
+          f"  (24h change {show(oi_chg_24h)})")
+    print(f"    BTC liquidations (4h):      {show(liq_block)}")
+    print(f"    Secondary funding field:    {show(sec_funding)}"
+          f"  [unit unresolved (OPEN-1) - never used in a comparison]")
+    print("  Global sentiment / rotation (get_global_metrics_latest):")
+    print(f"    Fear & Greed index:         {show(fg_index)}")
+    print(f"    BTC dominance:              {show(btc_dominance)}"
+          f"  [Gate-0 §9: rejected as classifier input; display only]")
+    print(f"    Altcoin season index:       {show(altseason_idx)}"
+          f"  [display only]")
+    print(f"    global_metrics last_updated: {show(last_updated)}"
+          f"  [daily stamp - no intraday freshness claim]")
+    print("  Trending narratives (trending_crypto_narratives, optional):")
+    if narrative_rows:
+        for r in narrative_rows:
+            print(f"    #{r['trendingRank']}  {r['categoryName']}")
+    else:
+        print("    unavailable (optional context tool degraded - omitted)")
+    print("  Upcoming macro/regulatory events (get_upcoming_macro_events, "
+          "optional):")
+    if macro_rows:
+        for r in macro_rows:
+            print(f"    {r['eventDate']}: {str(r['title'])[:70]}")
+    else:
+        print("    unavailable (optional context tool degraded - omitted)")
+    print("  Latest BTC headlines (get_crypto_latest_news, optional):")
+    if news_rows:
+        for r in news_rows:
+            print(f"    {str(r['publishedAt'])[:20]}: {str(r['title'])[:64]}")
+    else:
+        print("    unavailable (optional context tool degraded - omitted)")
     print()
 
-    # ----- (d) report figures ---------------------------------------------
+    # ----- (d) two-layer validation headline ------------------------------
+    print_sweep_headline()
+    print()
+    print_w_headline()
+    print()
+
+    # ----- (e) report figures ---------------------------------------------
     print_figures()
     print()
-    print("Done. This monitor emits no entry/exit/sizing - the shipping gate")
-    print("refused to validate any (0/36), and that refusal is the point.")
+    print("Done. This monitor emits no entry/exit/sizing - the floor gate")
+    print("refused to validate any (0/36), the widened 8-clause gate then")
+    print("locked the one effective passer it found (0 ship-eligible), and")
+    print("that refusal is the point.")
     return 0
 
 

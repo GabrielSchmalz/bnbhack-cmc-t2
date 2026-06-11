@@ -67,6 +67,35 @@ new gate run, never an in-place edit.
    the un-registered knobs that flip the near-miss to PASS (q=(0.25,0.75),
    top-N=3) cannot be adopted retroactively.
 
+### 2.1 W-cycle context (W-freeze 2026-06-11 — no W threshold ships)
+
+The widened cycle (`docs/plans/2026-06-10-widening-preregistration.md`,
+`docs/FREEZE-W.md`) evaluated three W-panels on the 4h grid: **P-BTC** and
+**P-ETH** 2020-04-01 00:00 → 2026-06-09 20:00 (21 expanding quarterly folds),
+**P-SOL** 2020-10-01 00:00 → 2026-06-09 20:00 (19 folds). Its outcome binds
+this table in two ways:
+
+- **No W threshold ships.** The W-sweep produced NO Winner
+  (`ship_eligible_count = 0`; the one effective full-gate passer was
+  family-locked — `docs/FREEZE-W.md` §1). The monitor's consumed cut
+  therefore remains exactly the §1 floor tuple, untouched; the W-freeze
+  re-confirmed the TC classifier, threshold, enum, and emission schema
+  UNCHANGED (no G7 re-validation triggered).
+- **Where W thresholds WOULD be re-derived, if a future cycle ships one.**
+  Every W taxonomy cut is per-fold **train-derived (R1, train-only)** on the
+  relevant panel: T-D `c_hi = q60(|funding_rate_8h|)`, `c_x = q90(|f|)` on
+  each fold's train slice; T-F fear/greed = q20/q80 of F&G, train-derived;
+  T-G uses the sign of `close_vs_sma200_1d` (no cut); T-H uses fixed
+  canonical RSI bands 30/70 (not data-derived). A shipping Variant would
+  freeze its panel's FINAL-fold train numbers — the exact numbers gated on
+  that fold's OOS — mirroring the floor convention in §1, and never a
+  quantile computed on any OOS row. Embargo context: E = 42 bars bound in
+  all 13 (panel, taxonomy) cells. The only currently-registered path to a
+  W-family ship is the forward registration (24 Variants, OOS 2026-06-11
+  onward, earliest evaluation 2027-07-01, 8-clause gate) — any threshold it
+  ships would be re-derived then, under that registration, never edited in
+  here.
+
 ## 3. Funding-basis calibration (D1)
 
 The live field the monitor classifies on (`get_global_metrics_latest →
@@ -75,16 +104,26 @@ lab history behind the frozen threshold is Binance-BTC 8h funding. D1
 mandates a paired-sample calibration: a cron polls both CMC funding fields
 alongside the Binance BTCUSDT anchors ~3×/day and appends to
 `data/backfill/funding_calibration.csv`. Snapshot of that file as of
-2026-06-10:
+2026-06-11:
 
 | ts_utc | cmc_deriv_fundingRate_current | cmc_global_avg_funding_pct | binance_btc_predicted_8h_rate | binance_btc_last_settled_rate |
 |---|---|---|---|---|
 | 2026-06-10 18:39:45 | 0.00035047 | +0.0015866% | -0.00000063 | 0.00002542 |
 | 2026-06-10 18:40:14 | 0.00027104 | +0.0015866% | -0.00000079 | 0.00002542 |
 | 2026-06-10 18:41:06 | 0.00027104 | +0.0015866% | -0.00000079 | 0.00002542 |
+| 2026-06-11 00:07:04 | -0.00017369 | -0.00017872% | -0.00000442 | -0.00000811 |
+| 2026-06-11 08:07:03 | 0.00039753 | -0.00017872% | 0.00002570 | 0.00002525 |
 
-**Sample count: 3 polls**, all within 2026-06-10 18:39–18:41 UTC — effectively
-a single market snapshot sampled three times.
+**Sample count: 5 polls** — three within 2026-06-10 18:39–18:41 UTC
+(effectively a single market snapshot sampled three times) plus the first two
+scheduled cron polls on 2026-06-11.
+
+**Cron-log status note (registration §13 amendment 28).** The calibration
+cron continues appending paired point-snapshots ~3×/day, including stamps
+after the forward registration's OOS start (first: 2026-06-11 00:07 UTC,
+visible above). Point snapshots for this D1 basis table are **not**
+bar-series evaluation contact with the forward window; the amendment records
+this so the forward evaluation (≥ 2027-07) can disclose the full log.
 
 What can and cannot be concluded yet:
 
@@ -93,18 +132,26 @@ What can and cannot be concluded yet:
   derivatives-tool field `fundingRate.current` (OPEN-1 in
   `docs/gate0/GATE0-FREEZE.md` remains open for that field — which is why the
   monitor only echoes it, labeled unit-unresolved, and never compares it).
-- **Observed at this single snapshot (not evidence-grade):** the global-average
-  field (+0.0015866% = +1.5866e-05 decimal) agrees in sign with the Binance
-  last *settled* rate (+2.542e-05) but not with the Binance *predicted* next
-  rate (−6.3e-07 / −7.9e-07, essentially zero); the derivatives-tool field
-  moved 0.00035047 → 0.00027104 between polls one minute apart (and read
-  0.00069614 at the 18:23 Gate-0 dump) while the global-average string stayed
-  constant — consistent with different refresh cadences and different baskets.
+- **Observed so far (not evidence-grade):** at the 2026-06-10 snapshot the
+  global-average field (+0.0015866% = +1.5866e-05 decimal) agrees in sign
+  with the Binance last *settled* rate (+2.542e-05) but not with the Binance
+  *predicted* next rate (−6.3e-07 / −7.9e-07, essentially zero); the
+  derivatives-tool field moved 0.00035047 → 0.00027104 between polls one
+  minute apart (and read 0.00069614 at the 18:23 Gate-0 dump) while the
+  global-average string stayed constant — consistent with different refresh
+  cadences and different baskets. At the 2026-06-11 00:07 poll all four
+  fields read negative (sign agreement); at the 08:07 poll the Binance
+  anchors and the derivatives-tool field had flipped positive while the
+  global-average string still read its (daily-cadence) −0.00017872% — one
+  poll of five with a global-average vs last-settled sign disagreement,
+  consistent with the daily refresh stamp, not yet evidence of basket
+  divergence.
 - **D1 trigger, restated:** if the accumulated paired samples show sign
   disagreement on more than 10% of polls, funding clauses degrade to
-  extremity-only (no sign clause). With N=3 polls from one snapshot, that
-  assessment is **deferred**; the cron keeps appending 3×/day and this table
-  should be regenerated from the CSV before submission.
+  extremity-only (no sign clause). With N=5 polls spanning two days (and the
+  daily refresh cadence of the global-average field confounding the 08:07
+  comparison), that assessment remains **deferred**; the cron keeps appending
+  3×/day and this table should be regenerated from the CSV before submission.
 
 This calibration is exactly why the monitor's runtime comparison is restricted
 to sign + extremity band (scale-free forms) and why every emission carries the

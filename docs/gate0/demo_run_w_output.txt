@@ -1,0 +1,185 @@
+========================================================================
+BTC FUNDING REGIME MONITOR - live demo (skills/btc-funding-regime-monitor)
+========================================================================
+Loading frozen thresholds from SKILL.md ...
+  funding_hi_abs = 8.385600000000002e-05 (q80 of |funding_rate_8h|, F4-train, frozen 2026-06-10, docs/FREEZE.md §2.2)
+  regime enum: pos-mild, pos-extreme, neg-mild, neg-extreme
+
+Calling the live CMC MCP server (7 verified tools - SKILL.md §2;
+only get_global_metrics_latest is load-bearing) ...
+  get_global_metrics_latest: ok
+  get_crypto_quotes_latest: ok
+  get_global_crypto_derivatives_metrics: ok
+  get_crypto_technical_analysis: ok
+  trending_crypto_narratives: ok
+  get_upcoming_macro_events: ok
+  get_crypto_latest_news: ok
+
+========================================================================
+BTC funding regime: neg-mild
+========================================================================
+  Live funding (CMC global average): -0.00017872%  ->  decimal -1.7872e-06
+  Sign clause:      f = -1.7872e-06 < 0  ->  neg
+  Extremity clause: |-1.7872e-06| < 8.3856e-05  ->  mild
+
+  Expected behavior for neg-mild (F4-train statistics, "validated": false):
+    386 bars (17.7% of F4-train), 100 episodes, median episode 2 bars
+    next-bar mean +0.067% / median +0.032% / 48.7% negative / ann. vol 0.47
+    note: Train next-bar mean +0.067% (median +0.032%). A train-period description, not a validated edge.
+
+  Funding basis: live value is the CMC global cross-venue average;
+  the frozen threshold derives from Binance BTCUSDT 8h history.
+  Sign + extremity-band comparison only (D1).
+
+  Validation: two layers, nothing shippable - floor 0/36 variants
+  passed the pre-registered shipping gate; W-sweep 183 Variants
+  evaluated on 3 assets under an 8-clause gate, 4 passes = 1
+  effective hypothesis, family-locked, 0 ship-eligible, no Winner.
+  Nothing here is a validated edge. See docs/report/REPORT.md
+  §3 and §7.
+
+Monitor spec block (machine-readable - schema unchanged from the
+floor freeze; the new context tools never appear in this block):
+```json
+{
+  "regime": "neg-mild",
+  "degraded": false,
+  "as_of_utc": "2026-06-11T08:58:39Z",
+  "signal_snapshot": {
+    "leverage.funding_rate.average.current": "-0.00017872%",
+    "funding_rate_decimal": -1.7872e-06,
+    "funding_threshold_abs": 8.385600000000002e-05,
+    "global_metrics_last_updated": "11 June 2026 12:00 AM UTC+0",
+    "sentiment.fear_greed.current.index": 16,
+    "btc_price_usd": 62854.11080943126,
+    "btc_percent_change_24h": 2.65883036,
+    "derivatives.fundingRate.current_unit_unresolved": "0.00035871",
+    "btc_liquidations.total_usd_4h": {
+      "total": "0",
+      "long": "0",
+      "short": "0"
+    },
+    "status": "ok"
+  },
+  "expected_behavior": {
+    "source": "F4-train descriptive statistics (2025-04-03..2026-04-01, 2178 bars; next-bar open-to-open convention)",
+    "bars": 386,
+    "share_pct": 17.7,
+    "episodes": 100,
+    "median_episode_len_bars": 2,
+    "next_bar_mean_return_pct": 0.067,
+    "next_bar_median_return_pct": 0.032,
+    "pct_negative": 48.7,
+    "annualized_vol": 0.47,
+    "train_funding_range": "-8.326e-05 .. -6e-08",
+    "note": "Train next-bar mean +0.067% (median +0.032%). A train-period description, not a validated edge.",
+    "validated": false,
+    "validated_metrics_ref": "docs/report/REPORT.md#3-falsification-chapter and \u00a77 (W-sweep falsification chapter)"
+  },
+  "validation": {
+    "status": "null-result",
+    "gate": "floor: 0/36 variants passed; W-sweep: 4 of 183 evaluated = 1 effective hypothesis, family-locked; ship_eligible_count = 0; no Winner",
+    "ref": "docs/report/REPORT.md"
+  },
+  "disclaimers": [
+    "Walk-forward provenance: pre-registered purged/embargoed walk-forward, 2025-04-03..2026-06-09, 4 folds. Taxonomy-level honest_N = 225 pooled-OOS regime episodes - a taxonomy-level count, not a strategy sample. The single near-miss candidate (DIR-TC-H8, FAILED) had an active sample of only 30 OOS trades / 92 nonzero-position OOS bars / 3 of 4 folds.",
+    "Funding basis: live value is the CMC global cross-venue average (leverage.funding_rate.average.current, % string, decimal = value/100); the frozen threshold derives from Binance BTCUSDT 8h funding history. Sign and extremity-band comparisons only - never raw-magnitude arithmetic across the two bases.",
+    "No strategy cleared our pre-registered shipping gate (0/36 variants; expected null-clause pass-rate 0.0500). Expected-behavior notes are train-period descriptions with validated: false.",
+    "Widened validation layer (W-freeze 2026-06-11, docs/FREEZE-W.md): 183 registered Variants evaluated across 3 assets (~5-6-year multi-regime OOS) under an 8-clause pre-registered gate; 4 passes = 1 effective hypothesis, quarantined by the pre-registered hypothesis-family locks (ship_eligible_count = 0, no Winner); 31 of 32 effective hypotheses cleared nothing on any panel. Locked candidates are published as falsification evidence only, validated: false. Forward registration active: 24 Variants, OOS 2026-06-11 onward, earliest evaluation 2027-07-01.",
+    "Not financial advice."
+  ]
+}
+```
+
+========================================================================
+MARKET CONTEXT (display only - never branched on; nothing below
+feeds the classifier, the spec block, or any clause)
+========================================================================
+  Price / momentum (get_crypto_quotes_latest):
+    BTC price (USD):            62854.11080943126
+    BTC 24h change (% points):  2.65883036
+    BTC 7d change (% points):   -1.11525281
+  Daily technicals (get_crypto_technical_analysis, daily-only):
+    RSI-14 (1d):                23.61
+    SMA-200 (1d, USD):          78,124.35  [price below SMA200 - display line, not a clause]
+  Derivatives (get_global_crypto_derivatives_metrics):
+    Global open interest:       379.55 B  (24h change -0.23822%)
+    BTC liquidations (4h):      {'total': '0', 'long': '0', 'short': '0'}
+    Secondary funding field:    0.00035871  [unit unresolved (OPEN-1) - never used in a comparison]
+  Global sentiment / rotation (get_global_metrics_latest):
+    Fear & Greed index:         16
+    BTC dominance:              +58.44%  [Gate-0 §9: rejected as classifier input; display only]
+    Altcoin season index:       49  [display only]
+    global_metrics last_updated: 11 June 2026 12:00 AM UTC+0  [daily stamp - no intraday freshness claim]
+  Trending narratives (trending_crypto_narratives, optional):
+    #1  Layer 1
+    #2  Binance Ecosystem
+    #3  FTX Bankruptcy Estate 
+  Upcoming macro/regulatory events (get_upcoming_macro_events, optional):
+    8 March 2028: Quantum Doomsday Clock predicts Bitcoin encryption break date
+    18 July 2026: GENIUS Act Final Rules Deadline
+    4 July 2026: White House targets July 4 for CLARITY Act signature
+  Latest BTC headlines (get_crypto_latest_news, optional):
+    31 December 2026 12:: How high will Bitcoin get in 2026? | Prediction Markets | Coinba
+    6 August 2026 12:00 : ARMA Act (Bitcoin reserve bill) is suddenly trending
+Here's  | K
+    12 June 2026 12:00 A: Подвійні інвестиції: висока прибутковість, помірний ризик Bituni
+
+========================================================================
+VALIDATION LAYER 1 (floor) - a rigorous NULL (0/36)
+========================================================================
+  0/36 variants passed the pre-registered shipping gate.
+  The Skill therefore ships as a regime MONITOR - no entry/exit/
+  sizing is emitted, ever. R3 disclosure (artifacts/sweep_summary.md):
+    variants swept: 36 (PR-8 denominator)
+    gate passes: 0
+    expected pass-rate of the null clause under the shuffle null: 0.0500 (~0.05 by construction)
+    FULL-gate pass rate over 200 null draws of the top train-ranked variant (DIR-TC-H10-short_crowded_long-0.5): 0.0150
+    TC taxonomy row (embargo / honest_N / OOS bars / episodes / HODL):
+      | TC | 42 | 225 | F1:324, F2:330, F3:312, F4:378 | F1:52, F2:48, F3:60, F4:65 | -2.10 | -0.4590 |
+  Gate power (docs/FREEZE.md §6): the unmodified pipeline passes a
+  planted edge of >= 10 bps/bar robustly, 5 bps/bar marginally -
+  the null is evidence about the data, not the machinery.
+  Near-miss DIR-TC-H8: FAILED the pre-registered top-5-removal
+  clause (its 5 best trades carried >100% of the OOS gain); see
+  the falsification chapter, docs/report/REPORT.md.
+
+========================================================================
+VALIDATION LAYER 2 (W-sweep) - widened search, family-locked, NO WINNER
+========================================================================
+  Registered denominator: 175 gated Variants (~32 effective hypotheses) + 8 locked-annex, across 3 assets, ~5-6-year
+  multi-regime OOS, 8-clause gate; 24 forward Variants recorded, never evaluated.
+  Outcome (artifact R3): 183 evaluated -> 4 gate passes = 1 effective hypothesis;
+  family_locked_count = 4, ship_eligible_count = 0 -> NO Winner.
+  Expected clause-6 null passers across the gated set: 1.75 (rate 0.01); observed clause-level
+  exceedances are disclosed in REPORT.md §7 (clause-3 23/175 = 13.1%, clause-6
+  8/175 nominal = 3 effective - FREEZE-W §3 amendment 3; the artifact's
+  observed_null_p9x_rate fields are bookkeeping identities, not observed rates).
+  Structural-feasibility flags (train-side, pre-OOS): 65 of 175 -> effective
+  denominator 110; 31 of 32 effective hypotheses cleared nothing on any panel.
+  The one effective passer (P-BTC, T-D D1 symmetric funding fade) was quarantined
+  by the pre-registered locks: its extremity-neutralized twin goes net-negative
+  (layer 2) and 88.3-92.4% of its PnL sits on the locked short-leg (layer 3).
+  The story, verbatim: "the gate found something it refuses to ship until its
+  own published protocol is satisfiable."
+  Forward registration (active): 24 Variants, OOS 2026-06-11 00:00 UTC onward,
+  quarterly folds, 8-clause gate; earliest evaluation 2027-07-01 - this cycle
+  reports the registration itself, not a result.
+  W gate power statement: PENDING - the per-panel planted-edge calibration
+  (bnbhack-wcal, 9 cells) has no readout yet; per FREEZE-W §3 amendment 5 this
+  slot ships only after the readout (a placeholder number is forbidden).
+
+========================================================================
+REPORT FIGURES (pre-rendered by lab/report_figs.py)
+========================================================================
+  docs/report/figs/fig1_pooled_oos_equity.png  - pooled-OOS equity curves (variants vs HODL/flat)
+  docs/report/figs/fig2_h8_concentration.png  - DIR-TC-H8 top-5 trade concentration (the gate-caught FAILED candidate)
+  docs/report/figs/fig3_null_distribution.png  - episode-shuffle null distribution vs observed Sharpe
+  docs/report/figs/fig4_gate_power.png  - gate power: planted-edge calibration
+  docs/report/figs/fig5_regime_ribbon.png  - TC regime ribbon over the full-stack window
+  docs/report/figs/fig6_deep_replay.png  - failed-candidate deep-history replay (falsification context, not a track record)
+
+Done. This monitor emits no entry/exit/sizing - the floor gate
+refused to validate any (0/36), the widened 8-clause gate then
+locked the one effective passer it found (0 ship-eligible), and
+that refusal is the point.
