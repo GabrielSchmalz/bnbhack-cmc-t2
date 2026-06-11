@@ -92,6 +92,7 @@ import argparse
 import itertools
 import json
 import math
+import multiprocessing
 import os
 import time
 from pathlib import Path
@@ -594,19 +595,37 @@ def _build_fold_ctx(panel: pd.DataFrame, taxonomy: str,
     return fold_ctx
 
 
+# Fork-shared evaluation context: set in the parent right before the Pool is
+# created so the workers inherit it copy-on-write (no per-task pickling of
+# the pre-generated shuffles).
+_MP_CTX_W: dict = {}
+
+
+def _mp_eval_w(variant_id: str) -> tuple[dict, np.ndarray]:
+    c = _MP_CTX_W
+    v = c["by_id"][variant_id]
+    return _eval_variant_w(
+        v, c["fold_ctx"], c["shuffles"], c["bars"], c["funding"],
+        c["funding_feat"], c["hodl_r10"], c["pooled_oos_idx"],
+        c["fold_oos_idx"], c["covered_folds"], c["feas_packs"], c["draws"])
+
+
 def run_w_sweep(panels: tuple = ASSETS_W, draws: int = N_DRAWS_W,
                 out_dir: str = "artifacts/w", panel_loader=None, *,
                 boundaries: dict | None = None,
                 taxonomies: dict | None = None,
-                calibration_draws: int = CAL_DRAWS_W) -> dict:
+                calibration_draws: int = CAL_DRAWS_W,
+                workers: int = 1) -> dict:
     """Run the registered W-sweep and write <out_dir>/sweep_results_w.json.
 
     panels are asset codes ("BTC", "ETH", "SOL"); panel_loader(asset) ->
     panel frame (None -> panels_w.load_w_panel). boundaries / taxonomies
     override the registered W_BOUNDARIES / PANEL_TAXONOMIES_W per asset —
     TEST-INJECTION points for synthetic toys only; production runs the
-    defaults. Returns the JSON-serializable results dict (no wall-time
-    field: the artifact is byte-deterministic).
+    defaults. workers > 1 evaluates each cell's variants in a fork pool
+    (identical results, scheduling only; workers=1 is the exact serial
+    path). Returns the JSON-serializable results dict (no wall-time field:
+    the artifact is byte-deterministic).
     """
     loader = panel_loader or load_w_panel
     bmap = boundaries or W_BOUNDARIES
@@ -692,11 +711,37 @@ def run_w_sweep(panels: tuple = ASSETS_W, draws: int = N_DRAWS_W,
             null_by_id: dict[str, np.ndarray] = {}
             cell_variants = [v for v in all_w
                              if v.panel == panel_id and v.taxonomy == tax]
-            for v in cell_variants:
-                rec, ns = _eval_variant_w(
-                    v, fold_ctx, shuffles, bars, funding, funding_feat,
-                    hodl_r10, pooled_oos_idx, fold_oos_idx, covered_folds,
-                    feas_packs, draws)
+            by_id = {v.id: v for v in cell_variants}
+            if workers > 1 and len(cell_variants) > 1:
+                global _MP_CTX_W
+                _MP_CTX_W = {
+                    "by_id": by_id,
+                    "fold_ctx": fold_ctx,
+                    "shuffles": shuffles,
+                    "bars": bars,
+                    "funding": funding,
+                    "funding_feat": funding_feat,
+                    "hodl_r10": hodl_r10,
+                    "pooled_oos_idx": pooled_oos_idx,
+                    "fold_oos_idx": fold_oos_idx,
+                    "covered_folds": covered_folds,
+                    "feas_packs": feas_packs,
+                    "draws": draws,
+                }
+                mp = multiprocessing.get_context("fork")
+                with mp.Pool(min(workers, len(cell_variants))) as pool:
+                    evaluated = pool.map(_mp_eval_w,
+                                         [v.id for v in cell_variants])
+                _MP_CTX_W = {}
+            else:
+                evaluated = [
+                    _eval_variant_w(
+                        v, fold_ctx, shuffles, bars, funding, funding_feat,
+                        hodl_r10, pooled_oos_idx, fold_oos_idx, covered_folds,
+                        feas_packs, draws)
+                    for v in cell_variants
+                ]
+            for v, (rec, ns) in zip(cell_variants, evaluated):
                 records.append(rec)
                 cell_records.append(rec)
                 null_by_id[v.id] = ns
@@ -715,7 +760,6 @@ def run_w_sweep(panels: tuple = ASSETS_W, draws: int = N_DRAWS_W,
             top = min(gated, key=lambda r: (-r["rank_key"],
                                             r["train_max_dd_mean"],
                                             r["id"]))
-            by_id = {v.id: v for v in cell_variants}
             cal = _cell_calibration(
                 by_id[top["id"]], fold_ctx, shuffles, bars, funding,
                 hodl_r10, pooled_oos_idx, fold_oos_idx, covered_folds,
@@ -895,6 +939,10 @@ def main(argv: list[str] | None = None) -> None:
     parser.add_argument(
         "--calibration-draws", type=int, default=CAL_DRAWS_W,
         help="per-cell full-gate calibration draws (registered >= 200)")
+    parser.add_argument(
+        "--jobs", type=int, default=min(8, os.cpu_count() or 1),
+        help="fork-pool workers for per-variant evaluation within each cell "
+             "(results are identical to --jobs 1; scheduling only)")
     args = parser.parse_args(argv)
 
     if args.feasibility:
@@ -920,7 +968,8 @@ def main(argv: list[str] | None = None) -> None:
 
     t0 = time.perf_counter()
     results = run_w_sweep(draws=args.draws, out_dir=args.out_dir,
-                          calibration_draws=args.calibration_draws)
+                          calibration_draws=args.calibration_draws,
+                          workers=args.jobs)
     n = len(results["variants"])
     passes = sum(r["verdict"]["passed"] for r in results["variants"])
     print(f"[sweep_w] done in {time.perf_counter() - t0:.1f}s "

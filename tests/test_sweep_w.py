@@ -118,6 +118,28 @@ def test_full_path_deterministic_twice(sweep_run, tmp_path_factory):
     assert text_a == text_b          # byte-identical artifacts
 
 
+def test_parallel_byte_identical_to_serial(sweep_run, tmp_path_factory):
+    """workers=1 and workers=4 must produce byte-identical artifact JSON.
+
+    Amendment 29(g): fork-pool parallelism is pure scheduling over
+    pre-generated common draws; output is byte-deterministic.
+    """
+    _, out_serial = sweep_run        # workers=1 (default)
+    out_par = tmp_path_factory.mktemp("w_sweep_par")
+    run_w_sweep(
+        panels=("BTC",),
+        draws=20,
+        out_dir=str(out_par),
+        panel_loader=_loader,
+        boundaries={"BTC": TOY_BOUNDARIES},
+        taxonomies={"BTC": TOY_TAXONOMIES},
+        workers=4,
+    )
+    text_serial = (out_serial / "sweep_results_w.json").read_text()
+    text_par = (out_par / "sweep_results_w.json").read_text()
+    assert text_serial == text_par   # byte-identical: scheduling only
+
+
 def test_artifact_matches_returned_dict(sweep_run):
     results, out = sweep_run
     on_disk = json.loads((out / "sweep_results_w.json").read_text())
