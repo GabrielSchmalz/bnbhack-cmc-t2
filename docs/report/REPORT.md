@@ -524,11 +524,14 @@ Binding inputs for this chapter: the frozen registration
 **before any OOS contact**), ADR-002
 (`docs/adr/002-deep-panels-as-gating-domains.md`), and the widening
 decision-of-record `docs/FREEZE-W.md`. Every number below is re-derivable
-from `artifacts/w/sweep_results_w.json` (committed `74e6417`), the three
-lane reports under `docs/report/adversarial/` (`w_lane1_reproduction.md`,
-`w_lane2_launch_note.md`, `w_lane3_r3_audit.md`), or the evidence
-supplement `docs/report/w_r3_supplement.md`; the path is cited next to
-each table.
+from `artifacts/w/sweep_results_w.json` (committed `74e6417`), the
+calibration artifacts under `artifacts/w/calibration/`, the four lane
+reports under `docs/report/adversarial/` (`w_lane1_reproduction.md`;
+`w_lane2_launch_note.md` — design + readout protocol, committed before
+any calibration result existed; `w_lane2_power_readout.md` — the readout
+against that protocol, sole source of the §7.5 gate-power numbers;
+`w_lane3_r3_audit.md`), or the evidence supplement
+`docs/report/w_r3_supplement.md`; the path is cited next to each table.
 
 ### 7.1 What was registered, and why — before any OOS contact
 
@@ -656,8 +659,8 @@ everywhere):
 
 P-BTC/T-D's **1,502** pooled-OOS episodes vs the floor's TC = 225 (§1):
 the widened null is evaluated on ~6.7× the floor's episode count, three
-assets, ~5–6-year multi-regime OOS, under a strictly harder gate
-(8 clauses vs 5).
+assets, ~5–6-year multi-regime panel spans (pooled OOS ≈ 4.3–4.8 years
+per panel), under a strictly harder gate (8 clauses vs 5).
 
 **Effective denominator = 110.** 65 of the 175 gated Variants were
 flagged structurally-ungateable-as-registered by the pre-registered
@@ -981,7 +984,7 @@ every-outcome commitments: ≥ 7 verified CMC tools with honest roles
 macro-events as labeled display context), F&G CMC-end-to-end, and the
 D1/D3 basis disclosures in every emission. The two-layer headline this
 report now carries: floor null (0/36) → widened search (175 gated
-Variants, 3 panels, ~5–6-year OOS, 8-clause gate) → one effective
+Variants, 3 panels, ~5–6-year spans, 8-clause gate) → one effective
 passer, quarantined by pre-registered locks → wider null everywhere
 else. *Source: `docs/FREEZE-W.md` §3.*
 

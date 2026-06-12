@@ -116,8 +116,9 @@ DISCLAIMERS = [
      "train-period descriptions with validated: false."),
     # W layer (docs/FREEZE-W.md §1/§2/§3 amendment 2 — verbatim numbers)
     ("Widened validation layer (W-freeze 2026-06-11, docs/FREEZE-W.md): 183 "
-     "registered Variants evaluated across 3 assets (~5-6-year multi-regime "
-     "OOS) under an 8-clause pre-registered gate; 4 passes = 1 effective "
+     "registered Variants evaluated across 3 assets (~5-6-year panel spans, "
+     "multi-regime pooled OOS) under an 8-clause pre-registered gate; "
+     "4 passes = 1 effective "
      "hypothesis, quarantined by the pre-registered hypothesis-family locks "
      "(ship_eligible_count = 0, no Winner); 31 of 32 effective hypotheses "
      "cleared nothing on any panel. Locked candidates are published as "
@@ -339,7 +340,7 @@ def print_w_headline() -> None:
     print(f"  Registered denominator: {reg['n_gated']} gated Variants "
           f"(~{reg['effective_hypotheses']} effective hypotheses) + "
           f"{reg['n_annex']} locked-annex, across 3 assets, ~5-6-year")
-    print(f"  multi-regime OOS, 8-clause gate; "
+    print(f"  panel spans (multi-regime pooled OOS), 8-clause gate; "
           f"{reg['n_forward_recorded_not_evaluated']} forward Variants "
           f"recorded, never evaluated.")
     print(f"  Outcome (artifact R3): {swept['n_variants']} evaluated -> "

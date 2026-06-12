@@ -1,5 +1,5 @@
 {
-  "ts": "2026-06-11T08:57:47Z",
+  "ts": "2026-06-12T02:08:40Z",
   "skill_surface": "FREEZE-W \u00a73 seven-tool upgrade; floor TC classifier/threshold/enum/schema untouched",
   "allowed_tools": [
     "mcp__cmc-mcp__get_global_metrics_latest",
@@ -16,16 +16,16 @@
   "spec_block": {
     "regime": "neg-mild",
     "degraded": false,
-    "as_of_utc": "2026-06-11T08:57:47Z",
+    "as_of_utc": "2026-06-12T02:08:40Z",
     "signal_snapshot": {
-      "leverage.funding_rate.average.current": "-0.00017872%",
-      "funding_rate_decimal": -1.7872e-06,
+      "leverage.funding_rate.average.current": "-0.00081991%",
+      "funding_rate_decimal": -8.199099999999999e-06,
       "funding_threshold_abs": 8.385600000000002e-05,
-      "global_metrics_last_updated": "11 June 2026 12:00 AM UTC+0",
-      "sentiment.fear_greed.current.index": 16,
-      "btc_price_usd": 62854.11080943126,
-      "btc_percent_change_24h": 2.65883036,
-      "derivatives.fundingRate.current_unit_unresolved": "0.0004354",
+      "global_metrics_last_updated": "12 June 2026 12:00 AM UTC+0",
+      "sentiment.fear_greed.current.index": 18,
+      "btc_price_usd": 63458.45719503385,
+      "btc_percent_change_24h": 2.17281021,
+      "derivatives.fundingRate.current_unit_unresolved": "-0.00015499",
       "btc_liquidations.total_usd_4h": {
         "total": "0",
         "long": "0",
@@ -57,7 +57,7 @@
       "Walk-forward provenance: pre-registered purged/embargoed walk-forward, 2025-04-03..2026-06-09, 4 folds. Taxonomy-level honest_N = 225 pooled-OOS regime episodes - a taxonomy-level count, not a strategy sample. The single near-miss candidate (DIR-TC-H8, FAILED) had an active sample of only 30 OOS trades / 92 nonzero-position OOS bars / 3 of 4 folds.",
       "Funding basis: live value is the CMC global cross-venue average (leverage.funding_rate.average.current, % string, decimal = value/100); the frozen threshold derives from Binance BTCUSDT 8h funding history. Sign and extremity-band comparisons only - never raw-magnitude arithmetic across the two bases.",
       "No strategy cleared our pre-registered shipping gate (0/36 variants; expected null-clause pass-rate 0.0500). Expected-behavior notes are train-period descriptions with validated: false.",
-      "Widened validation layer (W-freeze 2026-06-11, docs/FREEZE-W.md): 183 registered Variants evaluated across 3 assets (~5-6-year multi-regime OOS) under an 8-clause pre-registered gate; 4 passes = 1 effective hypothesis, quarantined by the pre-registered hypothesis-family locks (ship_eligible_count = 0, no Winner); 31 of 32 effective hypotheses cleared nothing on any panel. Locked candidates are published as falsification evidence only, validated: false. Forward registration active: 24 Variants, OOS 2026-06-11 onward, earliest evaluation 2027-07-01.",
+      "Widened validation layer (W-freeze 2026-06-11, docs/FREEZE-W.md): 183 registered Variants evaluated across 3 assets (~5-6-year panel spans, multi-regime pooled OOS) under an 8-clause pre-registered gate; 4 passes = 1 effective hypothesis, quarantined by the pre-registered hypothesis-family locks (ship_eligible_count = 0, no Winner); 31 of 32 effective hypotheses cleared nothing on any panel. Locked candidates are published as falsification evidence only, validated: false. Forward registration active: 24 Variants, OOS 2026-06-11 onward, earliest evaluation 2027-07-01.",
       "Not financial advice."
     ]
   },

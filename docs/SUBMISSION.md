@@ -17,7 +17,8 @@ pre-registered protocol in `docs/report/adversarial/w_lane2_launch_note.md` §5.
 
 **Demo video:** https://github.com/GabrielSchmalz/bnbhack-cmc-t2/blob/main/docs/demo/demo.mp4
 (live CMC MCP call → frozen classifier → regime + monitor block, then the
-falsification figures. Or run it yourself: `uv run python demo/run_demo.py`.
+falsification figures. Or run it yourself: `uv sync` then
+`uv run --no-sync python demo/run_demo.py`.
 The committed video covers the floor cycle; re-rendering it to the two-layer
 story is an operator step — see checklist.)
 
@@ -30,8 +31,9 @@ story is an operator step — see checklist.)
 > months of 4h BTC data, and got an honest null: **zero passed**, verified by a
 > bit-for-bit independent re-implementation and a planted-edge calibration.
 > Then, instead of submitting the null, we widened: ~5× the variants (183
-> evaluated), three assets (BTC/ETH/SOL), ~5–6 years of multi-regime
-> out-of-sample, the **same gate plus three stricter clauses** — pre-registered
+> evaluated), three assets (BTC/ETH/SOL), ~5–6-year multi-regime panels
+> (pooled OOS ≈ 4.3–4.8 years per panel), the **same gate plus three
+> stricter clauses** — pre-registered
 > before any OOS contact, with a quarantine lock on the one hypothesis family
 > our own deep replay had already burned. The widened gate found exactly **one
 > effective passer** — that same burned fade family wearing its registered
@@ -52,8 +54,9 @@ story is an operator step — see checklist.)
 > long/short snapshots, Deribit DVOL, CMC's own Fear & Greed series on the same
 > key as the live Skill. Both sweeps reproduce from committed CSVs — no
 > database, no API key needed: the floor in ~5 minutes
-> (`uv run python -m lab.sweep`), the 183-variant widening in ~5 hours
-> (`W_SWEEP_CONFIRM=registered uv run python -m lab.sweep_w` — the env-var
+> (`uv run --no-sync python -m lab.sweep`), the 183-variant widening in ~5
+> hours (`W_SWEEP_CONFIRM=registered uv run --no-sync python -m lab.sweep_w`
+> — the env-var
 > tripwire marks the registration's OOS-contact event). The Skill is
 > live-validated against the CMC MCP: every `allowed-tools` entry resolves,
 > every referenced field exists in live payloads (`demo/validate_skill.py`,
@@ -78,8 +81,9 @@ story is an operator step — see checklist.)
 > max |diff| = 0.0, an R3/era/null-mechanics audit, and a planted-edge power
 > calibration of the W-panel gate — nine cells (3 panels × 5/10/25 bps/bar)
 > through the unmodified pipeline: **BTC detects a planted conditional edge
-> at 5 bps/bar robustly** (all aligned dressings pass all 8 clauses, top
-> train rank, every rung), ETH and SOL only at 25 bps/bar marginally — so
+> at 5 bps/bar robustly** (all four aligned dressings pass all 8 clauses and
+> the aligned family holds top train rank, every rung), ETH and SOL only at
+> 25 bps/bar marginally — so
 > the entry reports its ETH/SOL nulls as constraining only ≳ 25 bps/bar
 > edges, never as the absence of smaller ones. The calibration's one adverse
 > finding is disclosed rather than buried: in a planted ETH world an
@@ -126,6 +130,12 @@ live MCP read, one vendor for lab and Skill).
       protocol in `docs/report/adversarial/w_lane2_launch_note.md` §5 and
       committed as `docs/report/adversarial/w_lane2_power_readout.md`
       (9/9 cells, zero failed runs, zero unit restarts).
+- [ ] Regenerate the funding-basis calibration table in
+      `skills/btc-funding-regime-monitor/reference_table.md` from
+      `data/backfill/funding_calibration.csv` shortly before submitting (the
+      cron appends 3×/day; the committed table reflects only the first five
+      polls — the table itself prescribes this refresh), and re-assess the D1
+      sign-disagreement trigger on the accumulated sample.
 - [ ] Re-render the demo video to the two-layer story (the committed
       `docs/demo/demo.mp4` shows the floor cycle only); replace the file, or
       keep the floor video and say so in the form note. Optional: human-voiced.

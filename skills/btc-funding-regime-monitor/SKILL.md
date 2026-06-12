@@ -41,7 +41,8 @@ that refusal. Floor layer: 36 variants on this taxonomy family were swept
 through a pre-registered walk-forward shipping gate and **0 of 36 passed**
 (expected null-clause pass-rate 0.0500). Widened layer (W-freeze 2026-06-11,
 `docs/FREEZE-W.md`): **183 registered Variants** were evaluated across three
-assets (~5–6-year multi-regime OOS) under a strictly harder 8-clause gate —
+assets (~5–6-year panel spans, multi-regime pooled OOS) under a strictly
+harder 8-clause gate —
 **4 gate passes = 1 effective hypothesis, quarantined by the pre-registered
 hypothesis-family locks; `ship_eligible_count = 0`; no Winner**. The
 classifier and its thresholds remain exactly the frozen floor artifacts that
@@ -337,7 +338,7 @@ Gate-0 dump values:
     "Walk-forward provenance: pre-registered purged/embargoed walk-forward, 2025-04-03..2026-06-09, 4 folds. Taxonomy-level honest_N = 225 pooled-OOS regime episodes — a taxonomy-level count, not a strategy sample. The single near-miss candidate (DIR-TC-H8, FAILED) had an active sample of only 30 OOS trades / 92 nonzero-position OOS bars / 3 of 4 folds.",
     "Funding basis: live value is the CMC global cross-venue average (leverage.funding_rate.average.current, % string, decimal = value/100); the frozen threshold derives from Binance BTCUSDT 8h funding history. Sign and extremity-band comparisons only — never raw-magnitude arithmetic across the two bases.",
     "No strategy cleared our pre-registered shipping gate (0/36 variants; expected null-clause pass-rate 0.0500). Expected-behavior notes are train-period descriptions with validated: false.",
-    "Widened validation layer (W-freeze 2026-06-11, docs/FREEZE-W.md): 183 registered Variants evaluated across 3 assets (~5-6-year multi-regime OOS) under an 8-clause pre-registered gate; 4 passes = 1 effective hypothesis, quarantined by the pre-registered hypothesis-family locks (ship_eligible_count = 0, no Winner); 31 of 32 effective hypotheses cleared nothing on any panel. Locked candidates are published as falsification evidence only, validated: false. Forward registration active: 24 Variants, OOS 2026-06-11 onward, earliest evaluation 2027-07-01.",
+    "Widened validation layer (W-freeze 2026-06-11, docs/FREEZE-W.md): 183 registered Variants evaluated across 3 assets (~5-6-year panel spans, multi-regime pooled OOS) under an 8-clause pre-registered gate; 4 passes = 1 effective hypothesis, quarantined by the pre-registered hypothesis-family locks (ship_eligible_count = 0, no Winner); 31 of 32 effective hypotheses cleared nothing on any panel. Locked candidates are published as falsification evidence only, validated: false. Forward registration active: 24 Variants, OOS 2026-06-11 onward, earliest evaluation 2027-07-01.",
     "Not financial advice."
   ]
 }
@@ -387,7 +388,8 @@ Context-only fields never set `degraded`.
   183 registered Variants evaluated (175 gated ≈ 32 effective hypotheses
   across P-BTC/P-ETH/P-SOL + 8 locked-annex Variants reported separately; 24
   forward Variants recorded, never evaluated) under an 8-clause gate on
-  ~5–6-year multi-regime OOS. Outcome: **4 gate passes = 1 effective
+  ~5–6-year multi-regime panel spans (pooled OOS ≈ 4.3–4.8 years per
+  panel). Outcome: **4 gate passes = 1 effective
   hypothesis** (`P-BTC-DIR-TD-D1-fade_extremes_graded_sym-{0.5, 1.0, 0.5-ts6,
   1.0-ts6}` — four dressings of one structure), **all four family-locked**;
   `ship_eligible_count = 0`; **NO Winner**. **31 of 32 effective hypotheses
@@ -426,7 +428,8 @@ Context-only fields never set `degraded`.
   planted-edge calibration (`bnbhack-wcal`, 9 cells: 3 panels × rungs 5/10/25
   bps/bar, the unmodified pipeline, 9/9 cells clean) measured **P-BTC
   detection at ≥ 5 bps/bar robustly** — all four aligned dressings pass all
-  8 clauses at every rung, train rank #1 — and **P-ETH / P-SOL detection
+  8 clauses at every rung and the aligned family holds train rank #1 — and
+  **P-ETH / P-SOL detection
   only at 25 bps/bar, marginally** (never top-ranked; ETH 10 bps misses by
   one clause; SOL ≤ 10 bps undetected). The W nulls behind this Skill's
   expected-behavior notes are therefore power-qualified: informative down to

@@ -112,8 +112,9 @@ DISCLAIMERS = [
      "train-period descriptions with validated: false."),
     # W layer (docs/FREEZE-W.md §1/§2/§3 amendment 2 — verbatim numbers)
     ("Widened validation layer (W-freeze 2026-06-11, docs/FREEZE-W.md): 183 "
-     "registered Variants evaluated across 3 assets (~5-6-year multi-regime "
-     "OOS) under an 8-clause pre-registered gate; 4 passes = 1 effective "
+     "registered Variants evaluated across 3 assets (~5-6-year panel spans, "
+     "multi-regime pooled OOS) under an 8-clause pre-registered gate; "
+     "4 passes = 1 effective "
      "hypothesis, quarantined by the pre-registered hypothesis-family locks "
      "(ship_eligible_count = 0, no Winner); 31 of 32 effective hypotheses "
      "cleared nothing on any panel. Locked candidates are published as "
