@@ -9,7 +9,9 @@ registration `docs/plans/2026-06-10-widening-preregistration.md` (§6, §7,
 `docs/report/adversarial/w_lane1_reproduction.md` (lane W-A),
 `docs/report/adversarial/w_lane3_r3_audit.md` (lane W-C),
 `docs/report/adversarial/w_lane2_launch_note.md` (lane W-B — readout
-**PENDING**, §4 below) · Scratch code: `~/.cache/wr3sup/wr3sup.py`, raw
+**PENDING** at this writing, §4 below; landed 2026-06-12 as
+`w_lane2_power_readout.md`, after this supplement was complete) ·
+Scratch code: `~/.cache/wr3sup/wr3sup.py`, raw
 outputs `~/.cache/wr3sup/{out.json, run.log}` (not committed; single
 process, production lab code path).
 
@@ -256,6 +258,11 @@ statement** — the frozen floor's lane-2 power numbers (≥10 bps/bar
 robust on the 14-month panel) do **not** transfer and must not be quoted
 for W-panel detection power. The REPORT W chapter must fill its power
 slot from the W-B readout when it exists, or carry it as pending.
+
+*[2026-06-12, additive: the readout has since landed —
+`docs/report/adversarial/w_lane2_power_readout.md` — and the REPORT
+power slot is filled from it. As stated above, no number in this
+supplement depends on it.]*
 
 ## 5. Bottom line
 

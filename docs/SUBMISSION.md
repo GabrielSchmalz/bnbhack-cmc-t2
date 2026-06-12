@@ -2,9 +2,10 @@
 
 Paste-ready content for the DoraHacks form (`https://dorahacks.io/hackathon/bnbhack-twt-cmc`).
 **Operator action required: submit before 2026-06-21 12:00 UTC (target: by Jun 19).**
-**Completion gate (FREEZE-W amendment 5): the one [PENDING] slot below must be
-filled from the `bnbhack-wcal` readout before this text is pasted — a
-placeholder power statement is forbidden in the final submission.**
+**Completion gate (FREEZE-W amendment 5): SATISFIED 2026-06-12** — the
+gate-power text below is filled from the `bnbhack-wcal` readout
+(`docs/report/adversarial/w_lane2_power_readout.md`), produced against the
+pre-registered protocol in `docs/report/adversarial/w_lane2_launch_note.md` §5.
 
 ## Form fields
 
@@ -75,10 +76,17 @@ story is an operator step — see checklist.)
 > failures on both sibling assets. Three adversarial W lanes are committed: an
 > independent re-implementation matching 731 artifact scalars at
 > max |diff| = 0.0, an R3/era/null-mechanics audit, and a planted-edge power
-> calibration of the W-panel gate —
-> [PENDING — fill from the `bnbhack-wcal` readout per
-> `docs/report/adversarial/w_lane2_launch_note.md` §5 before submitting;
-> FREEZE-W amendment 5].
+> calibration of the W-panel gate — nine cells (3 panels × 5/10/25 bps/bar)
+> through the unmodified pipeline: **BTC detects a planted conditional edge
+> at 5 bps/bar robustly** (all aligned dressings pass all 8 clauses, top
+> train rank, every rung), ETH and SOL only at 25 bps/bar marginally — so
+> the entry reports its ETH/SOL nulls as constraining only ≳ 25 bps/bar
+> edges, never as the absence of smaller ones. The calibration's one adverse
+> finding is disclosed rather than buried: in a planted ETH world an
+> out-of-family trend variant came out ship-eligible with no lock layer
+> firing, so the family quarantine alone is not proof against secular-drift
+> capture — the era-split and counterfactual disclosures are the blocking
+> checks (`docs/report/adversarial/w_lane2_power_readout.md`).
 >
 > **Originality.** This is the judges' own example — "regime-detection Skill
 > that switches strategy based on derivatives positioning" — taken seriously
@@ -112,12 +120,12 @@ live MCP read, one vendor for lab and Skill).
 
 ## Operator checklist
 
-- [ ] **Completion gate (FREEZE-W amendment 5):** fill the [PENDING] W-panel
-      gate-power slot — here, in README "Cycle 2" results, and in the REPORT W
-      chapter — from the `bnbhack-wcal` readout, against the protocol in
-      `docs/report/adversarial/w_lane2_launch_note.md` §5. Check
-      `systemctl --user status bnbhack-wcal`, log `/tmp/w_cal_run.log`.
-      Submission is blocked until this is done.
+- [x] **Completion gate (FREEZE-W amendment 5): DONE 2026-06-12.** All four
+      gate-power slots (here, README "Cycle 2" results, REPORT §7.5, SKILL.md
+      §7) are filled from the `bnbhack-wcal` readout, produced against the
+      protocol in `docs/report/adversarial/w_lane2_launch_note.md` §5 and
+      committed as `docs/report/adversarial/w_lane2_power_readout.md`
+      (9/9 cells, zero failed runs, zero unit restarts).
 - [ ] Re-render the demo video to the two-layer story (the committed
       `docs/demo/demo.mp4` shows the floor cycle only); replace the file, or
       keep the floor video and say so in the form note. Optional: human-voiced.

@@ -218,6 +218,13 @@ disclosures in every emission.
    exists; the readout protocol is pinned in `w_lane2_launch_note.md` §5.
    A placeholder power statement is FORBIDDEN in the final submission;
    the readout is a **Phase-4 completion gate**.
+   *[Discharged 2026-06-12 — additive note, freeze text above unchanged:
+   the readout landed against the §5 protocol
+   (`docs/report/adversarial/w_lane2_power_readout.md`, 9/9 cells) and
+   the power slots in REPORT §7.5, README, SKILL.md and SUBMISSION are
+   filled from it. Headline: P-BTC ≥ 5 bps/bar robust; P-ETH/P-SOL
+   25 bps/bar marginal only; one disclosed lock-scope defect finding
+   (planted-world out-of-family ship-eligible escapee, P-ETH 10 bps).]*
 6. **Monitor emission schema, threshold, and enum are unchanged from
    floor FREEZE §2–§3 amendments 1–6** (train-stat provenance, no
    active_ruleset in runtime emissions, failed-candidate publication
@@ -294,6 +301,9 @@ disclosures in every emission.
   empty and is a Phase-4 completion gate (amendment 5). No number may be
   written here except from the readout against the launch note's §5
   protocol.
+  *[2026-06-12, additive: readout landed — P-BTC ≥ 5 bps/bar robust
+  (aligned family rank #1 at every rung), P-ETH/P-SOL 25 bps/bar
+  marginal only; see `docs/report/adversarial/w_lane2_power_readout.md`.]*
 
 ---
 

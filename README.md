@@ -197,18 +197,26 @@ numbers from `artifacts/w/sweep_results_w.json` (committed `74e6417`),
 | The one passer — LOCKED | `P-BTC-DIR-TD-D1-fade_extremes_graded_sym` × 4 dressings (sizes 0.5/1.0 × time-stop {none, 6}): pooled-OOS Sharpe 0.677–0.811, net +31.2% … +83.1% @ 10 bps; active sample 381–405 trades / 1,541–4,492 in-position bars |
 | Why it does not ship (lock numbers) | Layer 2: the extremity-neutralized twin is net-negative in every dressing (−3.8% / −8.3% / −4.7% / −9.8%; twin Sharpe −0.159 / −0.230, below even the null q95). Layer 3: the quarantined short leg carries **88.3–92.4%** of pooled-OOS PnL vs the 0.50 line. Transfer: the same map fails **7 of 8 clauses** on P-ETH (net −1.0% … −53.6%) and P-SOL (−41.7% … −45.2%). Era: net +25.8% … +67.0% in the replay-contaminated pre-2025-04 era vs +4.3% … +9.6% after, where the top-5 AND top-K clauses fail for all four dressings |
 | Passer marginality (quoted wherever the passers are described) | strongest dressing (1.0-ts6) clears the top-K clause by **+0.000608** net after removing its 9 best trades; max fold contribution **0.4898** vs the 0.50 fail line, driven by the 2022-Q2 Luna quarter; 7 of each dressing's OOS trades sit on the five published near-miss crash-day groups |
-| Gate power on the W-panels | **PENDING** — see note below |
+| Gate power on the W-panels (planted-edge calibration, 9/9 cells) | **P-BTC: ≥ 5 bps/bar robust** — all four aligned dressings pass all 8 clauses at every rung {5, 10, 25}, train rank #1 · **P-ETH / P-SOL: 25 bps/bar marginal only** (ETH 10 bps a one-clause near-miss; SOL ≤ 10 bps undetected) → the ETH/SOL nulls constrain only edges ≳ 25 bps/bar |
 | HODL pooled-OOS benchmark @ 10 bps (rung-invariant) | P-BTC Sharpe 0.10 / net −37.7% · P-ETH 0.22 / −41.5% · P-SOL 0.28 / −57.5% |
 
-> **PENDING — W-panel gate-power readout (FREEZE-W amendment 5: a completion
-> gate, not optional).** The planted-edge power calibration for the W-panels
-> (`bnbhack-wcal`: 3 panels × {5, 10, 25} bps/bar) was launched 2026-06-11
-> 07:14 UTC and was still running at the W freeze. This slot is filled from
-> that readout — against the protocol in
-> `docs/report/adversarial/w_lane2_launch_note.md` §5 — before submission;
-> no number is written here until then. The floor's ≥ 10 bps/bar power figure
-> was measured on the 14-month floor panel and does **not** transfer to the
-> W-panels.
+> **W-panel gate-power readout (landed 2026-06-12 — FREEZE-W amendment 5
+> completion gate satisfied).** The planted-edge calibration (`bnbhack-wcal`:
+> 3 panels × {5, 10, 25} bps/bar through the **unmodified** pipeline, 9/9
+> cells clean, zero unit restarts) measured: **P-BTC detects a planted
+> conditional edge of the registered shape robustly at 5 bps/bar** — all four
+> aligned dressings pass all 8 clauses with train rank #1 at every rung —
+> while **P-ETH and P-SOL detect only 25 bps/bar, marginally** (gate passes,
+> never top-ranked: a trend confound riding the planted secular drift
+> outranks them). The wider null is therefore power-qualified: informative
+> down to ≈ 5 bps/bar on BTC, only ≳ 25 bps/bar on ETH/SOL. One adverse
+> finding is disclosed rather than buried: in the planted ETH-10 bps world an
+> out-of-family trend variant came out **ship-eligible with no lock layer
+> firing** — the family quarantine does not block secular-drift capture; the
+> era-split and 0-rung counterfactual disclosures (which do flag it) are
+> blocking checks for any future Winner claim. All 20 aligned planted passers
+> stayed locked. Full readout against the pre-registered protocol:
+> `docs/report/adversarial/w_lane2_power_readout.md`.
 
 Frozen Skill internals (unchanged by the widening — FREEZE-W §3; no
 re-validation triggered): taxonomy **TC** (funding sign × extremity), single

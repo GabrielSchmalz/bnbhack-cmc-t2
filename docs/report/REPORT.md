@@ -882,7 +882,8 @@ the sequential guard/time-stop composition (train-only effect, rank key
 in the 3rd decimal). *Source:
 `docs/report/adversarial/w_lane1_reproduction.md`.*
 
-**Lane W-B — W-panel gate power: design launched, readout PENDING.**
+**Lane W-B — W-panel gate power: measured (readout 2026-06-12, against
+the pre-registered §5 protocol).**
 The design was recorded before any calibration result existed: lane-2
 mechanics extended to the graded symmetric map — drift aligned with D1,
 labels/funding untouched, the **unmodified** `run_w_sweep`, 9 cells =
@@ -893,18 +894,47 @@ prediction: even at 25 bps/bar an aligned passer must remain
 layer-2-locked; a ship-eligible planted passer would be a lock defect,
 not a success.
 
-> **Gate-power statement: PENDING.** The calibration unit `bnbhack-wcal`
-> was launched 2026-06-11 07:14:04 UTC and was still running at the
-> W-freeze; **no readout exists yet**. Per FREEZE-W amendment 5 a
-> placeholder power statement is forbidden: this slot is filled only
-> from the readout against the launch note's §5 protocol, and that
-> readout is a **completion gate** for this submission cycle. Until it
-> lands, the W-panels carry **no measured gate-power statement** — the
-> floor's §3.4 power numbers (≥ 10 bps/bar robust on the 14-month panel)
-> do NOT transfer to 21 folds, 8 clauses, or the other assets' vol
-> profiles, and must not be quoted for W-panel detection power.
+> **Gate-power statement (lane W-B readout, 2026-06-12).** Nine cells,
+> zero failed runs and zero unit restarts (`bnbhack-wcal`, ≈ 18.1 h;
+> full readout: `docs/report/adversarial/w_lane2_power_readout.md`).
+> **P-BTC: the W gate detects ≥ 5 bps/bar robustly** — all four D1
+> dressings pass all 8 clauses at every rung {5, 10, 25} and the
+> aligned family holds train rank #1 in all three cells (cell passes
+> 12/16/23 of 81). **P-ETH and P-SOL: 25 bps/bar, marginally** — the
+> four aligned dressings pass but never reach top train rank (a T-G
+> trend variant riding the planted secular downtrend outranks them);
+> ETH at 10 bps is a one-clause near-miss (clause 6 by −0.0849), and
+> ETH-5, SOL-5, SOL-10 are clean non-detections. The production nulls
+> are therefore power-qualified: **the P-BTC null is informative down
+> to ≈ 5 bps/bar; the ETH/SOL nulls constrain only edges ≳ 25 bps/bar
+> of this conditional shape** — an edge the machinery cannot detect
+> cannot be excluded by a null. Single-drift-seed caveat (launch note
+> §3.5) applies throughout.
+>
+> The pre-stated prediction returned **split**: all 20 aligned planted
+> passers stayed family-locked, `ship_eligible = false` (held — twin
+> Sharpe deltas +0.670 to +3.337), but the predicted layer-2 mechanism
+> failed at 25 bps (13/20 locked overall; layer 3 was the only binding
+> lock for the other seven, once by a share margin of **0.000943** over
+> the 0.50 rule), and one cell **violated** "ship_eligible must remain
+> 0": P-ETH 10 bps emitted
+> `P-ETH-DIR-TG-G2-trend_crowding_filtered-1.0` — an out-of-family
+> trend confound passing all 8 clauses with **no lock layer firing**
+> (layer-3 share 0.459). Recorded per the pre-statement as a
+> **lock-scope defect finding**, not a detection success: the §6
+> quarantine is a family quarantine and does not block secular-drift
+> capture. In that planted world the §8 era split (post-2025-04: five
+> of eight clauses fail) and the 0-rung counterfactual (the same
+> variant fails the gate on the real panel) would have disclosed the
+> escapee — those two disclosures are load-bearing, blocking checks for
+> any future Winner claim, not footnotes. R3 stability: per-cell
+> full-gate null calibration stayed at committed levels at every rung
+> (max 0.0250 ± 0.0110 vs committed 0.0200 ± 0.0099 — no false-positive
+> inflation); null quantiles rise monotonically with rung, so the
+> machine's planted-world errors run toward false negatives only.
 
 *Source: `docs/report/adversarial/w_lane2_launch_note.md`;
+`docs/report/adversarial/w_lane2_power_readout.md`;
 `docs/report/w_r3_supplement.md` §4; `docs/FREEZE-W.md` §3 amendment 5.*
 
 **Lane W-C — R3 / era / null-mechanics audit: sound.** Verdict verbatim:

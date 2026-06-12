@@ -420,12 +420,22 @@ Context-only fields never set `degraded`.
 - **Gate power.** Floor gate: calibrated by planting known regime-conditional
   edges into the real panel — the unmodified pipeline passes a true edge of
   ≥ 10 bps/bar robustly and 5 bps/bar marginally; the floor null is evidence
-  about the data, not the machinery. W gate: **PENDING** — the per-panel
+  about the data, not the machinery. W gate (readout 2026-06-12 under the
+  `docs/report/adversarial/w_lane2_launch_note.md` §5 protocol; full readout
+  `docs/report/adversarial/w_lane2_power_readout.md`): the per-panel
   planted-edge calibration (`bnbhack-wcal`, 9 cells: 3 panels × rungs 5/10/25
-  bps/bar) was launched 2026-06-11 07:14:04 UTC and has no readout at this
-  writing; per FREEZE-W §3 amendment 5 this slot ships only after the readout
-  under the `docs/report/adversarial/w_lane2_launch_note.md` §5 protocol, and
-  a placeholder number here is forbidden. This is a Phase-4 completion gate.
+  bps/bar, the unmodified pipeline, 9/9 cells clean) measured **P-BTC
+  detection at ≥ 5 bps/bar robustly** — all four aligned dressings pass all
+  8 clauses at every rung, train rank #1 — and **P-ETH / P-SOL detection
+  only at 25 bps/bar, marginally** (never top-ranked; ETH 10 bps misses by
+  one clause; SOL ≤ 10 bps undetected). The W nulls behind this Skill's
+  expected-behavior notes are therefore power-qualified: informative down to
+  ≈ 5 bps/bar on BTC, only ≳ 25 bps/bar on ETH/SOL. All 20 aligned planted
+  passers stayed family-locked; one planted ETH cell emitted a ship-eligible
+  out-of-family trend confound with no lock layer firing — disclosed as a
+  lock-scope defect finding: the family quarantine does not block
+  secular-drift capture, and the era-split / 0-rung counterfactual
+  disclosures are blocking checks for any future Winner claim.
 - **The failed floor candidate.** `DIR-TC-H8-fade_pos_extreme_only-{0.5,1.0}`
   — **FAILED**, `"validated": false` — is published in full in the report's
   falsification chapter as a gate-caught exhibit (its 5 best trades carried
