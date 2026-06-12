@@ -257,7 +257,18 @@ def _null_sharpes_w(variant, fold_ctx: list[dict],
     ride an itertools.cycle aligned with that iteration order. Only
     active (non-empty-OOS) folds are passed — matching the function's own
     internal filter — to keep the cycle aligned.
+
+    W_NULL_FAST=1 (opt-in, default OFF) routes this call — and ONLY this
+    call — through the proven-bit-identical numpy kernel
+    (lab/null_fast.py; design docs/plans/2026-06-12-null-fast-design.md,
+    proof battery tests/test_null_fast.py + scripts/prove_null_fast.sh).
+    Flag unset: the kernel is never imported and the path below runs
+    character-for-character.
     """
+    if os.environ.get("W_NULL_FAST") == "1":
+        from lab.null_fast import pooled_null_sharpes
+        return pooled_null_sharpes(variant, fold_ctx, shuffles, bars,
+                                   funding, GATE_COST_BPS, draws)
     active = [fc for fc in fold_ctx if len(fc["fold"].oos_idx)]
     if not active:
         return np.zeros(draws)
