@@ -533,6 +533,18 @@ def _cell_calibration(variant, fold_ctx: list[dict],
     active = [fc for fc in fold_ctx if len(fc["fold"].oos_idx)]
     if n_cal <= 0 or not active:
         return {"draws": 0, "full_gate_pass_rate": None, "mc_se": None}
+    # W_CAL_JOBS (opt-in, default OFF): draw-parallel calibration — design
+    # of record docs/plans/2026-06-12-cal-fast-sketch.md (Phase 1, grilled
+    # 2026-06-12, amendments B1-B13). Unset / <= 1: the serial loop below
+    # runs character-for-character. Non-integer values raise loudly (B2 —
+    # never a silent fallback).
+    jobs = int(os.environ.get("W_CAL_JOBS", "0") or 0)
+    if jobs > 1 and n_cal > 1:
+        _announce_cal_parallel()
+        return _cell_calibration_parallel(
+            variant, active, shuffles, bars, funding, hodl_r10,
+            pooled_oos_idx, fold_oos_idx, covered_folds, null_sharpes,
+            n_cal, jobs)
     passes = 0
     for i in range(n_cal):
         segs: dict[int, list[pd.Series]] = {c: [] for c in COST_RUNGS}
@@ -556,6 +568,139 @@ def _cell_calibration(variant, fold_ctx: list[dict],
             _pool_trades(trades_list), _pool(w_parts), pooled_oos_idx,
             fold_oos_idx, covered_folds)
         passes += int(verdict.passed)
+    rate = passes / n_cal
+    return {"draws": int(n_cal),
+            "full_gate_pass_rate": float(rate),
+            "mc_se": float(math.sqrt(rate * (1.0 - rate) / n_cal))}
+
+
+# --- W_CAL_JOBS draw-parallel calibration (opt-in, default OFF) -----------
+# Design of record: docs/plans/2026-06-12-cal-fast-sketch.md (Phase 1,
+# grilled 2026-06-12, amendments B1-B13; verdicts:
+# docs/plans/2026-06-12-cal-fast-grill.md). Proof battery: Layer 1
+# tests/test_cal_fast.py (exact equality incl. the ordered per-draw
+# verdict vector), Layer 2 scripts/prove_cal_fast.sh (full-cell byte-diff
+# vs the committed P-BTC_5bps artifact), plus the flag-unset standing
+# guard. Production runs keep W_CAL_JOBS unset until a future lane's
+# pre-registration cites this design + the proof artifacts (B10 — a NEW
+# claim of the amendment-29(g) scheduling-only class; 29(g) itself
+# registers the VARIANT pool and is precedent, not sanction).
+#
+# Coupling note (B1, mirroring lab/null_fast.py:40-52): _mp_cal_draw
+# duplicates the per-draw body of _cell_calibration's serial loop
+# VERBATIM, and _cell_calibration_parallel duplicates its reduction tail
+# — the serial path must stay character-for-character untouched when the
+# flag is unset, so the body is copied, never hoisted. ANY edit to the
+# serial per-draw body re-opens the equivalence claim and the proof
+# battery must re-run before the flag is used again.
+
+# Fork-shared calibration context: SEPARATE from _MP_CTX_W so the variant
+# pool's reset invariant stays untangled (B1). Set immediately before the
+# Pool is created; reset to {} before _cell_calibration_parallel returns
+# (B4 — otherwise `del shuffles, null_by_id` below is defeated and
+# ~320 MB of shuffle orders stays live per taxonomy).
+_CAL_CTX_W: dict = {}
+
+_CAL_FAST_DOC = "docs/plans/2026-06-12-cal-fast-sketch.md"
+_cal_announced = False
+
+
+def _announce_cal_parallel() -> None:
+    """One provenance line per parent process when the pool is live (B6).
+
+    Stdout only — the artifact gains no field, no key, no whitespace
+    (structurally enforced by the Layer-2 cmp)."""
+    global _cal_announced
+    if not _cal_announced:
+        print(f"[sweep_w] calibration path: parallel "
+              f"(proof: {_CAL_FAST_DOC})", flush=True)
+        _cal_announced = True
+
+
+def _mp_cal_draw(i: int) -> int:
+    """One §8 calibration draw -> int(verdict.passed) (pool worker).
+
+    Reads the fork-shared _CAL_CTX_W set by _cell_calibration_parallel.
+    The per-draw body below is a VERBATIM copy of the serial loop body in
+    _cell_calibration (coupling note above). Print-free (B3): the
+    byte-deterministic artifact is written in the parent only.
+    """
+    ctx = _CAL_CTX_W
+    variant = ctx["variant"]
+    active = ctx["active"]
+    shuffles = ctx["shuffles"]
+    bars = ctx["bars"]
+    funding = ctx["funding"]
+    hodl_r10 = ctx["hodl_r10"]
+    pooled_oos_idx = ctx["pooled_oos_idx"]
+    fold_oos_idx = ctx["fold_oos_idx"]
+    covered_folds = ctx["covered_folds"]
+    null_sharpes = ctx["null_sharpes"]
+    segs: dict[int, list[pd.Series]] = {c: [] for c in COST_RUNGS}
+    trades_list: list[pd.DataFrame] = []
+    w_parts: list[pd.Series] = []
+    for fc in active:
+        f = fc["fold"]
+        w = _strategy_w(variant, shuffles[f.name][i], fc["hot"])
+        for c in COST_RUNGS:
+            res = run_backtest(bars, w, funding, float(c))
+            segs[c].append(_restrict(res.bar_returns, f.oos_idx))
+            if c == 10:
+                trades_list.append(
+                    res.trades[res.trades["entry_ts"].isin(f.oos_idx)])
+                w_parts.append(_restrict(w, f.oos_idx))
+    ladder = {c: {"net_return_oos": _net_return(_pool(segs[c])),
+                  "sharpe_oos": sharpe(_pool(segs[c]))}
+              for c in COST_RUNGS}
+    verdict = shipping_gate_w(
+        _pool(segs[10]), hodl_r10, null_sharpes, ladder,
+        _pool_trades(trades_list), _pool(w_parts), pooled_oos_idx,
+        fold_oos_idx, covered_folds)
+    return int(verdict.passed)
+
+
+def _cell_calibration_parallel(variant, active: list[dict], shuffles,
+                               bars: pd.DataFrame, funding: pd.Series,
+                               hodl_r10: pd.Series,
+                               pooled_oos_idx: pd.Index,
+                               fold_oos_idx: dict[str, pd.Index],
+                               covered_folds: list[str],
+                               null_sharpes: np.ndarray, n_cal: int,
+                               jobs: int) -> dict:
+    """Draw-parallel twin of _cell_calibration's serial loop (B1/B3/B4).
+
+    Scheduling only: the n_cal draws are mutually independent (draw i
+    consumes shuffles[fold][i]; no RNG, no shared-state mutation), and
+    `passes` is an order-free exact-integer sum, so the same per-draw
+    work in worker processes reduces to the same dict. Topology (B3): one
+    fresh fork pool per taxonomy (per-cell pooling is ruled out by
+    fork-snapshot semantics; the variant pool forks before null_by_id and
+    the top-gated pick exist), pool size min(jobs, n_cal), ordered
+    pool.map with explicit chunksize=1, workers return per-draw ints
+    only. rate / mc_se are pure functions of (passes, n_cal) computed in
+    the parent — duplicated VERBATIM from the serial tail (coupling note
+    above).
+    """
+    global _CAL_CTX_W
+    _CAL_CTX_W = {
+        "variant": variant,
+        "active": active,
+        "shuffles": shuffles,
+        "bars": bars,
+        "funding": funding,
+        "hodl_r10": hodl_r10,
+        "pooled_oos_idx": pooled_oos_idx,
+        "fold_oos_idx": fold_oos_idx,
+        "covered_folds": covered_folds,
+        "null_sharpes": null_sharpes,
+    }
+    try:
+        mp = multiprocessing.get_context("fork")
+        with mp.Pool(min(jobs, n_cal)) as pool:
+            per_draw = pool.map(_mp_cal_draw, range(n_cal), chunksize=1)
+    finally:
+        _CAL_CTX_W = {}                          # B4: memory hygiene
+    passes = sum(per_draw)
     rate = passes / n_cal
     return {"draws": int(n_cal),
             "full_gate_pass_rate": float(rate),
