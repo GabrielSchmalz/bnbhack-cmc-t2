@@ -17,7 +17,8 @@
 #       (artifacts/sweep_summary.md, 0/36) AND the W-sweep outcome
 #       (artifacts/w/sweep_results_w.json globals.r3: 4 of 183 = 1 effective
 #       hypothesis, family-locked, 0 ship-eligible, no Winner) — plus the
-#       explicitly-PENDING W gate-power slot (FREEZE-W §3 amendment 5);
+#       measured W gate-power statement (FREEZE-W §3 amendment 5, discharged
+#       2026-06-12 by docs/report/adversarial/w_lane2_power_readout.md);
 #   (e) locates the report figures (equity curves etc.) and prints their paths.
 #
 # The frozen threshold is parsed from SKILL.md (the contract of record); the
@@ -375,12 +376,16 @@ def print_w_headline() -> None:
     print("  quarterly folds, 8-clause gate; earliest evaluation 2027-07-01 "
           "- this cycle")
     print("  reports the registration itself, not a result.")
-    print("  W gate power statement: PENDING - the per-panel planted-edge "
-          "calibration")
-    print("  (bnbhack-wcal, 9 cells) has no readout yet; per FREEZE-W §3 "
-          "amendment 5 this")
-    print("  slot ships only after the readout (a placeholder number is "
-          "forbidden).")
+    print("  W gate power (measured 2026-06-12, planted-edge calibration, 9 "
+          "cells through")
+    print("  the unmodified pipeline): P-BTC detects a planted 5 bps/bar "
+          "edge robustly")
+    print("  (all 8 clauses, every rung); P-ETH/P-SOL only at 25 bps/bar, "
+          "marginally -")
+    print("  so the ETH/SOL nulls constrain only edges >= ~25 bps/bar, "
+          "never smaller")
+    print("  ones. Readout: docs/report/adversarial/"
+          "w_lane2_power_readout.md.")
 
 
 def print_figures() -> None:

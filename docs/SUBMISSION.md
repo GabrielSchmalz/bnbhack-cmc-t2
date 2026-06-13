@@ -16,11 +16,11 @@ pre-registered protocol in `docs/report/adversarial/w_lane2_launch_note.md` §5.
 **Repo URL:** https://github.com/GabrielSchmalz/bnbhack-cmc-t2
 
 **Demo video:** https://github.com/GabrielSchmalz/bnbhack-cmc-t2/blob/main/docs/demo/demo.mp4
-(live CMC MCP call → frozen classifier → regime + monitor block, then the
-falsification figures. Or run it yourself: `uv sync` then
-`uv run --no-sync python demo/run_demo.py`.
-The committed video covers the floor cycle; re-rendering it to the two-layer
-story is an operator step — see checklist.)
+(~105 s, two-layer story: live CMC MCP call → frozen classifier → regime +
+monitor block, then the widened-search outcome, the measured gate power, and
+the falsification figures. Recorded 2026-06-13 from a fully-live run — all 7
+tools ok. Or run it yourself: `uv sync` then
+`uv run --no-sync python demo/run_demo.py`.)
 
 **One-paragraph pitch:**
 
@@ -136,9 +136,12 @@ live MCP read, one vendor for lab and Skill).
       cron appends 3×/day; the committed table reflects only the first five
       polls — the table itself prescribes this refresh), and re-assess the D1
       sign-disagreement trigger on the accumulated sample.
-- [ ] Re-render the demo video to the two-layer story (the committed
-      `docs/demo/demo.mp4` shows the floor cycle only); replace the file, or
-      keep the floor video and say so in the form note. Optional: human-voiced.
+- [x] **Re-render the demo video to the two-layer story: DONE 2026-06-13.**
+      `docs/demo/demo.mp4` (~105 s) now covers both cycles: live 7-tool run
+      (recorded live, zero degraded tools), Cycle-2 widened-search + lock-refusal
+      cards, the measured gate-power card (adverse finding included), all six
+      report figures. Same asciinema → agg → ffmpeg pipeline as the floor video.
+      Optional remaining: human-voiced narration (operator call).
 - [ ] Submit on DoraHacks (form fields above) — **before Jun 19 for buffer**.
 - [ ] Confirm repo is public and renders (README, figures, video).
 - [ ] After the event: **rotate the CMC API key** (it transited a plaintext
