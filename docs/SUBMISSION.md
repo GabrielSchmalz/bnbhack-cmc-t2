@@ -90,7 +90,15 @@ tools ok. Or run it yourself: `uv sync` then
 > out-of-family trend variant came out ship-eligible with no lock layer
 > firing, so the family quarantine alone is not proof against secular-drift
 > capture — the era-split and counterfactual disclosures are the blocking
-> checks (`docs/report/adversarial/w_lane2_power_readout.md`).
+> checks (`docs/report/adversarial/w_lane2_power_readout.md`). The OOS
+> evidence is 19–21 purged, embargoed quarterly walk-forward folds per panel
+> under a measured-power gate — not a single tuned-once train/test split —
+> and the audit trail needs no bespoke trust layer: pre-registration before
+> OOS contact is provable from the public commit order (`b76c324` →
+> `6df12bb` → `74e6417`), the frozen floor is pinned at tag `cycle1-floor`,
+> and a forward registration (24 Variants, OOS since 2026-06-11) plus a
+> 3×/day live funding-snapshot cron have been accumulating a tamper-evident
+> forward track record since the freeze.
 >
 > **Originality.** This is the judges' own example — "regime-detection Skill
 > that switches strategy based on derivatives positioning" — taken seriously

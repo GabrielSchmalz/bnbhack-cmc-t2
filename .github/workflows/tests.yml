@@ -1,0 +1,20 @@
+name: tests
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+jobs:
+  tests:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: astral-sh/setup-uv@v5
+        with:
+          python-version: "3.12"
+      - run: uv sync
+      # The full suite is offline by construction: no test imports the MCP
+      # client or reads CMC_MCP_API_KEY. Live validation (demo/validate_skill.py)
+      # is deliberately NOT run here - it needs a key and is a separate,
+      # committed validation record (docs/gate0/skill_validation_run_w.json).
+      - run: uv run --no-sync python -m pytest -q

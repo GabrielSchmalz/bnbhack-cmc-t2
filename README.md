@@ -1,5 +1,7 @@
 # BNB HACK 2026 — Track 2: BTC Funding-Regime Monitor + Falsification-First Backtest Lab
 
+[![tests](https://github.com/GabrielSchmalz/bnbhack-cmc-t2/actions/workflows/tests.yml/badge.svg?branch=main)](https://github.com/GabrielSchmalz/bnbhack-cmc-t2/actions/workflows/tests.yml)
+
 A Track 2 entry that ships two things: a **falsification-first backtest lab** and a
 **frozen-threshold BTC funding-regime monitor** authored as an LLM Skill over the
 CoinMarketCap MCP.
@@ -53,6 +55,39 @@ tradable specs, each carrying `"validated": false`, alongside the floor's
 near-miss. A forward registration (24 Variants, OOS = 2026-06-11 00:00 UTC
 onward, evaluable at the earliest 2027-07-01) states exactly what evidence
 would make the locked family shippable.
+
+## Verify it yourself — 60 seconds to 10 minutes
+
+```bash
+git clone https://github.com/GabrielSchmalz/bnbhack-cmc-t2 && cd bnbhack-cmc-t2
+uv sync
+uv run --no-sync python -m pytest -q     # 558 tests, ~2 min, fully offline
+uv run --no-sync python -m lab.sweep     # floor sweep from committed CSVs, ~5 min -> 0/36
+```
+
+With your own CMC key (`cp .env.example .env`, fill it in):
+
+```bash
+uv run --no-sync python demo/validate_skill.py   # live Skill validation vs the CMC MCP
+uv run --no-sync python demo/run_demo.py         # the live demo
+```
+
+The full 183-Variant widened sweep reproduces in ~5 h from committed CSVs —
+no database, no key:
+`W_SWEEP_CONFIRM=registered uv run --no-sync python -m lab.sweep_w`.
+
+**The audit trail is the hash chain.** Every order-of-events claim in this
+README is pinned by the public, immutable commit graph — no bespoke
+trust-me layer needed. The widening pre-registration
+(`docs/plans/2026-06-10-widening-preregistration.md`) is committed at
+`b76c324` ("committed before any OOS contact", 2026-06-10), the sweep driver
+lands at `6df12bb`, and the first OOS artifact only at `74e6417`
+(2026-06-11) — `git merge-base --is-ancestor` proves the order. The frozen
+floor is pinned at tag `cycle1-floor`. And a forward test has been running
+in public since 2026-06-11: 24 forward-registered Variants whose OOS began
+that day (earliest evaluation 2027-07-01), plus a 3×/day live
+funding-snapshot cron appending to `data/backfill/funding_calibration.csv`
+— a tamper-evident forward track record by construction.
 
 ## Architecture
 
